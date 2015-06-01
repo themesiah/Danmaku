@@ -1,5 +1,10 @@
 package mesiah.danmaku;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -52,10 +57,58 @@ public class Controls extends BasicGameState {
 		optionToChange = 0;
 		lastKey = 0;
 		waitForInput = false;
+		loadControls();
     }
 	
+	public void loadControls() {
+	    try {
+	    	BufferedReader br = new BufferedReader(new FileReader("keybinds.cfg"));
+	        String line = br.readLine();
+
+	        while (line != null) {
+	        	String[] parts = line.split("=");
+	        	switch(parts[0]) {
+	        	case "UP":
+	        		Play.UP_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "DOWN":
+	        		Play.DOWN_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "LEFT":
+	        		Play.LEFT_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "RIGHT":
+	        		Play.RIGHT_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "SHOT":
+	        		Play.SHOT_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "FOCUS":
+	        		Play.FOCUS_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "MENU":
+	        		Play.MENU_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "SPAWN1":
+	        		Play.SPAWN1_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "SPAWN2":
+	        		Play.SPAWN2_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "SPAWN3":
+	        		Play.SPAWN3_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	}
+	            line = br.readLine();
+	        }
+	        br.close();
+	    } catch (Exception e) {
+			saveChanges();
+		}
+	}
+	
 	public void changeControl(Input input) {
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 256; i++) {
 			if (input.isKeyDown(i)) {
 				switch(optionToChange) {
 					case 1:
@@ -143,6 +196,7 @@ public class Controls extends BasicGameState {
 		    		lastKey = 0;
 		    		switch(option) {
 			    		case 0:
+			    			saveChanges();
 			    			sbg.enterState(Main.MAINMENU);
 			    			break;
 			    		// up, down, left, right, shot, focus, menu, spawn1, spawn2, spawn3
@@ -156,6 +210,27 @@ public class Controls extends BasicGameState {
     	} else if (lastKey >= Main.KEYDELAY) {
     			changeControl(input);
     	}
+    }
+    
+    public void saveChanges() {
+    	PrintWriter out;
+		try {
+			out = new PrintWriter("keybinds.cfg");
+			out.write("UP="+String.valueOf(Play.UP_KEY)+"\n");
+			out.write("DOWN="+String.valueOf(Play.DOWN_KEY)+"\n");
+			out.write("LEFT="+String.valueOf(Play.LEFT_KEY)+"\n");
+			out.write("RIGHT="+String.valueOf(Play.RIGHT_KEY)+"\n");
+			out.write("SHOT="+String.valueOf(Play.SHOT_KEY)+"\n");
+			out.write("FOCUS="+String.valueOf(Play.FOCUS_KEY)+"\n");
+			out.write("MENU="+String.valueOf(Play.MENU_KEY)+"\n");
+			out.write("SPAWN1="+String.valueOf(Play.SPAWN1_KEY)+"\n");
+			out.write("SPAWN2="+String.valueOf(Play.SPAWN2_KEY)+"\n");
+			out.write("SPAWN3="+String.valueOf(Play.SPAWN3_KEY));
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    	
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {

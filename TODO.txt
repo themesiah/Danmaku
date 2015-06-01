@@ -16,6 +16,6 @@ DivisibleCurve bullet - PENDING
 Sugerencias:
 - Imágenes más pequeñas - Hecho!
 - Cambiar nave player - Hecho!
-- Poder cambiar teclas - Falta persistencia
+- Poder cambiar teclas - Hecho!
 - Patrones de más colores - Hecho!
 - Fondo no tan desenfocado

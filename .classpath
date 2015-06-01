@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/ibxm.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/jinput.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/jnlp.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/jogg-0.0.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/jorbis-0.0.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/lwjgl_util.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/lwjgl_util_applet.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/natives-linux.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/natives-mac.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/natives-windows.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/slick.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/slick-examples.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/tinylinepp.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/slick/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Mesiah/Desktop/Programas/eclipse/lwjgl/jar/lwjgl.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

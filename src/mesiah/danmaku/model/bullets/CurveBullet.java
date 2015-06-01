@@ -51,6 +51,14 @@ public class CurveBullet extends Bullet {
 		}
 	}
 	
+	public void CheckEnemyCollisions() {
+		super.CheckEnemyCollisions();
+	}
+	
+	public void CheckPlayerCollisions() {
+		super.CheckPlayerCollisions();
+	}
+	
 	public void update(int delta) {
 		if (delay <= 0) {
 			move(delta);

@@ -19,3 +19,7 @@ Sugerencias:
 - Poder cambiar teclas - Hecho!
 - Patrones de más colores - Hecho!
 - Fondo no tan desenfocado
+
+
+Bugs:
+- Por alguna razón, el hitbox del patrón W falla y no mata al player. - [Arreglado] Curve bullet llamaba a "checkPlayerCollision" y no "super.CheckPlayerCollision".

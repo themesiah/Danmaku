@@ -3,6 +3,8 @@ package mesiah.danmaku.model;
 import java.util.ArrayList;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Ellipse;
+import org.newdawn.slick.geom.Shape;
 
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
@@ -21,6 +23,10 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public static int ACTIVE = 0;
 	public static int FOCUSED = 1;
 	public static int DESTROYED = 2;
+	
+	public static int GRAZE;
+	private static float HITBOX_RADIUS = 3.0f;
+	private static float GRAZE_HITBOX_RADIUS = 10.0f;
 	
 	public Player() throws SlickException {
 		initPlayer();
@@ -66,6 +72,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		focused = false;
 		collidable = true;
 		state = "active";
+		GRAZE = 0;
 	}
 	
 	public void CheckEnemyCollisions() {
@@ -231,6 +238,18 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 
 	public void addPattern(String id) {
 		fps.add(id);
+	}
+
+	public Shape[] getHitBoxes() {
+		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, HITBOX_RADIUS, HITBOX_RADIUS);
+		Shape[] s = new Shape[1];
+		s[0] = el;
+		return s;
+	}
+	
+	public Shape getGrazeHitBox() {
+		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, GRAZE_HITBOX_RADIUS, GRAZE_HITBOX_RADIUS);
+		return el;
 	}
 
 }

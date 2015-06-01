@@ -1,6 +1,7 @@
 package mesiah.danmaku.model;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Shape;
 
 import mesiah.danmaku.Main;
 import mesiah.danmaku.view.Drawable;
@@ -109,5 +110,9 @@ public class Background extends VisibleGameObject {
 
 	public void addSound(String key, int id) {
 		
+	}
+
+	public Shape[] getHitBoxes() {
+		return null;
 	}
 }

@@ -1,5 +1,7 @@
 package mesiah.danmaku.model;
 
+import org.newdawn.slick.geom.Shape;
+
 import mesiah.danmaku.view.Drawable;
 
 public class Powerup extends VisibleGameObject {
@@ -116,6 +118,12 @@ public class Powerup extends VisibleGameObject {
 	public void addSound(String key, int id) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Shape[] getHitBoxes() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

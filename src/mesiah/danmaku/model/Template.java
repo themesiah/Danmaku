@@ -1,6 +1,7 @@
 package mesiah.danmaku.model;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Shape;
 
 import mesiah.danmaku.view.Drawable;
 import mesiah.danmaku.view.Sprite;
@@ -108,5 +109,9 @@ public class Template extends VisibleGameObject {
 
 	public void addSound(String key, int id) {
 		
+	}
+
+	public Shape[] getHitBoxes() {
+		return null;
 	}
 }

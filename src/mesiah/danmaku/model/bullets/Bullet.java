@@ -14,14 +14,15 @@ import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
 
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Ellipse;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 public class Bullet extends VisibleGameObject {
 	boolean ally;
 	FirePattern parent;
 	int damage;
 	int delay;
+	boolean grazed;
 	public static int ACTIVE = 0;
 	public static int DESTROYED = 1;
 	
@@ -33,6 +34,7 @@ public class Bullet extends VisibleGameObject {
 		damage = 10;
 		delay = 0;
 		state = "active";
+		grazed = false;
 	}
 	
 	public void setDelay(int d) {
@@ -78,17 +80,26 @@ public class Bullet extends VisibleGameObject {
 	public void setParent(FirePattern fp) {
 		parent = fp;
 	}
+	
+	public Shape[] getHitBoxes() {
+		Shape[] s = new Shape[1];
+		Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
+		s[0] = r;
+		return s;
+	}
 
 	public void CheckEnemyCollisions() {
 		if (this.collidable) {
-			Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
 			List<Enemy> elist = Play.ec.getEnemies();
 			for (Enemy e: elist) {
-				Rectangle re = new Rectangle(e.getPosX(), e.getPosY(), e.getSize()[0], e.getSize()[1]);
-				if (r.intersects(re) && e.isCollidable() && ally) {
-					e.onHit(damage);
-					collidable = false;
-					parent.addToRemove(this);
+				for (Shape s:getHitBoxes()) {
+					for (Shape se:e.getHitBoxes()) {
+						if (s.intersects(se) && e.isCollidable() && ally) {
+							e.onHit(damage);
+							collidable = false;
+							parent.addToRemove(this);
+						}
+					}
 				}
 			}
 		}
@@ -96,15 +107,19 @@ public class Bullet extends VisibleGameObject {
 
 	public void CheckPlayerCollisions() {
 		if (this.collidable) {
-			Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
 			List<Player> plist = Play.pc.getPlayers();
 			for (Player p: plist) {
-				Ellipse el = new Ellipse(p.getPosX() + p.getSize()[0]/2, p.getPosY() + p.getSize()[1]/2 - 1, 3.0f, 3.0f);
-				//Ellipse el = new Ellipse(p.getPosX() + p.getSize()[0]/2, p.getPosY() + p.getSize()[1]/4, 4.0f, 4.0f);
-				if (r.intersects(el) && p.isCollidable() && !ally) {
-					p.onHit(damage);
-					collidable = false;
-					parent.addToRemove(this);
+				for (Shape s:getHitBoxes()) {
+					for (Shape sp:p.getHitBoxes()) {
+						if (s.intersects(sp) && p.isCollidable() && !ally) {
+							p.onHit(damage);
+							collidable = false;
+							parent.addToRemove(this);
+						} else if (s.intersects(p.getGrazeHitBox()) && p.isCollidable() && !ally && !grazed) {
+							grazed = true;
+							Player.GRAZE += 1;
+						}
+					}
 				}
 			}
 		}

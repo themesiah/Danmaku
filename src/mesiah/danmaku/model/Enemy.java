@@ -3,6 +3,8 @@ package mesiah.danmaku.model;
 import java.util.ArrayList;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
@@ -277,6 +279,14 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public Drawable getFromDs(int code) {
 		return ds.get(code);
+	}
+
+	@Override
+	public Shape[] getHitBoxes() {
+		Rectangle re = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
+		Shape[] s = new Shape[1];
+		s[0] = re;
+		return s;
 	}
 
 }

@@ -6,6 +6,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.newdawn.slick.geom.Ellipse;
+import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -84,6 +86,40 @@ public class XMLLoader {
 							case "shotDelay":
 								content = cNode.getLastChild().getTextContent().trim();
 								e.setShotDelay(Integer.parseInt(content));
+								break;
+							case "hitbox":
+								NodeList hitboxChilds = cNode.getChildNodes();
+								for (k = 0; k < hitboxChilds.getLength(); k++) {
+									Node hbNode = hitboxChilds.item(k);
+									if (hbNode instanceof Element) {
+										content = hbNode.getLastChild().getTextContent().trim();
+										switch(hbNode.getNodeName()) {
+										case "rectangle":
+											if (content.equals("sprite")) {
+												e.addHitbox();
+											} else {
+												String[] parts = content.split(",");
+												float x = Float.valueOf(parts[0]);
+												float y = Float.valueOf(parts[1]);
+												float width = Float.valueOf(parts[2]);
+												float height = Float.valueOf(parts[3]);
+												Rectangle r = new Rectangle(x, y, width, height);
+												e.addHitbox(r);
+											}
+											break;
+										case "ellipse":
+											String[] parts = content.split(",");
+											float x = Float.valueOf(parts[0]);
+											float y = Float.valueOf(parts[1]);
+											float radiusX = Float.valueOf(parts[2]);
+											float radiusY = Float.valueOf(parts[3]);
+											Ellipse el = new Ellipse(x, y, radiusX, radiusY);
+											e.addHitbox(el);
+											break;
+										}
+										
+									}
+								}
 								break;
 							case "animations":
 								NodeList aniChilds = cNode.getChildNodes();

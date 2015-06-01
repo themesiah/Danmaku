@@ -45,6 +45,8 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 				}
 			}
 			e.setSounds((ArrayList<String>) this.sounds.clone());
+			e.setHitboxes((ArrayList<Shape>) this.ss.clone());
+			e.setRelatives((ArrayList<float[]>) this.relatives.clone());
 			e.setD(e.getFromDs(ACTIVE));
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -60,6 +62,8 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		ds = new ArrayList<Drawable>();
 		fps = new ArrayList<String>();
 		sounds = new ArrayList<String>();
+		ss = new ArrayList<Shape>();
+		relatives = new ArrayList<float[]>();
 		for (int i = 0; i < DESTROYED+1; i++) {
 			ds.add(null);
 			sounds.add(null);
@@ -232,6 +236,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public void setShotDelay(int sd) {
 		shotDelay = sd;
+		shotTimer = sd;
 	}
 	
 	public void addAnimation(Drawable d, int id) {
@@ -281,12 +286,45 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		return ds.get(code);
 	}
 
-	@Override
-	public Shape[] getHitBoxes() {
-		Rectangle re = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
-		Shape[] s = new Shape[1];
-		s[0] = re;
-		return s;
+	public ArrayList<Shape> getHitBoxes() {
+		System.out.println("Hitboxes: " + ss.size());
+		for (int i = 0; i < ss.size(); i++) {
+			Shape shape = ss.get(i);
+			float[] rel = getRelatives(i);
+			shape.setX(posx+rel[0]);
+			shape.setY(posy+rel[1]);
+			ss.set(i, shape);
+		}
+		return ss;
+	}
+	
+	public void addHitbox(Shape s) {
+		float[] rel = {s.getX(), s.getY()};
+		addRelative(rel);
+		ss.add(s);
+	}
+
+	public void addHitbox() {
+		Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
+		float[] rel = {0.0f, 0.0f};
+		addRelative(rel);
+		ss.add(r);
+	}
+
+	public float[] getRelatives(int n) {
+		return relatives.get(n);
+	}
+
+	public void addRelative(float[] r) {
+		relatives.add(r);
+	}
+	
+	public void setHitboxes(ArrayList<Shape> ss) {
+		this.ss = ss;
+	}
+	
+	public void setRelatives(ArrayList<float[]> rel) {
+		this.relatives = rel;
 	}
 
 }

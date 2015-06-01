@@ -6,7 +6,7 @@ Cargar weas desde XMLs
 	nivel! - PENDING
 	curvas - PENDING
 
-Hitbox para TODO - PENDING
+Hitbox para TODO - Hecho!
 Parallax - PENDING
 Particulas - PENDING
 DivisibleCurve bullet - PENDING

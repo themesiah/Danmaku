@@ -19,5 +19,8 @@
 		<sound>
 			<destroyed>destroyed</destroyed>
 		</sound>
+		<hitbox>
+			<rectangle>sprite</rectangle>
+		</hitbox>
 	</enemy>
 </enemies>

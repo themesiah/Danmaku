@@ -5,7 +5,7 @@
 		<speed>5</speed>
 		<facing>0</facing>
 		<direction>270</direction>
-		<shotDelay>1000</shotDelay>
+		<shotDelay>3000</shotDelay>
 		<animations>
 			<active>enemy2</active>
 			<destroyed>enemydestroyed</destroyed>
@@ -19,5 +19,8 @@
 		<sound>
 			<destroyed>destroyed</destroyed>
 		</sound>
+		<hitbox>
+			<rectangle>sprite</rectangle>
+		</hitbox>
 	</enemy>
 </enemies>

@@ -23,6 +23,7 @@ public class EnemyFirePattern3 extends FirePattern {
 			posx += parent.getSize()[0]/2;
 			posy += parent.getSize()[1];
 			DivisibleBullet b = new DivisibleBullet(posx, posy, false, "enemybullet2", 2);
+			b.setSpeed(1.0f);
 			b.setDirection(GetDirection.getDirectionToPlayer(posx, posy));
 			b.addPattern(FirePatternsManager.BASICFIREPATTERN);
 			add(b);

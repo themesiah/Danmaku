@@ -1,5 +1,7 @@
 package mesiah.danmaku.model;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
@@ -112,7 +114,31 @@ public class Background extends VisibleGameObject {
 		
 	}
 
-	public Shape[] getHitBoxes() {
+	public ArrayList<Shape> getHitBoxes() {
 		return null;
+	}
+
+	public void addHitbox(Shape s) {
+		
+	}
+
+	public void addHitbox() {
+		
+	}
+
+	public float[] getRelatives(int n) {
+		return null;
+	}
+
+	public void addRelative(float[] r) {
+		
+	}
+	
+	public void setRelatives(ArrayList<float[]> rel) {
+		this.relatives = rel;
+	}
+
+	public void setHitboxes(ArrayList<Shape> ss) {
+		this.ss = ss;
 	}
 }

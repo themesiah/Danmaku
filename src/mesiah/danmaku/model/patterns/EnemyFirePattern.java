@@ -25,12 +25,6 @@ public class EnemyFirePattern extends FirePattern {
 			
 			b.setDirection(GetDirection.getDirectionToPlayer(posx, posy));
 			add(b);
-			System.out.println("Parent posx " + parent.getPosX());
-			System.out.println("Parent post " + parent.getPosY());
-			System.out.println("Parent width " + parent.getSize()[0]);
-			System.out.println("Parent height " + parent.getSize()[1]);
-			System.out.println("Final posx " + posx);
-			System.out.println("Final posy " + posy);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

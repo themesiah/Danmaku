@@ -61,7 +61,7 @@ public class DivisibleBullet extends Bullet implements BulletEmitter {
 				if (depth == 1) {
 					newLifeTime = INFINITE;
 				} else {
-					newLifeTime = 1000;
+					newLifeTime = 3000;
 				}
 				float aos = (float) (Math.random()*360);
 				for (i = 0; i < DivisibleBullet.density; i++) {
@@ -70,9 +70,9 @@ public class DivisibleBullet extends Bullet implements BulletEmitter {
 						newbullet = "enemybullet3";
 					}
 					DivisibleBullet b = new DivisibleBullet(posx, posy, false, newbullet, depth-1, newLifeTime, aos);
+					b.setSpeed(speed);
 					b.setDirection(((360.0f / density) * i) + angleOffset);
 					b.addPattern(FirePatternsManager.BASICFIREPATTERN);
-					b.setSpeed(3);
 					fp[0].add(b);
 				}
 			} catch (SlickException e) {

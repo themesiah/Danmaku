@@ -1,5 +1,7 @@
 package mesiah.danmaku.model;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.geom.Shape;
 
 import mesiah.danmaku.view.Drawable;
@@ -121,9 +123,37 @@ public class Powerup extends VisibleGameObject {
 	}
 
 	@Override
-	public Shape[] getHitBoxes() {
+	public ArrayList<Shape> getHitBoxes() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void addHitbox(Shape s) {
+		s.setX(posx + s.getX());
+		s.setY(posy + s.getY());
+		ss.add(s);
+	}
+
+	@Override
+	public void addHitbox() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public float[] getRelatives(int n) {
+		return relatives.get(n);
+	}
+
+	public void addRelative(float[] r) {
+		relatives.add(r);
+	}
+	
+	public void setRelatives(ArrayList<float[]> rel) {
+		this.relatives = rel;
+	}
+
+	public void setHitboxes(ArrayList<Shape> ss) {
+		this.ss = ss;
 	}
 
 }

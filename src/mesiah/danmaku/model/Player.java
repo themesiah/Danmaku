@@ -25,7 +25,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public static int DESTROYED = 2;
 	
 	public static int GRAZE;
-	private static float HITBOX_RADIUS = 3.0f;
+	private static float HITBOX_RADIUS = 0.2f;
 	private static float GRAZE_HITBOX_RADIUS = 10.0f;
 	
 	public Player() throws SlickException {
@@ -56,6 +56,8 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		ds = new ArrayList<Drawable>();
 		sounds = new ArrayList<String>();
 		fps = new ArrayList<String>();
+		ss = new ArrayList<Shape>();
+		relatives = new ArrayList<float[]>();
 		for (int i = 0; i < DESTROYED+1; i++) {
 			ds.add(null);
 			sounds.add(null);
@@ -73,6 +75,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		collidable = true;
 		state = "active";
 		GRAZE = 0;
+		addHitbox();
 	}
 	
 	public void CheckEnemyCollisions() {
@@ -240,16 +243,54 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		fps.add(id);
 	}
 
-	public Shape[] getHitBoxes() {
-		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, HITBOX_RADIUS, HITBOX_RADIUS);
-		Shape[] s = new Shape[1];
-		s[0] = el;
-		return s;
+	public ArrayList<Shape> getHitBoxes() {
+		for (int i = 0; i < ss.size(); i++) {
+			Shape shape = ss.get(i);
+			float[] rel = getRelatives(i);
+			if (shape instanceof Ellipse) {
+				shape.setX(posx + getSize()[0]/2+rel[0]);
+				shape.setY(posy + getSize()[1]/2 - 1+rel[1]);
+			} else {
+				shape.setX(posx +rel[0]);
+				shape.setY(posy +rel[1]);
+			}
+			ss.set(i, shape);
+		}
+		return ss;
 	}
 	
 	public Shape getGrazeHitBox() {
 		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, GRAZE_HITBOX_RADIUS, GRAZE_HITBOX_RADIUS);
 		return el;
+	}
+
+	public void addHitbox(Shape s) {
+		float[] rel = {s.getX(), s.getY()};
+		addRelative(rel);
+		ss.add(s);
+	}
+
+	public void addHitbox() {
+		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, HITBOX_RADIUS, HITBOX_RADIUS);
+		float[] rel = {0.0f, 0.0f};
+		addRelative(rel);
+		ss.add(el);
+	}
+
+	public float[] getRelatives(int n) {
+		return relatives.get(n);
+	}
+
+	public void addRelative(float[] r) {
+		relatives.add(r);
+	}
+	
+	public void setRelatives(ArrayList<float[]> rel) {
+		this.relatives = rel;
+	}
+
+	public void setHitboxes(ArrayList<Shape> ss) {
+		this.ss = ss;
 	}
 
 }

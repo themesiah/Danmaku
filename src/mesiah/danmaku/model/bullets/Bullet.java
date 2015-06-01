@@ -26,6 +26,7 @@ public class Bullet extends VisibleGameObject {
 	public static int ACTIVE = 0;
 	public static int DESTROYED = 1;
 	
+	
 	public Bullet(float x, float y, boolean ally, String key) throws SlickException {
 		initBullet(x, y, key);
 		this.ally = ally;
@@ -35,6 +36,7 @@ public class Bullet extends VisibleGameObject {
 		delay = 0;
 		state = "active";
 		grazed = false;
+		addHitbox();
 	}
 	
 	public void setDelay(int d) {
@@ -64,6 +66,8 @@ public class Bullet extends VisibleGameObject {
 	private void initBullet(float x, float y, String key) throws SlickException {
 		ds = new ArrayList<Drawable>();
 		sounds = new ArrayList<String>();
+		ss = new ArrayList<Shape>();
+		relatives = new ArrayList<float[]>();
 		for (int i = 0; i < DESTROYED+1; i++) {
 			ds.add(null);
 			sounds.add(null);
@@ -81,20 +85,24 @@ public class Bullet extends VisibleGameObject {
 		parent = fp;
 	}
 	
-	public Shape[] getHitBoxes() {
-		Shape[] s = new Shape[1];
-		Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
-		s[0] = r;
-		return s;
+	public ArrayList<Shape> getHitBoxes() {
+		for (int i = 0; i < ss.size(); i++) {
+			Shape shape = ss.get(i);
+			float[] rel = getRelatives(i);
+			shape.setX(posx+rel[0]);
+			shape.setY(posy+rel[1]);
+			ss.set(i, shape);
+		}
+		return ss;
 	}
 
 	public void CheckEnemyCollisions() {
-		if (this.collidable) {
+		if (this.collidable && ally) {
 			List<Enemy> elist = Play.ec.getEnemies();
 			for (Enemy e: elist) {
 				for (Shape s:getHitBoxes()) {
 					for (Shape se:e.getHitBoxes()) {
-						if (s.intersects(se) && e.isCollidable() && ally) {
+						if (s.intersects(se) && e.isCollidable()) {
 							e.onHit(damage);
 							collidable = false;
 							parent.addToRemove(this);
@@ -106,16 +114,16 @@ public class Bullet extends VisibleGameObject {
 	}
 
 	public void CheckPlayerCollisions() {
-		if (this.collidable) {
+		if (this.collidable && !ally) {
 			List<Player> plist = Play.pc.getPlayers();
 			for (Player p: plist) {
 				for (Shape s:getHitBoxes()) {
 					for (Shape sp:p.getHitBoxes()) {
-						if (s.intersects(sp) && p.isCollidable() && !ally) {
+						if (s.intersects(sp) && p.isCollidable()) {
 							p.onHit(damage);
 							collidable = false;
 							parent.addToRemove(this);
-						} else if (s.intersects(p.getGrazeHitBox()) && p.isCollidable() && !ally && !grazed) {
+						} else if (s.intersects(p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
 							grazed = true;
 							Player.GRAZE += 1;
 						}
@@ -155,8 +163,10 @@ public class Bullet extends VisibleGameObject {
 	}
 
 	public void move() {
-		posx += Math.cos(Math.toRadians(direction))*speed;
-		posy -= Math.sin(Math.toRadians(direction))*speed;
+		float movx = (float) (Math.cos(Math.toRadians(direction))*speed);
+		float movy = (float) (Math.sin(Math.toRadians(direction))*speed);
+		posx += movx;
+		posy -= movy;
 	}
 
 	public void draw() {
@@ -207,6 +217,35 @@ public class Bullet extends VisibleGameObject {
 
 	public void addSound(String key, int id) {
 		sounds.set(id, key);
+	}
+
+	public void addHitbox(Shape s) {
+		float[] rel = {s.getX(), s.getY()};
+		addRelative(rel);
+		ss.add(s);
+	}
+
+	public void addHitbox() {
+		Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
+		float[] rel = {0.0f, 0.0f};
+		addRelative(rel);
+		ss.add(r);
+	}
+
+	public float[] getRelatives(int n) {
+		return relatives.get(n);
+	}
+
+	public void addRelative(float[] r) {
+		relatives.add(r);
+	}
+
+	public void setRelatives(ArrayList<float[]> rel) {
+		this.relatives = rel;
+	}
+
+	public void setHitboxes(ArrayList<Shape> ss) {
+		this.ss = ss;
 	}
 
 }

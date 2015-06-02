@@ -51,19 +51,11 @@ public class CurveBullet extends Bullet {
 		}
 	}
 	
-	public void CheckEnemyCollisions() {
-		super.CheckEnemyCollisions();
-	}
-	
-	public void CheckPlayerCollisions() {
-		super.CheckPlayerCollisions();
-	}
-	
 	public void update(int delta) {
 		if (delay <= 0) {
-			move(delta);
 			CheckEnemyCollisions();
 			CheckPlayerCollisions();
+			move(delta);
 			if (posx > Main.GAMEWIDTH+20 ||	posx < -20 || posy < -20 ||	posy > Main.GAMEHEIGHT+20 || !moreCurves()) {
 				parent.addToRemove(this);
 			}

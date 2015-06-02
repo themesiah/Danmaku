@@ -26,4 +26,12 @@ public abstract class VisibleGameObject extends GameObject implements Collidable
 	public abstract void addRelative(float[] r);
 	public abstract void setRelatives(ArrayList<float[]> rel);
 	public abstract void setHitboxes(ArrayList<Shape> ss);
+	
+	public boolean collides(Shape s, Shape s2) {
+		if (s.intersects(s2) || s.contains(s2)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

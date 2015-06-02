@@ -133,6 +133,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			Play.ec.addToRemove(this);
 		} else {
 			move();
+			CheckPlayerCollisions();
 		}
 		if (damageTimer <= 0) {
 			d.setColor(1.0f, 1.0f, 1.0f, 1.0f);

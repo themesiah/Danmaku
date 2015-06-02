@@ -102,7 +102,7 @@ public class Bullet extends VisibleGameObject {
 			for (Enemy e: elist) {
 				for (Shape s:getHitBoxes()) {
 					for (Shape se:e.getHitBoxes()) {
-						if (s.intersects(se) && e.isCollidable()) {
+						if (collides(s, se) && e.isCollidable()) {
 							e.onHit(damage);
 							collidable = false;
 							parent.addToRemove(this);
@@ -119,11 +119,11 @@ public class Bullet extends VisibleGameObject {
 			for (Player p: plist) {
 				for (Shape s:getHitBoxes()) {
 					for (Shape sp:p.getHitBoxes()) {
-						if (s.intersects(sp) && p.isCollidable()) {
+						if ((s.intersects(sp) || s.contains(sp)) && p.isCollidable()) {
 							p.onHit(damage);
 							collidable = false;
 							parent.addToRemove(this);
-						} else if (s.intersects(p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
+						} else if (collides(s, p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
 							grazed = true;
 							Player.GRAZE += 1;
 						}
@@ -147,9 +147,9 @@ public class Bullet extends VisibleGameObject {
 
 	public void update(int delta) {
 		if (delay <= 0) {
-			move();
 			CheckEnemyCollisions();
 			CheckPlayerCollisions();
+			move();
 			if (posx > Main.GAMEWIDTH+20 ||	posx < -20 || posy < -20 ||	posy > Main.GAMEHEIGHT+20) {
 				parent.addToRemove(this);
 			}

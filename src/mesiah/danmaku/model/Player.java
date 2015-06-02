@@ -25,7 +25,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public static int DESTROYED = 2;
 	
 	public static int GRAZE;
-	private static float HITBOX_RADIUS = 0.2f;
+	private static float HITBOX_RADIUS = 0.1f;
 	private static float GRAZE_HITBOX_RADIUS = 10.0f;
 	
 	public Player() throws SlickException {
@@ -248,11 +248,11 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 			Shape shape = ss.get(i);
 			float[] rel = getRelatives(i);
 			if (shape instanceof Ellipse) {
-				shape.setX(posx + getSize()[0]/2+rel[0]);
-				shape.setY(posy + getSize()[1]/2 - 1+rel[1]);
+				shape.setCenterX(posx + getSize()[0]/2 + rel[0]);
+				shape.setCenterY(posy + getSize()[1]/2 + rel[1]);
 			} else {
-				shape.setX(posx +rel[0]);
-				shape.setY(posy +rel[1]);
+				shape.setX(posx + rel[0]);
+				shape.setY(posy + rel[1]);
 			}
 			ss.set(i, shape);
 		}
@@ -271,7 +271,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 
 	public void addHitbox() {
-		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, HITBOX_RADIUS, HITBOX_RADIUS);
+		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2, HITBOX_RADIUS, HITBOX_RADIUS);
 		float[] rel = {0.0f, 0.0f};
 		addRelative(rel);
 		ss.add(el);

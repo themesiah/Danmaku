@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enemies>
+	<enemy id="enemy4">
+		<health>150</health>
+		<speed>5</speed>
+		<facing>0</facing>
+		<direction>270</direction>
+		<shotDelay>10000</shotDelay>
+		<animations>
+			<active>enemy4</active>
+			<destroyed>enemydestroyed</destroyed>
+		</animations>
+		<firePatterns>
+			<pattern>
+				<fp>enemyFirePattern4</fp>
+				<sound>playershot</sound>
+			</pattern>
+		</firePatterns>
+		<sound>
+			<destroyed>destroyed</destroyed>
+		</sound>
+		<hitbox>
+			<rectangle>sprite</rectangle>
+		</hitbox>
+	</enemy>
+</enemies>

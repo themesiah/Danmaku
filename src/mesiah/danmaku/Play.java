@@ -45,6 +45,7 @@ public class Play extends BasicGameState {
 	public static int SPAWN1_KEY = Input.KEY_Q;
 	public static int SPAWN2_KEY = Input.KEY_W;
 	public static int SPAWN3_KEY = Input.KEY_E;
+	public static int SPAWN4_KEY = Input.KEY_R;
 	public static int MENU_KEY = Input.KEY_ESCAPE;
 	
 	
@@ -96,6 +97,8 @@ public class Play extends BasicGameState {
 			EnemiesManager.get().addEnemy(e);
 			e = XMLLoader.get().getEnemyFromXML("enemy3.xml");
 			EnemiesManager.get().addEnemy(e);
+			e = XMLLoader.get().getEnemyFromXML("enemy4.xml");
+			EnemiesManager.get().addEnemy(e);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -126,6 +129,9 @@ public class Play extends BasicGameState {
 		
 		enemySprite[0] = new Sprite("res/img/enemy3.png");
 		ap.addAnimation(new Animation(enemySprite, enemyTime), "enemy3");
+		
+		enemySprite[0] = new Sprite("res/img/enemy4.png");
+		ap.addAnimation(new Animation(enemySprite, enemyTime), "enemy4");
 		
 		Sprite[] playerSprite = new Sprite[1];
 		int[] playerTime = {200};
@@ -244,6 +250,11 @@ public class Play extends BasicGameState {
     		spawnEnemy("enemy3");
     	}
     	
+    	if(input.isKeyDown(SPAWN4_KEY) && lastKey >= Main.KEYDELAY) {
+    		lastKey = 0;
+    		spawnEnemy("enemy4");
+    	}
+    	
     	if(input.isKeyDown(FOCUS_KEY)) {
     		pc.get(Main.PLAYERNUM).setFocused(true);
     	} else {
@@ -282,6 +293,7 @@ public class Play extends BasicGameState {
     	g.drawString("Press "+ Input.getKeyName(SPAWN1_KEY) +" to spawn Enemy 1", 10.0f, 110.0f);
     	g.drawString("Press "+ Input.getKeyName(SPAWN2_KEY) +" to spawn Enemy 2", 10.0f, 130.0f);
     	g.drawString("Press "+ Input.getKeyName(SPAWN3_KEY) +" to spawn Enemy 3", 10.0f, 150.0f);
+    	g.drawString("Press "+ Input.getKeyName(SPAWN4_KEY) +" to spawn Enemy 4", 10.0f, 170.0f);
     	
     	g.drawString("Graze: " + Player.GRAZE, 10.0f, Main.GAMEHEIGHT-30.0f);
     }

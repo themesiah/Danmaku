@@ -15,7 +15,7 @@ public class EnemyFirePattern3 extends FirePattern {
 			posx += parent.getSize()[0]/2;
 			posy += parent.getSize()[1];
 			
-			Bullet b = new Bullet(super.getPosX(), super.getPosY(), false, "enemybullet2");
+			Bullet b = new Bullet(posx, posy, false, "enemybullet2");
 			DivisibleBulletD db = new DivisibleBulletD(b);
 			db.setAngleOffset(0);
 			db.setLifeTime(3000);

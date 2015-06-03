@@ -38,12 +38,14 @@ public class Controls extends BasicGameState {
 	private static final float MENU10_Y = 500.0f;
 	private static final String MENU11 = "Spawn 3";
 	private static final float MENU11_Y = 550.0f;
+	private static final String MENU12 = "Spawn 4";
+	private static final float MENU12_Y = 600.0f;
 	private static final String WAIT = "Waiting for input";
 	private static final int WAIT_X = 512;
 	private static final int WAIT_Y = 256;
 	
 	private int option;
-	private static final int MAXOPTION = 10;
+	private static final int MAXOPTION = 11;
 	
 	private int lastKey;
 	private boolean waitForInput;
@@ -97,6 +99,9 @@ public class Controls extends BasicGameState {
 	        		break;
 	        	case "SPAWN3":
 	        		Play.SPAWN3_KEY = Integer.valueOf(parts[1]);
+	        		break;
+	        	case "SPAWN4":
+	        		Play.SPAWN4_KEY = Integer.valueOf(parts[1]);
 	        		break;
 	        	}
 	            line = br.readLine();
@@ -158,6 +163,11 @@ public class Controls extends BasicGameState {
 						break;
 					case 10:
 						Play.SPAWN3_KEY = i;
+						waitForInput = false;
+						lastKey = 0;
+						break;
+					case 11:
+						Play.SPAWN4_KEY = i;
 						waitForInput = false;
 						lastKey = 0;
 						break;
@@ -225,7 +235,8 @@ public class Controls extends BasicGameState {
 			out.write("MENU="+String.valueOf(Play.MENU_KEY)+"\n");
 			out.write("SPAWN1="+String.valueOf(Play.SPAWN1_KEY)+"\n");
 			out.write("SPAWN2="+String.valueOf(Play.SPAWN2_KEY)+"\n");
-			out.write("SPAWN3="+String.valueOf(Play.SPAWN3_KEY));
+			out.write("SPAWN3="+String.valueOf(Play.SPAWN3_KEY)+"\n");
+			out.write("SPAWN4="+String.valueOf(Play.SPAWN4_KEY));
 			out.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -271,6 +282,9 @@ public class Controls extends BasicGameState {
 	    	case 10:
 	    		selectionY = MENU11_Y - 10.0f;
 	    		break;
+	    	case 11:
+	    		selectionY = MENU12_Y - 10.0f;
+	    		break;
     	}
     	
     	g.setColor(new Color(1.0f, 0.0f, 0.0f));
@@ -289,6 +303,7 @@ public class Controls extends BasicGameState {
     	g.drawString(MENU9, MENU_X, MENU9_Y);
     	g.drawString(MENU10, MENU_X, MENU10_Y);
     	g.drawString(MENU11, MENU_X, MENU11_Y);
+    	g.drawString(MENU12, MENU_X, MENU12_Y);
     	
     	g.drawString(Input.getKeyName(Play.UP_KEY), MENU2_X, MENU2_Y);
     	g.drawString(Input.getKeyName(Play.DOWN_KEY), MENU2_X, MENU3_Y);
@@ -300,6 +315,7 @@ public class Controls extends BasicGameState {
     	g.drawString(Input.getKeyName(Play.SPAWN1_KEY), MENU2_X, MENU9_Y);
     	g.drawString(Input.getKeyName(Play.SPAWN2_KEY), MENU2_X, MENU10_Y);
     	g.drawString(Input.getKeyName(Play.SPAWN3_KEY), MENU2_X, MENU11_Y);
+    	g.drawString(Input.getKeyName(Play.SPAWN4_KEY), MENU2_X, MENU12_Y);
     	
     	if (waitForInput) {
     		g.drawString(WAIT, WAIT_X, WAIT_Y);

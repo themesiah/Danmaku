@@ -9,6 +9,7 @@ public class FirePatternsManager {
 	public static final String ENEMYFIREPATTERN1 = "enemyFirePattern";
 	public static final String ENEMYFIREPATTERN2 = "enemyFirePattern2";
 	public static final String ENEMYFIREPATTERN3 = "enemyFirePattern3";
+	public static final String ENEMYFIREPATTERN4 = "enemyFirePattern4";
 	public static final String BASICFIREPATTERN = "basicFirePattern";
 	
 	private FirePatternsManager() {
@@ -35,6 +36,9 @@ public class FirePatternsManager {
 				break;
 			case ENEMYFIREPATTERN3:
 				fp = new EnemyFirePattern3(parent);
+				break;
+			case ENEMYFIREPATTERN4:
+				fp = new EnemyFirePattern4(parent);
 				break;
 			case BASICFIREPATTERN:
 				fp = new BasicFirePattern(parent);

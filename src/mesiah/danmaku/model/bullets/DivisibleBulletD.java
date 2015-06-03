@@ -75,7 +75,7 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 			FirePattern[] fp = new FirePattern[fps.size()];
 			int i = 0;
 			for (String id : fps) {
-				fp[i] = FirePatternsManager.get().newPattern(id, posx, posy, this);
+				fp[i] = FirePatternsManager.get().newPattern(id, this);
 				i++;
 			}
 			for (i = 0; i < fp.length; i++) {

@@ -22,11 +22,12 @@ public class FirePatternsManager {
 		return fpm;
 	}
 	
-	public FirePattern newPattern(String key, float posx, float posy, VisibleGameObject parent) {
+	public FirePattern newPattern(String key, VisibleGameObject parent) {
 		FirePattern fp;
 		switch(key) {
 			case PLAYERFIREPATTERN:
-				fp = new PlayerFirePattern(parent);
+				//fp = new PlayerFirePattern(parent);
+				fp = FirePatternManager.get().compose("playerfirepattern", parent);
 				break;
 			case ENEMYFIREPATTERN1:
 				fp = new EnemyFirePattern(parent);

@@ -148,7 +148,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		FirePattern fp = null;
 		if (shotTimer >= shotDelay && state == "active") {
 			for (String id : fps) {
-				fp = FirePatternsManager.get().newPattern(id, posx, posy, this);
+				fp = FirePatternsManager.get().newPattern(id, this);
 				Play.bc.add(fp);
 			}
 			AudioManager.get().playSound(sounds.get(SHOT));

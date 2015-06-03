@@ -176,7 +176,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		if (lastShoot >= delay && state == "active") {
 			FirePattern fp;
 			for (String id : fps) {
-				fp = FirePatternsManager.get().newPattern(id, posx, posy, this);
+				fp = FirePatternsManager.get().newPattern(id, this);
 				Play.bc.add(fp);
 			}
 			lastShoot = 0;

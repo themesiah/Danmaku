@@ -8,6 +8,7 @@ damage
 direction -> random, player, número
 animation
 hitbox
+ally
 <property></property> -> divisible, curve
 
 

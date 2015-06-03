@@ -52,27 +52,6 @@ public class Play extends BasicGameState {
 	public Play(int code) {
 	}
 	
-	public static void newGame() throws SlickException {
-		containerInit();
-		curvesInit();
-		soundInit();
-    	animationInit();
-    	
-    	Player p = new Player();
-    	p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
-    	pc.add(p);
-    	
-    	enemiesInit();
-    	
-    	// Creamos el jugador
-    	
-		
-		// Enemigos
-		/*Enemy e = new Enemy();
-    	ec.add(e);
-    	timer = 0;*/
-	}
-	
 	private static void containerInit() throws SlickException {
 		// Inicializamos containers
 		pc = new PlayerContainer();
@@ -177,24 +156,31 @@ public class Play extends BasicGameState {
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		containerInit();
+		newGame();
+    }
+	
+	public static void newGame() throws SlickException {
+		animationInit();
+		curvesInit();
+		patternsInit();
 		soundInit();
-    	animationInit();
-    	curvesInit();
+		containerInit();
     	
-		// Creamos el jugador
     	Player p = new Player();
     	p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
     	pc.add(p);
     	
     	enemiesInit();
-		
-		// Enemigos
-		/*Enemy e = new Enemy();
-    	ec.add(e);*/
     	timer = 0;
-
-    }
+	}
+	
+	public static void patternsInit() {
+		try {
+			XMLLoader.get().getPatternFromXML("pattern1.xml");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
  
 	public void spawnEnemy(String type) throws SlickException {
 		if (lastEnemy >= enemyDelay) {

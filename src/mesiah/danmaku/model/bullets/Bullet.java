@@ -233,5 +233,13 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		return delay;
 	}
 	
+	public void setDamage(int d) {
+		damage = d;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	
 
 }

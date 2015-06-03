@@ -15,8 +15,8 @@ import org.w3c.dom.NodeList;
 
 import mesiah.danmaku.model.EnemiesManager;
 import mesiah.danmaku.model.Enemy;
+import mesiah.danmaku.model.bullets.CustomBullet;
 import mesiah.danmaku.model.patterns.CustomFirePattern;
-import mesiah.danmaku.model.patterns.FirePattern;
 import mesiah.danmaku.model.patterns.FirePatternManager;
 import mesiah.danmaku.util.CurveManager;
 import mesiah.danmaku.util.CustomCurve;
@@ -50,7 +50,9 @@ public class XMLLoader {
 		CustomFirePattern fp = null;
 		String patternID;
 		String content;
-		int i, j, k;
+		int i, j, k, z;
+		int lastDelay = 0;
+		String[] parts;
 		NodeList nodeList = document.getDocumentElement().getChildNodes();
 		for (i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
@@ -61,12 +63,90 @@ public class XMLLoader {
 				NodeList childNodes = node.getChildNodes();
 				for (j = 0; j < childNodes.getLength(); j++) {
 					// Bullet
-					Node bulletNode = nodeList.item(j);
+					Node bulletNode = childNodes.item(j);
 					if (bulletNode instanceof Element) {
 						NodeList bulletChildNodes = bulletNode.getChildNodes();
+						CustomBullet cb = new CustomBullet();
 						for (k = 0; k < bulletChildNodes.getLength(); k++) {
 							// Elementos de los bullets
+							Node bulletElement = bulletChildNodes.item(k);
+							if (bulletElement instanceof Element) {
+								content = bulletElement.getLastChild().getTextContent().trim();
+								switch(bulletElement.getNodeName()) {
+									case "delay":
+										parts = content.split("\\+");
+										int tempDelay = 0;
+										for (int y = 0; y < parts.length; y++) {
+											switch(parts[y]) {
+											case "last":
+												tempDelay += lastDelay;
+												break;
+											default:
+												tempDelay += Integer.valueOf(parts[y]);
+												lastDelay += Integer.valueOf(parts[y]);
+												break;
+											}
+										}
+										cb.setDelay(String.valueOf(tempDelay));
+										break;
+									case "speed":
+										cb.setSpeed(content);
+										break;
+									case "posx":
+										cb.setPosx(content);
+										break;
+									case "posy":
+										cb.setPosy(content);
+										break;
+									case "damage":
+										cb.setDamage(content);
+										break;
+									case "direction":
+										cb.setDirection(content);
+										break;
+									case "animation":
+										cb.setAnimation(content);
+										break;
+									case "ally":
+										cb.setAlly(content);
+										break;
+									case "hitbox":
+										NodeList hitboxes = bulletElement.getChildNodes();
+										for (z = 0; z < hitboxes.getLength(); z++) {
+											Node hitbox = hitboxes.item(z);
+											if (hitbox instanceof Element) {
+												content = hitbox.getLastChild().getTextContent().trim();
+												switch(hitbox.getNodeName()) {
+													case "rectangle":
+														if (content.equals("sprite")) {
+															cb.addHitbox();
+														} else {
+															parts = content.split(",");
+															float x = Float.valueOf(parts[0]);
+															float y = Float.valueOf(parts[1]);
+															float width = Float.valueOf(parts[2]);
+															float height = Float.valueOf(parts[3]);
+															Rectangle r = new Rectangle(x, y, width, height);
+															cb.addHitbox(r);
+														}
+														break;
+													case "ellipse":
+														parts = content.split(",");
+														float x = Float.valueOf(parts[0]);
+														float y = Float.valueOf(parts[1]);
+														float radiusX = Float.valueOf(parts[2]);
+														float radiusY = Float.valueOf(parts[3]);
+														Ellipse el = new Ellipse(x, y, radiusX, radiusY);
+														cb.addHitbox(el);
+														break;
+												}
+											}
+										}
+										break;
+								}
+							}
 						}
+						fp.addCustomBullet(cb);
 					}
 				}
 			}

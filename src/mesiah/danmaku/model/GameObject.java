@@ -23,20 +23,55 @@ public abstract class GameObject {
 	
 	public abstract void update(int delta);
 	
-	public abstract void move();
+	public abstract void move(int delta);
 	
 	public abstract void draw();
 	
-	public abstract float getPosX();
-	public abstract float getPosY();
-	public abstract float getFacing();
-	public abstract float getDirection();
-	public abstract float getSpeed();
-	public abstract String getState();
-	public abstract void setPosX(float x);
-	public abstract void setPosY(float y);
-	public abstract void setFacing(float f);
-	public abstract void setDirection(float dir);
-	public abstract void setSpeed(float s);
-	public abstract void setState(String s);
+	public float getPosX() {
+		return posx;
+	}
+	
+	public float getPosY() {
+		return posy;
+	}
+	
+	public float getFacing() {
+		return facing;
+	}
+	
+	public float getDirection() {
+		return direction;
+	}
+	
+	public float getSpeed() {
+		return speed;
+	}
+	
+	public String getState() {
+		return state;
+	}
+	
+	public void setPosX(float x) {
+		posx = x;
+	}
+	
+	public void setPosY(float y) {
+		posy = y;
+	}
+	
+	public void setFacing(float f) {
+		facing = f;
+	}
+	
+	public void setDirection(float dir) {
+		direction = dir;
+	}
+	
+	public void setSpeed(float s) {
+		speed = s;
+	}
+	
+	public void setState(String s) {
+		state = s;
+	}
 }

@@ -114,7 +114,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 
-	public void move() {
+	public void move(int delta) {
 		posx += Math.cos(direction)*speed;
 		posy += Math.sin(direction)*speed;
 	}
@@ -243,21 +243,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		fps.add(id);
 	}
 
-	public ArrayList<Shape> getHitBoxes() {
-		for (int i = 0; i < ss.size(); i++) {
-			Shape shape = ss.get(i);
-			float[] rel = getRelatives(i);
-			if (shape instanceof Ellipse) {
-				shape.setCenterX(posx + getSize()[0]/2 + rel[0]);
-				shape.setCenterY(posy + getSize()[1]/2 + rel[1]);
-			} else {
-				shape.setX(posx + rel[0]);
-				shape.setY(posy + rel[1]);
-			}
-			ss.set(i, shape);
-		}
-		return ss;
-	}
+	
 	
 	public Shape getGrazeHitBox() {
 		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, GRAZE_HITBOX_RADIUS, GRAZE_HITBOX_RADIUS);

@@ -61,7 +61,7 @@ public class Template extends VisibleGameObject {
 
 	}
 
-	public void move() {
+	public void move(int delta) {
 		
 	}
 

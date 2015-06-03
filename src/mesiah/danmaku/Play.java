@@ -9,7 +9,7 @@ import mesiah.danmaku.model.GameObjectContainer;
 import mesiah.danmaku.model.Player;
 import mesiah.danmaku.model.PlayerContainer;
 import mesiah.danmaku.model.PowerupContainer;
-import mesiah.danmaku.model.bullets.DivisibleBullet;
+import mesiah.danmaku.model.bullets.DivisibleBulletD;
 import mesiah.danmaku.model.patterns.FirePatternsManager;
 import mesiah.danmaku.view.Animation;
 import mesiah.danmaku.view.AnimationManager;
@@ -221,12 +221,12 @@ public class Play extends BasicGameState {
     	
     	if(input.isKeyDown(Input.KEY_ADD) && lastKey >= Main.KEYDELAY) {
     		lastKey = 0;
-    		DivisibleBullet.density += 1;
+    		DivisibleBulletD.density += 1;
     	}
     	
     	if(input.isKeyDown(Input.KEY_SUBTRACT) && lastKey >= Main.KEYDELAY) {
     		lastKey = 0;
-    		DivisibleBullet.density -= 1;
+    		DivisibleBulletD.density -= 1;
     	}
     	
     	if(input.isKeyDown(SPAWN1_KEY) && lastKey >= Main.KEYDELAY) {
@@ -278,7 +278,7 @@ public class Play extends BasicGameState {
     	g.drawString("Time: " + timer/1000, 10.0f, 30.0f);
     	g.drawString("Bullets: " + bc.size(), 10.0f, 50.0f);
     	g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
-    	g.drawString("PatternDensity: " + DivisibleBullet.density + " +/-", 10.0f, 90.0f);
+    	g.drawString("PatternDensity: " + DivisibleBulletD.density + " +/-", 10.0f, 90.0f);
     	g.drawString("Press "+ Input.getKeyName(SPAWN1_KEY) +" to spawn Enemy 1", 10.0f, 110.0f);
     	g.drawString("Press "+ Input.getKeyName(SPAWN2_KEY) +" to spawn Enemy 2", 10.0f, 130.0f);
     	g.drawString("Press "+ Input.getKeyName(SPAWN3_KEY) +" to spawn Enemy 3", 10.0f, 150.0f);

@@ -1,129 +1,82 @@
 package mesiah.danmaku.model.patterns;
 
-import java.util.ArrayList;
-
-import org.newdawn.slick.SlickException;
-
 import mesiah.danmaku.model.GameObject;
 import mesiah.danmaku.model.VisibleGameObject;
 import mesiah.danmaku.model.bullets.Bullet;
-import mesiah.danmaku.model.bullets.DivisibleBullet;
+import mesiah.danmaku.model.bullets.DivisibleBulletD;
+import mesiah.danmaku.model.bullets.Shootable;
 import mesiah.danmaku.util.GetDirection;
 
 public class EnemyFirePattern3 extends FirePattern {
-	ArrayList<DivisibleBullet> gol;
-	ArrayList<DivisibleBullet> toRemove;
 	
 	public EnemyFirePattern3(VisibleGameObject parent) {
 		super(parent);
-		gol = new ArrayList<DivisibleBullet>();
-		toRemove = new ArrayList<DivisibleBullet>();
-		
 		try {
 			posx += parent.getSize()[0]/2;
 			posy += parent.getSize()[1];
-			DivisibleBullet b = new DivisibleBullet(posx, posy, false, "enemybullet2", 2);
-			b.setSpeed(1.0f);
-			b.setDirection(GetDirection.getDirectionToPlayer(posx, posy));
-			b.addPattern(FirePatternsManager.BASICFIREPATTERN);
-			add(b);
-		} catch (SlickException e) {
+			
+			Bullet b = new Bullet(super.getPosX(), super.getPosY(), false, "enemybullet2");
+			DivisibleBulletD db = new DivisibleBulletD(b);
+			db.setAngleOffset(0);
+			db.setLifeTime(3000);
+			db.setSpeed(1.0f);
+			db.setDepth(2);
+			db.setDirection(GetDirection.getDirectionToPlayer(posx, posy));
+			db.addPattern(FirePatternsManager.BASICFIREPATTERN);
+			add((Shootable) db);
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	public void addToRemove(Bullet b) {
-		toRemove.add((DivisibleBullet) b);
+	
+	public void draw() {
+		for (Shootable b:gol) {
+			b.draw();
+		}
 	}
-
-	public void add(GameObject b) {
-		gol.add((DivisibleBullet) b);
-		((DivisibleBullet) b).setParent(this);
-	}
-
-	public GameObject get(int n) {
-		return gol.get(n);
-	}
-
-	public void remove(int n) {
-		gol.remove(n);
-	}
-
-	public void remove(GameObject go) {
-		gol.remove(go);
-	}
-
-	public int size() {
-		return gol.size();
-	}
-
+	
 	public void update(int delta) {
-		for (DivisibleBullet b:gol) {
+		for (Shootable b:gol) {
 			b.update(delta);
 		}
-		for (DivisibleBullet b:toRemove) {
+		for (Shootable b:toRemove) {
 			gol.remove(b);
 			b = null;
 		}
 		toRemove.clear();
 	}
-
-	public void move() {
-
-	}
-
-	public void draw() {
-		for (DivisibleBullet b:gol) {
-			b.draw();
-		}
-	}
-
-	public float getPosX() {
-		return posx;
+	
+	public void addToRemove(Shootable b) {
+		toRemove.add(b);
 	}
 	
-	public float getPosY() {
-		return posy;
+	public void add(Shootable b) {
+		gol.add(b);
+		b.setParent(this);
 	}
 	
-	public void setPosX(float x) {
-		posx = x;
+	public void add(GameObject b) {
+		gol.add((Shootable) b);
+		((Shootable) b).setParent(this);
 	}
 	
-	public void setPosY(float y) {
-		posy = y;
+	public GameObject get(int n) {
+		return (GameObject) gol.get(n);
 	}
 	
-	public float getFacing() {
-		return facing;
+	public void remove(int n) {
+		gol.remove(n);
 	}
-
-	public float getDirection() {
-		return direction;
+	
+	public void remove(GameObject go) {
+		gol.remove(go);
 	}
-
-	public float getSpeed() {
-		return speed;
+	
+	public int size() {
+		return gol.size();
 	}
+	
+	public void move(int delta) {
 
-	public String getState() {
-		return state;
 	}
-
-	public void setFacing(float f) {
-		facing = f;
-	}
-
-	public void setDirection(float dir) {
-		direction = dir;
-	}
-
-	public void setSpeed(float s) {
-		speed = s;
-	}
-
-	public void setState(String s) {
-		state = s;
-	}
-
 }

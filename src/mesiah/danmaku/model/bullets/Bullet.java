@@ -14,17 +14,17 @@ import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
 
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
-public class Bullet extends VisibleGameObject {
-	boolean ally;
-	FirePattern parent;
-	int damage;
-	int delay;
-	boolean grazed;
+public class Bullet extends VisibleGameObject implements Shootable {
+	protected boolean ally;
+	protected int damage;
+	protected int delay;
+	protected boolean grazed;
 	public static int ACTIVE = 0;
 	public static int DESTROYED = 1;
+	protected FirePattern parent;
+	protected Shootable superBullet;
 	
 	
 	public Bullet(float x, float y, boolean ally, String key) throws SlickException {
@@ -36,6 +36,8 @@ public class Bullet extends VisibleGameObject {
 		delay = 0;
 		state = "active";
 		grazed = false;
+		canMove = true;
+		superBullet = null;
 		addHitbox();
 	}
 	
@@ -79,10 +81,6 @@ public class Bullet extends VisibleGameObject {
 		direction = 90.0f;
 		speed = 10;
 		collidable = true;
-	}
-	
-	public void setParent(FirePattern fp) {
-		parent = fp;
 	}
 	
 	public ArrayList<Shape> getHitBoxes() {
@@ -144,39 +142,44 @@ public class Bullet extends VisibleGameObject {
 	public boolean checkCollision(GameObject go) {
 		return false;
 	}
+	
+	public void addToRemove(Shootable s) {
+		parent.addToRemove(s);
+	}
 
 	public void update(int delta) {
-		if (delay <= 0) {
-			CheckEnemyCollisions();
-			CheckPlayerCollisions();
-			move();
-			if (posx > Main.GAMEWIDTH+20 ||	posx < -20 || posy < -20 ||	posy > Main.GAMEHEIGHT+20) {
-				parent.addToRemove(this);
-			}
-		} else {
-			state = "not";
-			delay -= delta;
+		if (state != "dead") {
 			if (delay <= 0) {
-				state = "active";
+				CheckEnemyCollisions();
+				CheckPlayerCollisions();
+				if (posx > Main.GAMEWIDTH+20 ||	posx < -20 || posy < -20 ||	posy > Main.GAMEHEIGHT+20) {
+					state = "dead";
+					parent.addToRemove(this);
+				}
+				move(delta);
+			} else {
+				state = "not";
+				delay -= delta;
+				if (delay <= 0) {
+					state = "active";
+				}
 			}
 		}
 	}
 
-	public void move() {
-		float movx = (float) (Math.cos(Math.toRadians(direction))*speed);
-		float movy = (float) (Math.sin(Math.toRadians(direction))*speed);
-		posx += movx;
-		posy -= movy;
+	public void move(int delta) {
+		if (canMove && state == "active") {
+			float movx = (float) (Math.cos(Math.toRadians(direction))*speed);
+			float movy = (float) (Math.sin(Math.toRadians(direction))*speed);
+			posx += movx;
+			posy -= movy;
+		}
 	}
 
 	public void draw() {
 		if (state == "active") {
 			d.draw(posx, posy);
 		}
-	}
-	
-	public float[] getSize() {
-		return d.getSize();
 	}
 	
 	public float getFacing() {
@@ -210,42 +213,34 @@ public class Bullet extends VisibleGameObject {
 	public void setState(String s) {
 		state = s;
 	}
+
+	public float[] getSize() {
+		return d.getSize();
+	}
 	
-	public void addAnimation(Drawable d, int id) {
-		ds.set(id, d);
+	public FirePattern getParent() {
+		return parent;
+	}
+	
+	public void setParent(FirePattern fp) {
+		parent = fp;
 	}
 
-	public void addSound(String key, int id) {
-		sounds.set(id, key);
+	public void setSuperBullet(Shootable s) {
+		superBullet = s;
 	}
 
-	public void addHitbox(Shape s) {
-		float[] rel = {s.getX(), s.getY()};
-		addRelative(rel);
-		ss.add(s);
+	public Shootable getSuperBullet() {
+		return superBullet;
 	}
-
-	public void addHitbox() {
-		Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
-		float[] rel = {0.0f, 0.0f};
-		addRelative(rel);
-		ss.add(r);
+	
+	public void setCanMove(boolean cm) {
+		canMove = cm;
 	}
-
-	public float[] getRelatives(int n) {
-		return relatives.get(n);
+	
+	public int getDelay() {
+		return delay;
 	}
-
-	public void addRelative(float[] r) {
-		relatives.add(r);
-	}
-
-	public void setRelatives(ArrayList<float[]> rel) {
-		this.relatives = rel;
-	}
-
-	public void setHitboxes(ArrayList<Shape> ss) {
-		this.ss = ss;
-	}
+	
 
 }

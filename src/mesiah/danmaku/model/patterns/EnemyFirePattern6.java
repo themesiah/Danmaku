@@ -1,7 +1,5 @@
 package mesiah.danmaku.model.patterns;
 
-import java.util.ArrayList;
-
 import org.newdawn.slick.geom.Curve;
 import org.newdawn.slick.geom.Vector2f;
 
@@ -10,21 +8,20 @@ import mesiah.danmaku.model.GameObject;
 import mesiah.danmaku.model.VisibleGameObject;
 import mesiah.danmaku.model.bullets.Bullet;
 import mesiah.danmaku.model.bullets.CurveBulletD;
+import mesiah.danmaku.model.bullets.DivisibleBulletD;
 import mesiah.danmaku.model.bullets.Shootable;
 
-public class EnemyFirePattern2 extends FirePattern {
-	ArrayList<Shootable> gol;
-	ArrayList<Shootable> toRemove;
-	
-	public EnemyFirePattern2(VisibleGameObject parent) {
+public class EnemyFirePattern6 extends FirePattern {
+
+	public EnemyFirePattern6(VisibleGameObject parent) {
 		super(parent);
 		try {
-			int delay = 50;
 			posx += parent.getSize()[0]/2;
 			posy += parent.getSize()[1];
+			int delay = 50;
 			
 			Vector2f v1 = new Vector2f(posx, posy);
-			Vector2f v4 = new Vector2f(posx, Main.GAMEHEIGHT + 10);
+			Vector2f v4 = new Vector2f(posx, Main.GAMEHEIGHT - 50);
 			float difY = Main.GAMEHEIGHT+50 - posy;
 			Vector2f v2 = new Vector2f(posx-150, difY/3 + posy);
 			Vector2f v3 = new Vector2f(posx+150, difY*2/3 + posy);
@@ -34,25 +31,32 @@ public class EnemyFirePattern2 extends FirePattern {
 			Vector2f v32 = new Vector2f(posx+150, difY/3 + posy);
 			Curve c2 = new Curve(v1, v32, v22, v4);
 			
-			for (int i = 0; i < 10; i++) {
-				Bullet b1 = new Bullet(posx, posy, false, "enemybullet2");
-				CurveBulletD cb1 = new CurveBulletD(b1);
-				Bullet b2 = new Bullet(posx, posy, false, "enemybullet3");
+			for (int i = 0; i < 5; i++) {
+				Bullet b = new Bullet(posx, posy, false, "enemybullet2");
+				CurveBulletD cb = new CurveBulletD(b);
+				cb.add(c, 3000);
+				cb.setOnlyCurve(true);
+				DivisibleBulletD db = new DivisibleBulletD(cb);
+				db.setAngleOffset(0);
+				db.setLifeTime(3000);
+				db.setSpeed(1.0f);
+				db.setDepth(2);
+				db.addPattern(FirePatternsManager.BASICFIREPATTERN);
+				db.setDelay(delay*i);
+				add((Shootable) db);
+				
+				Bullet b2 = new Bullet(posx, posy, false, "enemybullet2");
 				CurveBulletD cb2 = new CurveBulletD(b2);
-				cb1.setOnlyCurve(true);
+				cb2.add(c2, 3000);
 				cb2.setOnlyCurve(true);
-				cb1.setSpeed(5.0f);
-				cb2.setSpeed(5.0f);
-				cb1.setPosX(c.pointAt(0.0f).getX() - cb1.getSize()[0]/2);
-				cb2.setPosX(c.pointAt(0.0f).getY() - cb1.getSize()[1]/2);
-				cb1.add(c, 1000);
-				cb2.setPosX(c2.pointAt(0.0f).getX() - cb2.getSize()[0]/2);
-				cb2.setPosY(c2.pointAt(0.0f).getY() - cb2.getSize()[1]/2);
-				cb2.add(c2, 1000);
-				cb1.setDelay(delay*i);
-				cb2.setDelay(delay*i);
-				add((Shootable) cb1);
-				add((Shootable) cb2);
+				DivisibleBulletD db2 = new DivisibleBulletD(cb2);
+				db2.setAngleOffset(0);
+				db2.setLifeTime(3000);
+				db2.setSpeed(1.0f);
+				db2.setDepth(2);
+				db2.addPattern(FirePatternsManager.BASICFIREPATTERN);
+				db2.setDelay(delay*i);
+				add((Shootable) db2);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();

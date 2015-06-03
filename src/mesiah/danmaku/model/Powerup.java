@@ -53,19 +53,13 @@ public class Powerup extends VisibleGameObject {
 	}
 
 	@Override
-	public boolean checkCollision(GameObject go) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void update(int delta) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void move() {
+	public void move(int delta) {
 		// TODO Auto-generated method stub
 		
 	}

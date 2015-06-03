@@ -22,4 +22,4 @@ Sugerencias:
 
 
 Bugs:
-- Por alguna razón, el hitbox del patrón W falla y no mata al player. - [Arreglado] Curve bullet llamaba a "checkPlayerCollision" y no "super.CheckPlayerCollision".
+- Por alguna razón, el hitbox del patrón W falla y no mata al player. - [Arreglado] Hay que hacer INTERSECTS y CONTAINS para los Shape, porque se puede dar el segundo caso y no el primero!

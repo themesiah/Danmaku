@@ -62,7 +62,7 @@ public class Background extends VisibleGameObject {
 
 	}
 
-	public void move() {
+	public void move(int delta) {
 		
 	}
 

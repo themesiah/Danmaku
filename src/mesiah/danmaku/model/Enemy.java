@@ -132,7 +132,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		if (!d.isPlaying() && state == "destroyed") {
 			Play.ec.addToRemove(this);
 		} else {
-			move();
+			move(delta);
 			CheckPlayerCollisions();
 		}
 		if (damageTimer <= 0) {
@@ -160,7 +160,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			
 	}
 
-	public void move() {
+	public void move(int delta) {
 
 	}
 
@@ -288,7 +288,6 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	}
 
 	public ArrayList<Shape> getHitBoxes() {
-		System.out.println("Hitboxes: " + ss.size());
 		for (int i = 0; i < ss.size(); i++) {
 			Shape shape = ss.get(i);
 			float[] rel = getRelatives(i);

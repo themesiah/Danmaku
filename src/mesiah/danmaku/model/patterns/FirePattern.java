@@ -1,17 +1,74 @@
 package mesiah.danmaku.model.patterns;
 
+import java.util.ArrayList;
+
 import mesiah.danmaku.model.GameObject;
 import mesiah.danmaku.model.VisibleGameObject;
-import mesiah.danmaku.model.bullets.Bullet;
+import mesiah.danmaku.model.bullets.Shootable;
 
 
 public abstract class FirePattern extends Pattern {
+	protected ArrayList<Shootable> gol;
+	protected ArrayList<Shootable> toRemove;
 	protected VisibleGameObject parent;
+	
 	public FirePattern(VisibleGameObject parent) {
 		this.parent = parent;
 		this.posx = parent.getPosX();
 		this.posy = parent.getPosY();
+		gol = new ArrayList<Shootable>();
+		toRemove = new ArrayList<Shootable>();
 	}
-	public abstract void addToRemove(Bullet b);
-	public abstract void add(GameObject b);
+	
+	public void draw() {
+		for (Shootable b:gol) {
+			b.draw();
+		}
+	}
+	
+	public void update(int delta) {
+		for (Shootable b:gol) {
+			b.update(delta);
+		}
+		for (Shootable b:toRemove) {
+			gol.remove(b);
+			b = null;
+		}
+		toRemove.clear();
+	}
+	
+	public void addToRemove(Shootable b) {
+		toRemove.add(b);
+	}
+	
+	public void add(Shootable b) {
+		gol.add(b);
+		b.setParent(this);
+	}
+	
+	public void add(GameObject b) {
+		gol.add((Shootable) b);
+		((Shootable) b).setParent(this);
+	}
+	
+	public GameObject get(int n) {
+		return (GameObject) gol.get(n);
+	}
+	
+	public void remove(int n) {
+		gol.remove(n);
+	}
+	
+	public void remove(GameObject go) {
+		gol.remove(go);
+	}
+	
+	public int size() {
+		return gol.size();
+	}
+	
+	public void move(int delta) {
+
+	}
+
 }

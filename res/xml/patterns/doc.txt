@@ -17,7 +17,7 @@ Variables de DivisibleBullet:
 <firePatterns><fp></fp></firepatterns>
 lifeTime -> infinite, número
 density
-angleOffset -> random(angleOffset aleatorio), totalRandom(angleOffset aleatorio para cada subdisparo), número
+angleOffset -> random(angleOffset aleatorio), totalRandom(angleOffset aleatorio para cada subdisparo), free, número
 
 
 Variables de CurveBullet:

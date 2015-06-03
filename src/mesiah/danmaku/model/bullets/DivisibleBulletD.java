@@ -3,19 +3,18 @@ package mesiah.danmaku.model.bullets;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.SlickException;
 
 import mesiah.danmaku.Play;
 import mesiah.danmaku.model.BulletEmitter;
 import mesiah.danmaku.model.patterns.FirePattern;
-import mesiah.danmaku.model.patterns.FirePatternsManager;
+import mesiah.danmaku.model.patterns.FirePatternManager;
 
 public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 	private ArrayList<String> fps;
 	protected FirePattern parent;
 	protected int lifeTime;
 	protected int depth;
-	public static int density = 5;
+	public int density = 5;
 	protected float angleOffset;
 	public static int INFINITE = -1000;
 	
@@ -71,44 +70,13 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 	}
 	
 	public void shot(int delta) {
-		if (depth > 0) {
-			FirePattern[] fp = new FirePattern[fps.size()];
-			int i = 0;
+		FirePattern fp;
+		for (int i = 0; i < density; i++) {
 			for (String id : fps) {
-				fp[i] = FirePatternsManager.get().newPattern(id, this);
-				i++;
+				fp = FirePatternManager.get().compose(id, this);
+				Play.bc.addToAdd(fp);
 			}
-			for (i = 0; i < fp.length; i++) {
-				Play.bc.addToAdd(fp[i]);
-			}
-			try {
-				int newLifeTime;
-				if (depth == 1) {
-					newLifeTime = INFINITE;
-				} else {
-					newLifeTime = 3000;
-				}
-				float aos = (float) (Math.random()*360);
-				for (i = 0; i < density; i++) {
-					String newbullet = "enemybullet";
-					if (depth == 1) {
-						newbullet = "enemybullet3";
-					}
-					Bullet b = new Bullet(super.getPosX(), super.getPosY(), false, newbullet);
-					DivisibleBulletD db = new DivisibleBulletD(b);
-					db.setAngleOffset(aos);
-					db.setLifeTime(newLifeTime);
-					db.setSpeed(super.getSpeed());
-					db.setDepth(depth-1);
-					db.setDirection(((360.0f / density) * i) + angleOffset);
-					db.addPattern(FirePatternsManager.BASICFIREPATTERN);
-					fp[0].add((Shootable) db);
-				}
-			} catch (SlickException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		}		
 	}
 	
 	public void update(int delta) {
@@ -183,6 +151,10 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 	
 	public float getSpeed() {
 		return super.getSpeed();
+	}
+
+	public void setDensity(int density) {
+		this.density = density;
 	}
 
 }

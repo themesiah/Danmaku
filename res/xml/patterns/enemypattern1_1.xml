@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+	<pattern id="enemyfirepattern1_1">
+		<bullet>
+			<delay>0</delay>
+			<speed>3</speed>
+			<animation>enemybullet2</animation>
+			<posx>parent</posx>
+			<posy>parent</posy>
+			<damage>10</damage>
+			<direction>random</direction>
+			<hitbox>
+				<rectangle>sprite</rectangle>
+			</hitbox>
+			<ally>false</ally>
+		</bullet>
+	</pattern>
+</patterns>

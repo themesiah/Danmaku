@@ -110,6 +110,28 @@ public class XMLLoader {
 									case "ally":
 										cb.setAlly(content);
 										break;
+									case "property":
+										cb.addProperty(content);
+										break;
+									case "density":
+										cb.setDensity(content);
+										break;
+									case "angleOffset":
+										cb.setAngleOffSet(content);
+										break;
+									case "lifeTime":
+										cb.setLifeTime(content);
+										break;
+									case "firePatterns":
+										NodeList patterns = bulletElement.getChildNodes();
+										for (z = 0; z < patterns.getLength(); z++) {
+											Node pattern = patterns.item(z);
+											if (pattern instanceof Element) {
+												content = pattern.getLastChild().getTextContent().trim();
+												cb.addFirePattern(content);
+											}
+										}
+										break;
 									case "hitbox":
 										NodeList hitboxes = bulletElement.getChildNodes();
 										for (z = 0; z < hitboxes.getLength(); z++) {

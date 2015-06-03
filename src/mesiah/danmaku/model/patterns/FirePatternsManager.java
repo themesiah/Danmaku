@@ -30,7 +30,7 @@ public class FirePatternsManager {
 				fp = FirePatternManager.get().compose("playerfirepattern", parent);
 				break;
 			case ENEMYFIREPATTERN1:
-				fp = new EnemyFirePattern(parent);
+				fp = FirePatternManager.get().compose("enemyfirepattern1", parent);
 				break;
 			case ENEMYFIREPATTERN2:
 				fp = new EnemyFirePattern2(parent);

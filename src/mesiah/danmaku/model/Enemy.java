@@ -10,7 +10,7 @@ import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
 import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.patterns.FirePattern;
-import mesiah.danmaku.model.patterns.FirePatternsManager;
+import mesiah.danmaku.model.patterns.FirePatternManager;
 import mesiah.danmaku.view.Drawable;
 
 public class Enemy extends VisibleGameObject implements BulletEmitter {
@@ -148,7 +148,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		FirePattern fp = null;
 		if (shotTimer >= shotDelay && state == "active") {
 			for (String id : fps) {
-				fp = FirePatternsManager.get().newPattern(id, this);
+				fp = FirePatternManager.get().compose(id, this);
 				Play.bc.add(fp);
 			}
 			AudioManager.get().playSound(sounds.get(SHOT));

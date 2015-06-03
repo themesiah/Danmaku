@@ -11,7 +11,7 @@ import org.newdawn.slick.geom.Shape;
 public class CustomBullet {
 	// Normal
 	protected String posx, posy, speed, direction, delay, damage, animation, type, ally;
-	protected ArrayList<CustomBullet> properties;
+	protected ArrayList<String> properties;
 	protected ArrayList<Shape> ss;
 	protected ArrayList<float[]> relatives;
 	
@@ -26,7 +26,7 @@ public class CustomBullet {
 	
 
 	public CustomBullet() {
-		properties = new ArrayList<CustomBullet>();
+		properties = new ArrayList<String>();
 		fps = new ArrayList<String>();
 		curves = new ArrayList<String>();
 		curveTimes = new ArrayList<Integer>();
@@ -115,13 +115,25 @@ public class CustomBullet {
 	}
 
 
-	public ArrayList<CustomBullet> getProperties() {
+	public ArrayList<String> getProperties() {
 		return properties;
 	}
 
 
-	public void setProperties(ArrayList<CustomBullet> properties) {
+	public void setProperties(ArrayList<String> properties) {
 		this.properties = properties;
+	}
+	
+	public void addProperty(String p) {
+		this.properties.add(p);
+	}
+	
+	public String getProperty(int n) {
+		return this.properties.get(n);
+	}
+	
+	public boolean haveProperty(String p) {
+		return this.properties.contains(p);
 	}
 
 
@@ -237,6 +249,18 @@ public class CustomBullet {
 	
 	public ArrayList<float[]> getRelatives() {
 		return relatives;
+	}
+	
+	public void addFirePattern(String fp) {
+		fps.add(fp);
+	}
+	
+	public String getFirePattern(int n) {
+		return fps.get(n);
+	}
+	
+	public int firePatternsSize() {
+		return fps.size();
 	}
 
 }

@@ -5,14 +5,14 @@
 		<speed>5</speed>
 		<facing>0</facing>
 		<direction>270</direction>
-		<shotDelay>1000</shotDelay>
+		<shotDelay>5000</shotDelay>
 		<animations>
 			<active>enemy1</active>
 			<destroyed>enemydestroyed</destroyed>
 		</animations>
 		<firePatterns>
 			<pattern>
-				<fp>enemyFirePattern</fp>
+				<fp>enemyfirepattern1</fp>
 				<sound>playershot</sound>
 			</pattern>
 		</firePatterns>

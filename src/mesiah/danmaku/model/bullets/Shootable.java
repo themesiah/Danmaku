@@ -19,6 +19,7 @@ public interface Shootable {
 	public void setSpeed(float s);
 	public void setCanMove(boolean cm);
 	public void setDirection(float d);
+	public void setState(String s);
 	
 	public int getDelay();
 	public float getPosX();

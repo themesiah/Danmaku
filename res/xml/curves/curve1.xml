@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<curves>
+	<curve id="curve1">
+		<point1>parent,parent</point1>
+		<point2>-150+last,auto</point2>
+		<point3>300+last,auto</point3>
+		<point4>parent,limitbottom+50</point4>
+	</curve>
+</curves>

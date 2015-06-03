@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<curves>
+	<curve id="curve3">
+		<point1>-10+parent,parent</point1>
+		<point2>auto+150,auto</point2>
+		<point3>-300+auto,auto</point3>
+		<point4>player,player</point4>
+	</curve>
+</curves>

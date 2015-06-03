@@ -10,6 +10,7 @@ import mesiah.danmaku.model.bullets.Bullet;
 import mesiah.danmaku.model.bullets.CurveBulletD;
 import mesiah.danmaku.model.bullets.DivisibleBulletD;
 import mesiah.danmaku.model.bullets.Shootable;
+import mesiah.danmaku.util.CurveManager;
 
 public class EnemyFirePattern4 extends FirePattern {
 
@@ -31,24 +32,28 @@ public class EnemyFirePattern4 extends FirePattern {
 			Vector2f v32 = new Vector2f(posx+150, difY/3 + posy);
 			Curve c2 = new Curve(v1, v32, v22, v4);
 			
+			c = CurveManager.get().compose("curve3", parent);
+			c2 = CurveManager.get().compose("curve4", parent);
+			
 			for (int i = 0; i < 5; i++) {
 				Bullet b = new Bullet(posx, posy, false, "enemybullet2");
-				CurveBulletD cb = new CurveBulletD(b);
-				cb.add(c, 2000);
-				cb.setOnlyCurve(false);
-				DivisibleBulletD db = new DivisibleBulletD(cb);
+				
+				DivisibleBulletD db = new DivisibleBulletD(b);
 				db.setAngleOffset(0);
 				db.setLifeTime(3000);
-				db.setSpeed(1.0f);
 				db.setDepth(2);
 				db.addPattern(FirePatternsManager.BASICFIREPATTERN);
-				db.setDelay(delay*i);
-				add((Shootable) db);
+				CurveBulletD cb = new CurveBulletD(db);
+				cb.add(c, 3000);
+				cb.setOnlyCurve(true);
+				cb.setSpeed(1.0f);
+				cb.setDelay(delay*i);
+				add((Shootable) cb);
 				
 				Bullet b2 = new Bullet(posx, posy, false, "enemybullet2");
 				CurveBulletD cb2 = new CurveBulletD(b2);
-				cb2.add(c2, 2000);
-				cb2.setOnlyCurve(false);
+				cb2.add(c2, 3000);
+				cb2.setOnlyCurve(true);
 				DivisibleBulletD db2 = new DivisibleBulletD(cb2);
 				db2.setAngleOffset(0);
 				db2.setLifeTime(3000);

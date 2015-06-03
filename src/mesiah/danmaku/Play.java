@@ -54,14 +54,18 @@ public class Play extends BasicGameState {
 	
 	public static void newGame() throws SlickException {
 		containerInit();
+		curvesInit();
 		soundInit();
     	animationInit();
-    	enemiesInit();
     	
-    	// Creamos el jugador
     	Player p = new Player();
     	p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
     	pc.add(p);
+    	
+    	enemiesInit();
+    	
+    	// Creamos el jugador
+    	
 		
 		// Enemigos
 		/*Enemy e = new Enemy();
@@ -88,17 +92,25 @@ public class Play extends BasicGameState {
     	//am.playMusic("pay");
 	}
 	
-	private static void enemiesInit() {
-		Enemy e;
+	private static void curvesInit() {
 		try {
-			e = XMLLoader.get().getEnemyFromXML("enemy1.xml");
-			EnemiesManager.get().addEnemy(e);
-			e = XMLLoader.get().getEnemyFromXML("enemy2.xml");
-			EnemiesManager.get().addEnemy(e);
-			e = XMLLoader.get().getEnemyFromXML("enemy3.xml");
-			EnemiesManager.get().addEnemy(e);
-			e = XMLLoader.get().getEnemyFromXML("enemy4.xml");
-			EnemiesManager.get().addEnemy(e);
+			XMLLoader.get().getCurveFromXML("curve1.xml");
+			XMLLoader.get().getCurveFromXML("curve2.xml");
+			XMLLoader.get().getCurveFromXML("curve3.xml");
+			XMLLoader.get().getCurveFromXML("curve4.xml");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void enemiesInit() {
+		try {
+			XMLLoader.get().getEnemyFromXML("enemy1.xml");
+			XMLLoader.get().getEnemyFromXML("enemy2.xml");
+			XMLLoader.get().getEnemyFromXML("enemy3.xml");
+			XMLLoader.get().getEnemyFromXML("enemy4.xml");
+			
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -168,12 +180,14 @@ public class Play extends BasicGameState {
 		containerInit();
 		soundInit();
     	animationInit();
-    	enemiesInit();
+    	curvesInit();
     	
 		// Creamos el jugador
     	Player p = new Player();
     	p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
     	pc.add(p);
+    	
+    	enemiesInit();
 		
 		// Enemigos
 		/*Enemy e = new Enemy();
@@ -188,7 +202,7 @@ public class Play extends BasicGameState {
     		float x;
     		try {
 				//e = XMLLoader.get().getEnemyFromXML(type);
-    			e = EnemiesManager.get().newEnemy(type);
+    			e = EnemiesManager.get().newEnemy(type);    			
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

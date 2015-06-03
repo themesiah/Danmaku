@@ -1,0 +1,25 @@
+Variables de Bullet:
+
+delay
+speed
+posx
+posy
+damage
+direction -> random, player, número
+animation
+hitbox
+<property></property> -> divisible, curve
+
+
+Variables de DivisibleBullet:
+
+<firePatterns><fp></fp></firepatterns>
+lifeTime -> infinite, número
+density
+angleOffset -> random(angleOffset aleatorio), totalRandom(angleOffset aleatorio para cada subdisparo), número
+
+
+Variables de CurveBullet:
+
+<curves><curve></curve><curveTime></curveTime></curves>
+onlyCurve

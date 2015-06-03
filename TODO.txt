@@ -1,15 +1,17 @@
 Cargar weas desde XMLs 
 
 	patrones - PENDING
-	enemigos - HECHO (falta hitbox)
+	enemigos - HECHO!
 	player - PENDING
 	nivel! - PENDING
-	curvas - PENDING
+	curvas - HECHO!
 
 Hitbox para TODO - Hecho!
 Parallax - PENDING
 Particulas - PENDING
-DivisibleCurve bullet - PENDING
+DivisibleCurve bullet - Hecho! (Decorator)
+TrickyBullet (disparos que salen muy rapido, luego se paran, y finalmente se mueven aleatoriamente) - PENDING
+Opciones de sonido
 
 
 

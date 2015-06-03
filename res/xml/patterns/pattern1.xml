@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+	<pattern id="playerfirepattern">
+		<bullet>
+			<delay>0</delay>
+			<speed>10</speed>
+			<animations>
+				<active>playerbullet</active>
+			</animations>
+			<posx>12</posx>
+			<posy>-12</posy>
+			<damage>10</damage>
+			<direction>90</direction>
+			<hitbox>
+				<rectangle>sprite</rectangle>
+			</hitbox>
+		</bullet>
+		<bullet>
+			<delay>0</delay>
+			<speed>10</speed>
+			<animations>
+				<active>playerbullet</active>
+			</animations>
+			<posx>37</posx>
+			<posy>-12</posy>
+			<damage>10</damage>
+			<direction>90</direction>
+			<hitbox>
+				<rectangle>sprite</rectangle>
+			</hitbox>
+		</bullet>
+	</pattern>
+</patterns>

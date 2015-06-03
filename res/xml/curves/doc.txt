@@ -1,0 +1,16 @@
+Cada curve tiene 4 point.
+Cada point tiene dos valores (x, y).
+Los números son valores absolutos.
+
+Variables:
+
+Hay diferentes variables para elegir puntos relativos, que dependen de X e Y:
+
+parent: quien dispara
+auto: valor para los puntos intermedios (calculan punto medio).
+player: el jugador
+last: el valor del anterior punto en el XML
+limitbottom: el límite inferior de la pantalla
+limittop: el límite superior de la pantalla
+limitleft: el límite izquierdo de la pantalla
+limitright: el límite derecho de la pantalla

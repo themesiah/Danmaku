@@ -75,6 +75,10 @@ public abstract class BulletDecorator extends VisibleGameObject implements Shoot
 		b.setCanMove(cm);
 	}
 	
+	public void setState(String s) {
+		b.setState(s);
+	}
+	
 	public int getDelay() {
 		return b.getDelay();
 	}

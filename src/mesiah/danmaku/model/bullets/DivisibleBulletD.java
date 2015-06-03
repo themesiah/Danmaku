@@ -112,21 +112,25 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 	}
 	
 	public void update(int delta) {
-		if (lifeTime <= 0 && lifeTime != INFINITE) {
+		if (lifeTime <= 0 && lifeTime != INFINITE && super.getState() == "active") {
 			shot(delta);
 			super.addToRemove(this);
 			collidable = false;
-			state = "dead";
+			super.setState("dead");
 		} else {
 			if (lifeTime != INFINITE) {
 				lifeTime -= delta;
 			}
 		}
 		super.update(delta);
-		move(delta);
+		//move(delta);
 		if (super.getState() == "dead") {
 			super.addToRemove(this);
 		}
+	}
+	
+	public void setState(String s) {
+		super.setState(s);
 	}
 
 	public void draw() {
@@ -150,7 +154,7 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 	}
 	
 	public void setPosY(float y) {
-		super.setPosX(y);
+		super.setPosY(y);
 	}
 	
 	public void setDirection(float d) {

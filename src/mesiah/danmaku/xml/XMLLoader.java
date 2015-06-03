@@ -13,7 +13,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import mesiah.danmaku.model.EnemiesManager;
 import mesiah.danmaku.model.Enemy;
+import mesiah.danmaku.model.patterns.CustomFirePattern;
+import mesiah.danmaku.model.patterns.FirePattern;
+import mesiah.danmaku.model.patterns.FirePatternManager;
+import mesiah.danmaku.util.CurveManager;
+import mesiah.danmaku.util.CustomCurve;
 import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
 
@@ -38,7 +44,78 @@ public class XMLLoader {
 		return xl;
 	}
 	
-	public Enemy getEnemyFromXML(String fileName) throws Exception {
+	public void getPatternFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/patterns/" + fileName);
+		Document document = db.parse(f);
+		CustomFirePattern fp = null;
+		String patternID;
+		String content;
+		int i, j, k;
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				// Pattern singular
+				patternID = ((Element) node).getAttributes().getNamedItem("id").getNodeValue();
+				fp = new CustomFirePattern(patternID);
+				NodeList childNodes = node.getChildNodes();
+				for (j = 0; j < childNodes.getLength(); j++) {
+					// Bullet
+					Node bulletNode = nodeList.item(j);
+					if (bulletNode instanceof Element) {
+						NodeList bulletChildNodes = bulletNode.getChildNodes();
+						for (k = 0; k < bulletChildNodes.getLength(); k++) {
+							// Elementos de los bullets
+						}
+					}
+				}
+			}
+		}
+		FirePatternManager.get().addFirePattern(fp);
+	}
+	
+	public void getCurveFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/curves/" + fileName);
+		Document document = db.parse(f);
+		CustomCurve c = null;
+		String curveID;
+		String content;
+		int i, j, index = -1;
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				curveID = ((Element) node).getAttributes().getNamedItem("id").getNodeValue();
+				c = new CustomCurve(curveID);
+				NodeList childNodes = node.getChildNodes();
+				for (j = 0; j < childNodes.getLength(); j++) {
+					Node cNode = childNodes.item(j);
+					if (cNode instanceof Element) {
+						switch(cNode.getNodeName()) {
+							case "point1":
+								index = 0;
+								break;
+							case "point2":
+								index = 1;
+								break;
+							case "point3":
+								index = 2;
+								break;
+							case "point4":
+								index = 3;
+								break;
+						}
+						content = cNode.getLastChild().getTextContent().trim();
+						String[] parts = content.split(",");
+						c.addPoint(parts, index);
+					}
+				}
+			}
+		}
+		CurveManager.get().addCurve(c);
+	}
+	
+	public void getEnemyFromXML(String fileName) throws Exception {
 		File f = new File("res/xml/enemies/" + fileName);
 		Document document = db.parse(f);
 		Enemy e = new Enemy();
@@ -183,6 +260,6 @@ public class XMLLoader {
 				}
 			}
 		}
-		return e;
+		EnemiesManager.get().addEnemy(e);
 	}
 }

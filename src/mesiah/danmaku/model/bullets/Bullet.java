@@ -37,7 +37,6 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		state = "active";
 		grazed = false;
 		canMove = true;
-		superBullet = null;
 		addHitbox();
 	}
 	
@@ -224,14 +223,6 @@ public class Bullet extends VisibleGameObject implements Shootable {
 	
 	public void setParent(FirePattern fp) {
 		parent = fp;
-	}
-
-	public void setSuperBullet(Shootable s) {
-		superBullet = s;
-	}
-
-	public Shootable getSuperBullet() {
-		return superBullet;
 	}
 	
 	public void setCanMove(boolean cm) {

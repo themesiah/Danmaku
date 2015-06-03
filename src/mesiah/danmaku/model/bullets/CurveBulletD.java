@@ -66,7 +66,7 @@ public class CurveBulletD extends BulletDecorator {
 		} else if (!onlyCurve) {
 			super.setCanMove(true);
 		} else {
-			state = "dead";
+			super.setState("dead");
 			super.addToRemove(this);
 		}
 	}
@@ -110,7 +110,7 @@ public class CurveBulletD extends BulletDecorator {
 	}
 	
 	public void setPosY(float y) {
-		super.setPosX(y);
+		super.setPosY(y);
 	}
 	
 	public void setDirection(float d) {

@@ -59,7 +59,7 @@ public class Play extends BasicGameState {
     }
 	
 	public static void newGame() throws SlickException {
-		Player p = new Player();
+		//Player p = new Player();
 		containerInit();
 		
 		
@@ -68,11 +68,11 @@ public class Play extends BasicGameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		p.initPlayer();
+		//p.initPlayer();
     	
     	
-    	p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
-    	pc.add(p);
+    	//p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
+    	//pc.add(p);
     	
     	//enemiesInit();
     	timer = 0;

@@ -11,13 +11,16 @@ import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
 import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.patterns.FirePattern;
-import mesiah.danmaku.model.patterns.FirePatternsManager;
+import mesiah.danmaku.model.patterns.FirePatternManager;
 import mesiah.danmaku.util.GetDirection;
 import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
 
 public class Player extends VisibleGameObject implements BulletEmitter{
 	private ArrayList<String> fps;
+	private ArrayList<ArrayList<String>> firePatterns;
+	private ArrayList<ArrayList<Integer>> shotDelays;
+	private ArrayList<ArrayList<Integer>> shotTimers;
 	
 	int lastShoot = 0;
 	int delay = 100;
@@ -25,7 +28,9 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	boolean focused;
 	public static int ACTIVE = 0;
 	public static int FOCUSED = 1;
-	public static int DESTROYED = 2;
+	public static int SHOT = 2;
+	public static int DESTROYED = 3;
+	
 	
 	public static int GRAZE;
 	public static int POINTS;
@@ -33,14 +38,16 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public static int POWER;
 	public static int BOMBS;
 	
-	private static float HITBOX_RADIUS = 0.1f;
-	private static float GRAZE_HITBOX_RADIUS = 20.0f;
-	private static float POWERUP_HITBOX_RADIUS = 40.0f;
+	private float HITBOX_RADIUS = 0.1f;
+	private float GRAZE_HITBOX_RADIUS = 20.0f;
+	private float POWERUP_HITBOX_RADIUS = 40.0f;
+	
+	
 	
 	float[] lastSize;
 	
 	public Player() throws SlickException {
-		//initPlayer();
+		initPlayer();
 	}
 	
 	public boolean isCollidable() {
@@ -62,8 +69,19 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public void setPosY(float y) {
 		posy = y;
 	}
+	
+	public void initFirePatterns() {
+		for (int i = 0; i < maxPower+1; i++) {
+			firePatterns.add(new ArrayList<String>());
+			shotDelays.add(new ArrayList<Integer>());
+			shotTimers.add(new ArrayList<Integer>());
+		}
+	}
 
 	public void initPlayer() throws SlickException {
+		firePatterns = new ArrayList<ArrayList<String>>();
+		shotDelays = new ArrayList<ArrayList<Integer>>();
+		shotTimers = new ArrayList<ArrayList<Integer>>();
 		ds = new ArrayList<Drawable>();
 		sounds = new ArrayList<String>();
 		fps = new ArrayList<String>();
@@ -74,7 +92,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 			sounds.add(null);
 		}
 		POWER = 0;
-		maxPower = 4;
+		maxPower = 1;
 		posx = Main.GAMEWIDTH/2;
 		posy = Main.GAMEHEIGHT/2;
 		direction = 0;
@@ -87,8 +105,6 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		LIVES = 3;
 		BOMBS = 2;
 		lastSize = new float[2];
-		setAnimations();
-		addHitbox();
 	}
 
 	public int getMaxPower() {
@@ -97,13 +113,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 
 	public void setMaxPower(int maxPower) {
 		this.maxPower = maxPower;
-	}
-
-	public void setAnimations() {
-		ds.set(ACTIVE, AnimationManager.get().getAnimation("player"));
-		ds.set(FOCUSED, AnimationManager.get().getAnimation("player-focused"));
-		ds.set(DESTROYED, AnimationManager.get().getAnimation("enemydestroyed"));
-		d = ds.get(ACTIVE);
+		initFirePatterns();
 	}
 	
 	public void CheckEnemyCollisions() {
@@ -168,7 +178,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	
 	public void onDestroyed() {
 		state = "beingdestroyed";
-		AudioManager.get().playSound("destroyed");
+		AudioManager.get().playSound(sounds.get(DESTROYED));
 		collidable = false;
 	}
 	
@@ -256,16 +266,36 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 	
 	public void shot(int delta) {
-		lastShoot += delta;
-		if (lastShoot >= delay && state == "active") {
-			FirePattern fp;
-			for (String id : fps) {
-				fp = FirePatternsManager.get().newPattern(id, this);
-				Play.bc.add(fp);
+		/*FirePattern fp = null;
+		if (state == "active") {
+			for (int i = 0; i < fps.size(); i++) {
+				if (shotTimers.get(i) >= shotDelays.get(i)) {
+					fp = FirePatternManager.get().compose(fps.get(i), this);
+					shotTimers.set(i, 0);
+					Play.bc.add(fp);
+					AudioManager.get().playSound(sounds.get(SHOT));
+				} else {
+					shotTimers.set(i, shotTimers.get(i) + delta);
+				}
 			}
-			lastShoot = 0;
-			AudioManager.get().playSound("playershot");
+		}*/
+		FirePattern fp = null;
+		ArrayList<String> tempfps = firePatterns.get(Player.POWER);
+		ArrayList<Integer> tempdelays = shotDelays.get(Player.POWER);
+		ArrayList<Integer> temptimers = shotTimers.get(Player.POWER);
+		if (state == "active") {
+			for (int i = 0; i < tempfps.size(); i++) {
+				if (temptimers.get(i) >= tempdelays.get(i)) {
+					fp = FirePatternManager.get().compose(tempfps.get(i), this);
+					temptimers.set(i, 0);
+					Play.bc.add(fp);
+					AudioManager.get().playSound(sounds.get(SHOT));
+				} else {
+					temptimers.set(i, temptimers.get(i) + delta);
+				}
+			}
 		}
+		
 	}
 	
 	public float[] getSize() {
@@ -317,6 +347,10 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	
 	public void addAnimation(Drawable d, int id) {
 		ds.set(id, d);
+		if (id == ACTIVE) {
+			this.d = ds.get(ACTIVE);
+			addHitbox();
+		}
 	}
 
 	public void addSound(String key, int id) {
@@ -327,6 +361,22 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		fps.add(id);
 	}
 
+	public void addFirePattern(int power, String pattern) {
+		for (int i = power; i < firePatterns.size(); i++) {
+			firePatterns.get(i).add(pattern);
+		}
+	}
+	
+	public ArrayList<String> getFirePattern(int power) {
+		return firePatterns.get(power);
+	}
+	
+	public void addShotDelay(int power, int timer) {
+		for (int i = power; i < shotDelays.size(); i++) {
+			shotDelays.get(i).add(timer);
+			shotTimers.get(i).add(timer);
+		}
+	}
 	
 	
 	public Shape getGrazeHitBox() {
@@ -366,6 +416,30 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 
 	public void setHitboxes(ArrayList<Shape> ss) {
 		this.ss = ss;
+	}
+
+	public float getHITBOX_RADIUS() {
+		return HITBOX_RADIUS;
+	}
+
+	public void setHITBOX_RADIUS(float hITBOX_RADIUS) {
+		HITBOX_RADIUS = hITBOX_RADIUS;
+	}
+
+	public float getGRAZE_HITBOX_RADIUS() {
+		return GRAZE_HITBOX_RADIUS;
+	}
+
+	public void setGRAZE_HITBOX_RADIUS(float gRAZE_HITBOX_RADIUS) {
+		GRAZE_HITBOX_RADIUS = gRAZE_HITBOX_RADIUS;
+	}
+
+	public float getPOWERUP_HITBOX_RADIUS() {
+		return POWERUP_HITBOX_RADIUS;
+	}
+
+	public void setPOWERUP_HITBOX_RADIUS(float pOWERUP_HITBOX_RADIUS) {
+		POWERUP_HITBOX_RADIUS = pOWERUP_HITBOX_RADIUS;
 	}
 
 }

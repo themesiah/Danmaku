@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<players>
+	<player>
+		<maxPower>4</maxPower>
+		<bombs>2</bombs>
+		<lives>3</lives>
+		<power>0</power>
+		<hitboxRadius>0.1</hitboxRadius>
+		<grazeHitboxRadius>20</grazeHitboxRadius>
+		<powerupHitboxRadius>40</powerupHitboxRadius>
+		<posx>center</posx>
+		<posy>-50+limitbottom</posy>
+		<speed>5</speed>
+		<animations>
+			<normal>player</normal>
+			<focused>player-focused</focused>
+			<destroyed>enemydestroyed</destroyed>
+		</animations>
+		<firePatterns>
+			<pattern power="0">
+				<fp>playerfirepattern</fp>
+				<shotDelay>100</shotDelay>
+			</pattern>
+			<pattern power="2">
+				<fp>playerfirepattern2</fp>
+				<shotDelay>100</shotDelay>
+			</pattern>
+			<pattern power="4">
+				<fp>playerfirepattern3</fp>
+				<shotDelay>100</shotDelay>
+			</pattern>
+		</firePatterns>
+		<sounds>
+			<shot>playershot</shot>
+			<destroyed>destroyed</destroyed>
+		</sounds>
+	</player>
+</players>

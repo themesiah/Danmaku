@@ -14,10 +14,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import mesiah.danmaku.Main;
+import mesiah.danmaku.Play;
 import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.CustomPowerup;
 import mesiah.danmaku.model.EnemiesManager;
 import mesiah.danmaku.model.Enemy;
+import mesiah.danmaku.model.Player;
 import mesiah.danmaku.model.Powerup;
 import mesiah.danmaku.model.PowerupManager;
 import mesiah.danmaku.model.bullets.CustomBullet;
@@ -80,9 +83,182 @@ public class XMLLoader {
 					case "powerup":
 						getPowerupFromXML(content);
 						break;
+					case "player":
+						getPlayerFromXML(content);
+						break;
 				}
 			}
 		}
+	}
+	
+	public void getPlayerFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/" + fileName);
+		Document document = db.parse(f);
+		int i, j, k, z;
+		float posx = 0, posy = 0;
+		String content;
+		String[] parts;
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		Player p = new Player();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				NodeList player = node.getChildNodes();
+				for (j = 0; j < player.getLength(); j++) {
+					Node element = player.item(j);
+					if (element instanceof Element) {
+						switch(element.getNodeName()) {
+						case "bombs":
+							content = element.getLastChild().getTextContent().trim();
+							Player.BOMBS = Integer.valueOf(content);
+							break;
+						case "lives":
+							content = element.getLastChild().getTextContent().trim();
+							Player.LIVES = Integer.valueOf(content);
+							break;
+						case "power":
+							content = element.getLastChild().getTextContent().trim();
+							Player.POWER = Integer.valueOf(content);
+							break;
+						case "hitboxRadius":
+							content = element.getLastChild().getTextContent().trim();
+							p.setHITBOX_RADIUS(Float.valueOf(content));
+							break;
+						case "grazeHitboxRadius":
+							content = element.getLastChild().getTextContent().trim();
+							p.setGRAZE_HITBOX_RADIUS(Float.valueOf(content));
+							break;
+						case "powerupHitboxRadius":
+							content = element.getLastChild().getTextContent().trim();
+							p.setPOWERUP_HITBOX_RADIUS(Float.valueOf(content));
+							break;
+						case "posx":
+							content = element.getLastChild().getTextContent().trim();
+							parts = content.split("\\+");
+							for (String s : parts) {
+								switch(s) {
+									case "center":
+										posx += Main.GAMEWIDTH/2;
+										break;
+									case "limitbottom":
+										break;
+									case "limittop":
+										break;
+									case "limitright":
+										posx += Main.LIMITRIGHT;
+										break;
+									case "limitleft":
+										posx += Main.LIMITLEFT;
+										break;
+									default:
+										posx += Float.valueOf(s);
+										break;
+								}
+							}
+							p.setPosX(posx);
+							break;
+						case "posy":
+							content = element.getLastChild().getTextContent().trim();
+							parts = content.split("\\+");
+							for (String s : parts) {
+								switch(s) {
+									case "center":
+										posy += Main.GAMEHEIGHT/2;
+										break;
+									case "limitbottom":
+										posy += Main.LIMITBOTTOM;
+										break;
+									case "limittop":
+										posy += Main.LIMITTOP;
+										break;
+									case "limitright":
+										break;
+									case "limitleft":
+										break;
+									default:
+										posy += Float.valueOf(s);
+										break;
+								}
+							}
+							p.setPosY(posy);
+							break;
+						case "speed":
+							content = element.getLastChild().getTextContent().trim();
+							p.setSpeed(Float.valueOf(content));
+							break;
+						case "maxPower":
+							content = element.getLastChild().getTextContent().trim();
+							p.setMaxPower(Integer.valueOf(content));
+							break;
+						case "animations":
+							NodeList animations = element.getChildNodes();
+							for (k = 0; k < animations.getLength(); k++) {
+								Node animation = animations.item(k);
+								if (animation instanceof Element) {
+									content = animation.getLastChild().getTextContent().trim();
+									Drawable d = AnimationManager.get().getAnimation(content);
+									switch (animation.getNodeName()) {
+										case "normal":
+											p.addAnimation(d, Player.ACTIVE);
+											break;
+										case "focused":
+											p.addAnimation(d, Player.FOCUSED);
+											break;
+										case "destroyed":
+											p.addAnimation(d, Player.DESTROYED);
+											break;
+										}
+								}
+							}
+							break;
+						case "firePatterns":
+							NodeList patterns = element.getChildNodes();
+							for (k = 0; k < patterns.getLength(); k++) {
+								Node pattern = patterns.item(k);
+								if (pattern instanceof Element) {
+									String powerS = ((Element) pattern).getAttributes().getNamedItem("power").getNodeValue();
+									int power = Integer.valueOf(powerS);
+									NodeList patternElements = pattern.getChildNodes();
+									for (z = 0; z < patternElements.getLength(); z++) {
+										Node patternElement = patternElements.item(z);
+										if (patternElement instanceof Element) {
+											content = patternElement.getLastChild().getTextContent().trim();
+											switch(patternElement.getNodeName()) {
+												case "fp":
+													p.addFirePattern(power, content);
+													break;
+												case "shotDelay":
+													p.addShotDelay(power, Integer.valueOf(content));
+													break;
+											}
+										}
+									}
+								}
+							}
+							break;
+						case "sounds":
+							NodeList sounds = element.getChildNodes();
+							for (k = 0; k < sounds.getLength(); k++) {
+								Node sound = sounds.item(k);
+								if (sound instanceof Element) {
+									content = sound.getLastChild().getTextContent().trim();
+									switch(sound.getNodeName()) {
+									case "shot":
+										p.addSound(content, Player.SHOT);
+										break;
+									case "destroyed":
+										p.addSound(content, Player.DESTROYED);
+										break;
+									}
+								}
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+		Play.pc.add(p);
 	}
 	
 	public void getPowerupFromXML(String fileName) throws Exception {

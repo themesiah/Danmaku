@@ -17,10 +17,13 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	private ArrayList<String> fps;
 	private ArrayList<Integer> shotDelays;
 	private ArrayList<Integer> shotTimers;
+	private ArrayList<String> powerups;
+
 	int health;
 	int damageTimer;
 	int damageDelay;
 	String enemyID;
+	float[] lastSize;
 	
 	public static int ACTIVE = 0;
 	public static int SHOT = 1;
@@ -40,6 +43,8 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			e.setSpeed(speed);
 			e.setFacing(facing);
 			e.setDirection(direction);
+			e.setCollidable(collidable);
+			e.setPowerups((ArrayList<String>) this.powerups.clone());
 			for (Drawable d:ds) {
 				if (d != null) {
 					e.addAnimation(d.copy(), ds.indexOf(d));
@@ -67,6 +72,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		sounds = new ArrayList<String>();
 		ss = new ArrayList<Shape>();
 		relatives = new ArrayList<float[]>();
+		powerups = new ArrayList<String>();
 		for (int i = 0; i < DESTROYED+1; i++) {
 			ds.add(null);
 			sounds.add(null);
@@ -83,6 +89,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		health = 100;
 		damageTimer = 0;
 		damageDelay = 200;
+		lastSize = new float[2];
 		
 	}
 	
@@ -169,7 +176,15 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	public void draw() {
 		if (state == "active") {
 			d.draw(posx, posy, facing);
+			lastSize = d.getSize();
 		} else if (state == "destroyed") {
+			float[] size1 = lastSize;
+			float[] size2 = d.getSizeOf(d.getFrame());
+			if (lastSize != size2) {
+				posx -= ((size2[0] - size1[0])/2);
+				posy -= ((size2[1] - size1[1])/2);
+			}
+			lastSize = d.getSizeOf(d.getFrame());
 			d.play(posx, posy);
 		}
 	}
@@ -182,6 +197,12 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		state = "beingdestroyed";
 		AudioManager.get().playSound(sounds.get(DESTROYED));
 		collidable = false;
+		for (String s : powerups) {
+			for (int i = 0; i <  PowerupManager.get().getPowerup(s).getQty(); i++) {
+				Powerup p = PowerupManager.get().composer(s, this);
+				Play.puc.add(p);
+			}
+		}
 	}
 	
 	public void onHit(int damage) {
@@ -339,6 +360,18 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	public void addShotDelay(int delay) {
 		shotDelays.add(delay);
 		shotTimers.add(delay);
+	}
+
+	public ArrayList<String> getPowerup() {
+		return powerups;
+	}
+	
+	public void setPowerups(ArrayList<String> powerup) {
+		this.powerups = powerup;
+	}
+	
+	public void addPowerup(String p) {
+		powerups.add(p);
 	}
 
 }

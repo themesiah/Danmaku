@@ -15,8 +15,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import mesiah.danmaku.audio.AudioManager;
+import mesiah.danmaku.model.CustomPowerup;
 import mesiah.danmaku.model.EnemiesManager;
 import mesiah.danmaku.model.Enemy;
+import mesiah.danmaku.model.Powerup;
+import mesiah.danmaku.model.PowerupManager;
 import mesiah.danmaku.model.bullets.CustomBullet;
 import mesiah.danmaku.model.patterns.CustomFirePattern;
 import mesiah.danmaku.model.patterns.FirePatternManager;
@@ -74,9 +77,76 @@ public class XMLLoader {
 					case "audio":
 						getAudioFromXML(content);
 						break;
+					case "powerup":
+						getPowerupFromXML(content);
+						break;
 				}
 			}
 		}
+	}
+	
+	public void getPowerupFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/powerups/" + fileName);
+		Document document = db.parse(f);
+		int i, j;
+		CustomPowerup c = null;
+		String content, powerupID = "";
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				powerupID = ((Element) node).getAttributes().getNamedItem("id").getNodeValue();
+				c = new CustomPowerup(powerupID);
+				NodeList childNodes = node.getChildNodes();
+				for (j = 0; j < childNodes.getLength(); j++) {
+					Node cNode = childNodes.item(j);
+					if (cNode instanceof Element) {
+						content = cNode.getLastChild().getTextContent().trim();
+						switch(cNode.getNodeName()) {
+							case "type":
+								switch (content) {
+									case "power":
+										c.setType(Powerup.TYPE_POWER);
+										break;
+									case "bomb":
+										c.setType(Powerup.TYPE_BOMB);
+										break;
+									case "life":
+										c.setType(Powerup.TYPE_LIFE);
+										break;
+									case "points":
+										c.setType(Powerup.TYPE_POINTS);
+										break;
+								}
+								break;
+							case "value":
+								c.setValue(Integer.valueOf(content));
+								break;
+							case "animation":
+								c.setAnimation(content);
+								break;
+							case "speed":
+								c.setSpeed(Float.valueOf(content));
+								break;
+							case "direction":
+								c.setDirection(content);
+								break;
+							case "bounce":
+								if (content.equals("true")) {
+									c.setBounce(true);
+								} else {
+									c.setBounce(false);
+								}
+								break;
+							case "qty":
+								c.setQty(Integer.valueOf(content));
+								break;
+						}
+					}
+				}
+			}
+		}
+		PowerupManager.get().addPowerup(c);
 	}
 	
 	public void getAudioFromXML(String fileName) throws Exception {
@@ -112,6 +182,7 @@ public class XMLLoader {
 		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
 		ArrayList<Integer> spritesTime = new ArrayList<Integer>();
 		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		Animation a = new Animation();
 		for (i = 0; i < nodeList.getLength(); i++) {
 			Node node = nodeList.item(i);
 			if (node instanceof Element) {
@@ -120,22 +191,36 @@ public class XMLLoader {
 				for (j = 0; j < animation.getLength(); j++) {
 					Node sprite = animation.item(j);
 					if (sprite instanceof Element) {
-						
-						NodeList elements = sprite.getChildNodes();
-						for (k = 0; k < elements.getLength(); k++) {
-							Node element = elements.item(k);
-							if (element instanceof Element) {
-								content = element.getLastChild().getTextContent().trim();
-								switch (element.getNodeName()) {
-									case "image":
-										sprites.add(new Sprite("res/img/" + content));
-										break;
-									case "time":
-										spritesTime.add(Integer.parseInt(content));
-										break;
+						switch(sprite.getNodeName()) {
+						case "sprite":
+							NodeList elements = sprite.getChildNodes();
+							for (k = 0; k < elements.getLength(); k++) {
+								Node element = elements.item(k);
+								if (element instanceof Element) {
+									content = element.getLastChild().getTextContent().trim();
+									switch (element.getNodeName()) {
+										case "image":
+											sprites.add(new Sprite("res/img/" + content));
+											break;
+										case "time":
+											spritesTime.add(Integer.parseInt(content));
+											break;
+									}
 								}
 							}
+							break;
+						case "loop":
+							content = sprite.getLastChild().getTextContent().trim();
+							if (content.equals("true")) {
+								a.setLooping(true);
+							} else {
+								a.setLooping(false);
+							}
+							break;
+								
 						}
+						
+							
 					}
 				}
 			}
@@ -393,6 +478,10 @@ public class XMLLoader {
 							case "direction":
 								content = cNode.getLastChild().getTextContent().trim();
 								e.setDirection(Float.parseFloat(content));
+								break;
+							case "powerup":
+								content = cNode.getLastChild().getTextContent().trim();
+								e.addPowerup(content);
 								break;
 							case "hitbox":
 								NodeList hitboxChilds = cNode.getChildNodes();

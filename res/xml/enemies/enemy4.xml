@@ -22,5 +22,7 @@
 		<hitbox>
 			<rectangle>sprite</rectangle>
 		</hitbox>
+		<powerup>power1</powerup>
+		<powerup>points1</powerup>
 	</enemy>
 </enemies>

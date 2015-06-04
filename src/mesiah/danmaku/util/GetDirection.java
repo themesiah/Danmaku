@@ -12,4 +12,11 @@ public class GetDirection {
 		float dir = (float) Math.toDegrees(Math.atan2(difY, difX));
 		return dir;
 	}
+	
+	public static float getDirection(float posx, float posy, float posx2, float posy2) {
+		float difX = posx2 - posx;
+		float difY = posy - posy2;
+		float dir = (float) Math.toDegrees(Math.atan2(difY, difX));
+		return dir;
+	}
 }

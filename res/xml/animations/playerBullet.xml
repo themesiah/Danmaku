@@ -13,5 +13,6 @@
 			<image>Fireball2.png</image>
 			<time>150</time>
 		</sprite>
+		<loop>true</loop>
 	</animation>
 </animations>

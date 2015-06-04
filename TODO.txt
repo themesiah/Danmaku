@@ -8,6 +8,7 @@ Cargar weas desde XMLs
 	sonidos - HECHO!
 	animaciones - HECHO!
 
+Powerups - PENDING
 Parallax - PENDING
 Particulas - PENDING
 Opciones de sonido - PENDING

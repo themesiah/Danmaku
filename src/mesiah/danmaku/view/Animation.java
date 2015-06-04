@@ -5,9 +5,24 @@ import org.newdawn.slick.SlickException;
 
 public class Animation implements Drawable {
 	org.newdawn.slick.Animation ani;
+	boolean looping;
+	
+	public Animation() {
+		looping = false;
+	}
+	
+	public void addAnimation(Sprite[] s, int[] d) {
+		ani = new org.newdawn.slick.Animation(true);
+		int i = 0;
+		for (Sprite sprite: s) {
+			ani.addFrame(sprite.getImage(), d[i]);
+			i++;
+		}
+	}
 	
 	public Animation(Image[] s, int[] d) {
 		ani = new org.newdawn.slick.Animation(s, d, true);
+		looping = false;
 	}
 	
 	public Animation(Sprite[] s, int[] d) {
@@ -17,6 +32,7 @@ public class Animation implements Drawable {
 			ani.addFrame(sprite.getImage(), d[i]);
 			i++;
 		}
+		looping = false;
 	}
 	
 	public Animation(Sprite[] s, int[] d, boolean auto) {
@@ -26,6 +42,15 @@ public class Animation implements Drawable {
 			ani.addFrame(sprite.getImage(), d[i]);
 			i++;
 		}
+		looping = false;
+	}
+	
+	public void setLooping(boolean l) {
+		this.looping = l;
+	}
+	
+	public boolean getLooping() {
+		return this.getLooping();
 	}
 	
 	public Animation(org.newdawn.slick.Animation a) {
@@ -33,13 +58,13 @@ public class Animation implements Drawable {
 	}
 	
 	public void play(float x, float y) {
-		ani.setLooping(false);
+		ani.setLooping(looping);
 		ani.start();
 		draw(x, y);
 	}
 	
 	public void play(float x, float y, float facing) {
-		ani.setLooping(false);
+		ani.setLooping(looping);
 		ani.start();
 		draw(x, y, facing);
 	}
@@ -74,6 +99,17 @@ public class Animation implements Drawable {
 		rect[0] = this.ani.getCurrentFrame().getWidth();
 		rect[1] = this.ani.getCurrentFrame().getHeight();
 		return rect;
+	}
+	
+	public float[] getSizeOf(int n) {
+		float[] rect = new float[4];
+		rect[0] = this.ani.getImage(n).getWidth();
+		rect[1] = this.ani.getImage(n).getWidth();
+		return rect;
+	}
+	
+	public int getFrame() {
+		return this.ani.getFrame();
 	}
 	
 	public Animation copy() {

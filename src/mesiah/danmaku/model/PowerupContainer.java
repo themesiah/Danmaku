@@ -5,9 +5,11 @@ import java.util.List;
 
 public class PowerupContainer {
 	List<Powerup> pulist;
+	List<Object> toRemove;
 	
 	public PowerupContainer() {
 		this.pulist = new ArrayList<Powerup>();
+		this.toRemove = new ArrayList<Object>();
 	}
 	
 	public void add(Powerup pu) {
@@ -34,11 +36,24 @@ public class PowerupContainer {
 		for (Powerup pu:pulist) {
 			pu.update(delta);
 		}
+		for (Object o:toRemove) {
+			pulist.remove(o);
+			o = null;
+		}
+		toRemove.clear();
 	}
 	
 	public void draw() {
 		for (Powerup pu:pulist) {
 			pu.draw();
 		}
+	}
+	
+	public List<Powerup> getPowerups() {
+		return pulist;
+	}
+	
+	public void addToRemove(Object o) {
+		toRemove.add(o);
 	}
 }

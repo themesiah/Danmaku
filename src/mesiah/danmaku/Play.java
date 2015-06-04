@@ -179,6 +179,10 @@ public class Play extends BasicGameState {
     	g.drawString("Press "+ Input.getKeyName(SPAWN3_KEY) +" to spawn Enemy 3", 10.0f, 150.0f);
     	g.drawString("Press "+ Input.getKeyName(SPAWN4_KEY) +" to spawn Enemy 4", 10.0f, 170.0f);
     	
+    	g.drawString("Lives: " + Player.LIVES, 10.0f, Main.GAMEHEIGHT-110.0f);
+    	g.drawString("Bombs: " + Player.BOMBS, 10.0f, Main.GAMEHEIGHT-90.0f);
+    	g.drawString("Power: " + Player.POWER, 10.0f, Main.GAMEHEIGHT-70.0f);
+    	g.drawString("Points: " + Player.POINTS, 10.0f, Main.GAMEHEIGHT-50.0f);
     	g.drawString("Graze: " + Player.GRAZE, 10.0f, Main.GAMEHEIGHT-30.0f);
     }
  

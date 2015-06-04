@@ -11,6 +11,8 @@
 	<animation>enemyBullet1.xml</animation>
 	<animation>enemyBullet2.xml</animation>
 	<animation>enemyBullet3.xml</animation>
+	<animation>powerup1.xml</animation>
+	<animation>points1.xml</animation>
 	<audio>bgmusic.xml</audio>
 	<audio>sounds.xml</audio>
 	<curve>curve1.xml</curve>
@@ -24,6 +26,8 @@
 	<pattern>enemypattern3.xml</pattern>
 	<pattern>enemypattern4.xml</pattern>
 	<pattern>pattern1.xml</pattern>
+	<powerup>power1.xml</powerup>
+	<powerup>points1.xml</powerup>
 	<enemy>enemy1.xml</enemy>
 	<enemy>enemy2.xml</enemy>
 	<enemy>enemy3.xml</enemy>

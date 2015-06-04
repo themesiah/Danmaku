@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<powerups>
+	<powerup id="power1">
+		<type>power</type>
+		<value>1</value>
+		<animation>powerup1</animation>
+		<speed>3</speed>
+		<direction>random</direction>
+		<bounce>true</bounce>
+		<qty>1</qty>
+	</powerup>
+</powerups>

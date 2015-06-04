@@ -70,5 +70,16 @@ public class Sprite implements Drawable {
 	public Sprite copy() {
 		return new Sprite(img.copy());
 	}
+
+	public float[] getSizeOf(int n) {
+		float[] rect = new float[2];
+		rect[0] = this.img.getWidth();
+		rect[1] = this.img.getHeight();
+		return rect;
+	}
+
+	public int getFrame() {
+		return 0;
+	}
 	
 }

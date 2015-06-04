@@ -1,6 +1,7 @@
 package mesiah.danmaku.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Ellipse;
@@ -11,6 +12,7 @@ import mesiah.danmaku.Play;
 import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.patterns.FirePattern;
 import mesiah.danmaku.model.patterns.FirePatternsManager;
+import mesiah.danmaku.util.GetDirection;
 import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
 
@@ -19,14 +21,23 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	
 	int lastShoot = 0;
 	int delay = 100;
+	int maxPower;
 	boolean focused;
 	public static int ACTIVE = 0;
 	public static int FOCUSED = 1;
 	public static int DESTROYED = 2;
 	
 	public static int GRAZE;
+	public static int POINTS;
+	public static int LIVES;
+	public static int POWER;
+	public static int BOMBS;
+	
 	private static float HITBOX_RADIUS = 0.1f;
-	private static float GRAZE_HITBOX_RADIUS = 10.0f;
+	private static float GRAZE_HITBOX_RADIUS = 20.0f;
+	private static float POWERUP_HITBOX_RADIUS = 40.0f;
+	
+	float[] lastSize;
 	
 	public Player() throws SlickException {
 		//initPlayer();
@@ -62,6 +73,8 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 			ds.add(null);
 			sounds.add(null);
 		}
+		POWER = 0;
+		maxPower = 4;
 		posx = Main.GAMEWIDTH/2;
 		posy = Main.GAMEHEIGHT/2;
 		direction = 0;
@@ -70,10 +83,22 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		collidable = true;
 		state = "active";
 		GRAZE = 0;
+		POINTS = 0;
+		LIVES = 3;
+		BOMBS = 2;
+		lastSize = new float[2];
 		setAnimations();
 		addHitbox();
 	}
-	
+
+	public int getMaxPower() {
+		return maxPower;
+	}
+
+	public void setMaxPower(int maxPower) {
+		this.maxPower = maxPower;
+	}
+
 	public void setAnimations() {
 		ds.set(ACTIVE, AnimationManager.get().getAnimation("player"));
 		ds.set(FOCUSED, AnimationManager.get().getAnimation("player-focused"));
@@ -82,7 +107,18 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 	
 	public void CheckEnemyCollisions() {
-		
+		if (this.collidable) {
+			List<Enemy> elist = Play.ec.getEnemies();
+			for (Enemy e: elist) {
+				for (Shape s: ss) {
+					for (Shape se: e.getHitBoxes()) {
+						if (collides(se, s) && e.isCollidable()) {
+							onDestroyed();
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void CheckPlayerCollisions() {
@@ -92,9 +128,42 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public void CheckBulletCollisions() {
 		
 	}
+	
+	public void onPowerupWin(Powerup pu) {
+		if (pu.getType() == Powerup.TYPE_POWER) {
+			POWER += pu.getValue();
+			if (POWER > maxPower) {
+				POWER = maxPower;
+			}
+		}
+		if (pu.getType() == Powerup.TYPE_POINTS) {
+			POINTS += pu.getValue() + pu.getValue()*(float) (GRAZE/1000.0f);
+		}
+		if (pu.getType() == Powerup.TYPE_LIFE) {
+			LIVES += pu.getValue();
+		}
+		if (pu.getType() == Powerup.TYPE_BOMB) {
+			BOMBS += pu.getValue();
+		}
+	}
 
 	public void CheckPowerupCollisions() {
-		
+		if (this.collidable) {
+			List<Powerup> pulist = Play.puc.getPowerups();
+			for (Powerup pu: pulist) {
+				for (Shape s: ss) {
+					for (Shape se: pu.getHitBoxes()) {
+						if (collides(se, s) && pu.isCollidable()) {
+							onPowerupWin(pu);
+							Play.puc.addToRemove(pu);
+						} else if (collides (se, getPowerupHitBox()) && pu.isCollidable()) {
+							pu.setDirection(GetDirection.getDirectionToPlayer(pu.getPosX(), pu.getPosY()));
+							pu.setSpeed(speed*2);
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	public void onDestroyed() {
@@ -108,6 +177,10 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 
 	public void update(int delta) {
+		if (state == "active") {
+			CheckEnemyCollisions();
+			CheckPowerupCollisions();
+		}
 		if (state == "beingdestroyed") {
 			d = ds.get(DESTROYED);
 			state = "destroyed";
@@ -165,7 +238,15 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public void draw() {
 		if (state == "active") {
 			d.draw(posx, posy);
+			lastSize = d.getSize();
 		} else if (state == "destroyed") {
+			float[] size1 = lastSize;
+			float[] size2 = d.getSizeOf(d.getFrame());
+			if (lastSize != size2) {
+				posx -= ((size2[0] - size1[0])/2);
+				posy -= ((size2[1] - size1[1])/2);
+			}
+			lastSize = d.getSizeOf(d.getFrame());
 			d.play(posx, posy);
 		}
 	}
@@ -250,6 +331,11 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	
 	public Shape getGrazeHitBox() {
 		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, GRAZE_HITBOX_RADIUS, GRAZE_HITBOX_RADIUS);
+		return el;
+	}
+	
+	public Shape getPowerupHitBox() {
+		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, POWERUP_HITBOX_RADIUS, POWERUP_HITBOX_RADIUS);
 		return el;
 	}
 

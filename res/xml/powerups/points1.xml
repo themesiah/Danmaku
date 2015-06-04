@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<powerups>
+	<powerup id="points1">
+		<type>points</type>
+		<value>100</value>
+		<animation>points1</animation>
+		<speed>3</speed>
+		<direction>gravity</direction>
+		<bounce>false</bounce>
+		<qty>10</qty>
+	</powerup>
+</powerups>

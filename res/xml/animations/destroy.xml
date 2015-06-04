@@ -25,5 +25,6 @@
 			<image>destroy6.png</image>
 			<time>100</time>
 		</sprite>
+		<loop>false</loop>
 	</animation>
 </animations>

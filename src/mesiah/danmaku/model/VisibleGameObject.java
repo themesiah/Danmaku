@@ -11,6 +11,10 @@ import mesiah.danmaku.view.Drawable;
 public abstract class VisibleGameObject extends GameObject implements Collidable {
 	protected Drawable d;
 	protected boolean collidable;
+	public void setCollidable(boolean collidable) {
+		this.collidable = collidable;
+	}
+
 	protected int delay;
 	
 	protected ArrayList<Drawable> ds;

@@ -114,11 +114,8 @@ public class CurveManager {
 										break;
 								}
 							}
-							System.out.println("tempValue: " + tempValue);
 							float dif = tempValue - pos[j];
-							System.out.println("dif: " + dif);
 							value += dif/3*(i) + pos[j];
-							System.out.println("value: " + value);
 							break;
 						case "last":
 							if (i != 0) {

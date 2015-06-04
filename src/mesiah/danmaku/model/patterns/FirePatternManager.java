@@ -6,9 +6,11 @@ import org.newdawn.slick.SlickException;
 
 import mesiah.danmaku.model.VisibleGameObject;
 import mesiah.danmaku.model.bullets.Bullet;
+import mesiah.danmaku.model.bullets.CurveBulletD;
 import mesiah.danmaku.model.bullets.CustomBullet;
 import mesiah.danmaku.model.bullets.DivisibleBulletD;
 import mesiah.danmaku.model.bullets.Shootable;
+import mesiah.danmaku.util.CurveManager;
 import mesiah.danmaku.util.GetDirection;
 
 public class FirePatternManager {
@@ -36,7 +38,6 @@ public class FirePatternManager {
 	}
 	
 	public FirePattern compose(String key, VisibleGameObject parent) {
-		System.out.println("Getting pattern:  " + key);
 		FirePattern fp = new BasicFirePattern(parent);
 		try {
 			CustomFirePattern cfp = getFirePattern(key);
@@ -95,10 +96,9 @@ public class FirePatternManager {
 					DivisibleBulletD db = new DivisibleBulletD(b);
 					
 					if (cb.getAngleOffSet().equals("random")) {
-						db.setAngleOffset(360/cfp.size() + random);
+						db.setAngleOffset(random);
 					} else if (cb.getAngleOffSet().equals("totalRandom")){
-						float random2 = (float) (Math.random()*360);
-						db.setAngleOffset(random2);
+						db.setAngleOffset(-1);
 					} else {
 						db.setAngleOffset(Float.valueOf(cb.getAngleOffSet()));
 					}
@@ -114,6 +114,23 @@ public class FirePatternManager {
 						db.addPattern(cb.getFirePattern(k));
 					}
 					s = db;
+				}
+				
+				if (cb.haveProperty("curve")) {
+					CurveBulletD cbd = new CurveBulletD(s);
+					s = cbd;
+					
+					if (cb.getOnlyCurve().equals("true")) {
+						cbd.setOnlyCurve(true);
+					} else {
+						cbd.setOnlyCurve(false);
+					}
+					
+					for (int k = 0; k < cb.getCurves().size(); k++) {
+						cbd.add(CurveManager.get().compose(cb.getCurve(k), parent), cb.getCurveTime(k));
+					}
+					s.setPosX(cbd.getCurve(0).getPoint(0)[0]);
+					s.setPosY(cbd.getCurve(0).getPoint(0)[1]);
 				}
 				
 				fp.add((Shootable) s);

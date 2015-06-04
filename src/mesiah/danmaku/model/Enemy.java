@@ -15,11 +15,11 @@ import mesiah.danmaku.view.Drawable;
 
 public class Enemy extends VisibleGameObject implements BulletEmitter {
 	private ArrayList<String> fps;
+	private ArrayList<Integer> shotDelays;
+	private ArrayList<Integer> shotTimers;
 	int health;
 	int damageTimer;
 	int damageDelay;
-	int shotTimer;
-	int shotDelay;
 	String enemyID;
 	
 	public static int ACTIVE = 0;
@@ -33,7 +33,8 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			e = new Enemy();
 			e.setFirePatterns((ArrayList<String>) this.fps.clone());
 			e.setHealth(health);
-			e.setShotDelay(shotDelay);
+			e.setShotDelays((ArrayList<Integer>) this.shotDelays.clone());
+			e.setShotTimers((ArrayList<Integer>) this.shotTimers.clone());
 			e.setPosX(posx);
 			e.setPosY(posy);
 			e.setSpeed(speed);
@@ -61,6 +62,8 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	public void init() {
 		ds = new ArrayList<Drawable>();
 		fps = new ArrayList<String>();
+		shotDelays = new ArrayList<Integer>();
+		shotTimers = new ArrayList<Integer>();
 		sounds = new ArrayList<String>();
 		ss = new ArrayList<Shape>();
 		relatives = new ArrayList<float[]>();
@@ -80,8 +83,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		health = 100;
 		damageTimer = 0;
 		damageDelay = 200;
-		shotTimer = 0;
-		shotDelay = 1000;
+		
 	}
 	
 	public boolean isCollidable() {
@@ -146,18 +148,18 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public void shot(int delta) {
 		FirePattern fp = null;
-		if (shotTimer >= shotDelay && state == "active") {
-			for (String id : fps) {
-				fp = FirePatternManager.get().compose(id, this);
-				Play.bc.add(fp);
+		if (state == "active") {
+			for (int i = 0; i < fps.size(); i++) {
+				if (shotTimers.get(i) >= shotDelays.get(i)) {
+					fp = FirePatternManager.get().compose(fps.get(i), this);
+					shotTimers.set(i, 0);
+					Play.bc.add(fp);
+					AudioManager.get().playSound(sounds.get(SHOT));
+				} else {
+					shotTimers.set(i, shotTimers.get(i) + delta);
+				}
 			}
-			AudioManager.get().playSound(sounds.get(SHOT));
-			
-			shotTimer = 0;
-		} else {
-			shotTimer += delta;
 		}
-			
 	}
 
 	public void move(int delta) {
@@ -229,15 +231,6 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public void setHealth(int h) {
 		health = h;
-	}
-	
-	public int getShotDelay() {
-		return shotDelay;
-	}
-	
-	public void setShotDelay(int sd) {
-		shotDelay = sd;
-		shotTimer = sd;
 	}
 	
 	public void addAnimation(Drawable d, int id) {
@@ -325,6 +318,27 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public void setRelatives(ArrayList<float[]> rel) {
 		this.relatives = rel;
+	}
+
+	public ArrayList<Integer> getShotDelays() {
+		return shotDelays;
+	}
+
+	public void setShotDelays(ArrayList<Integer> shotDelays) {
+		this.shotDelays = shotDelays;
+	}
+
+	public ArrayList<Integer> getShotTimers() {
+		return shotTimers;
+	}
+
+	public void setShotTimers(ArrayList<Integer> shotTimers) {
+		this.shotTimers = shotTimers;
+	}
+	
+	public void addShotDelay(int delay) {
+		shotDelays.add(delay);
+		shotTimers.add(delay);
 	}
 
 }

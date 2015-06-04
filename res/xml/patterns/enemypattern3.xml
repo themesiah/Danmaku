@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+	<pattern id="enemyfirepattern3">
+		<bullet>
+			<delay>0</delay>
+			<speed>8</speed>
+			<animation>enemybullet</animation>
+			<posx>parent</posx>
+			<posy>parent</posy>
+			<damage>10</damage>
+			<direction>player</direction>
+			<hitbox>
+				<rectangle>sprite</rectangle>
+			</hitbox>
+			<ally>false</ally>
+		</bullet>
+		<bullet>
+			<delay>100</delay>
+			<speed>8</speed>
+			<animation>enemybullet2</animation>
+			<posx>parent</posx>
+			<posy>parent</posy>
+			<damage>10</damage>
+			<direction>player</direction>
+			<hitbox>
+				<rectangle>sprite</rectangle>
+			</hitbox>
+			<ally>false</ally>
+		</bullet>
+		<bullet>
+			<delay>200</delay>
+			<speed>8</speed>
+			<animation>enemybullet3</animation>
+			<posx>parent</posx>
+			<posy>parent</posy>
+			<damage>10</damage>
+			<direction>player</direction>
+			<hitbox>
+				<rectangle>sprite</rectangle>
+			</hitbox>
+			<ally>false</ally>
+		</bullet>
+	</pattern>
+</patterns>

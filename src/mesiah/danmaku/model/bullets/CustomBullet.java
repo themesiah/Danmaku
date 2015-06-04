@@ -262,5 +262,21 @@ public class CustomBullet {
 	public int firePatternsSize() {
 		return fps.size();
 	}
+	
+	public void addCurve(String curve) {
+		curves.add(curve);		
+	}
+	
+	public void addCurveTime(String curveTime) {
+		curveTimes.add(Integer.valueOf(curveTime));
+	}
+	
+	public String getCurve(int n) {
+		return curves.get(n);
+	}
+	
+	public int getCurveTime(int n) {
+		return curveTimes.get(n);
+	}
 
 }

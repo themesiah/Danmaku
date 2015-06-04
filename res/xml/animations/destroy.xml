@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animations>
+	<animation id="enemydestroyed">
+		<sprite>
+			<image>destroy1.png</image>
+			<time>100</time>
+		</sprite>
+		<sprite>
+			<image>destroy2.png</image>
+			<time>100</time>
+		</sprite>
+		<sprite>
+			<image>destroy3.png</image>
+			<time>100</time>
+		</sprite>
+		<sprite>
+			<image>destroy4.png</image>
+			<time>100</time>
+		</sprite>
+		<sprite>
+			<image>destroy5.png</image>
+			<time>100</time>
+		</sprite>
+		<sprite>
+			<image>destroy6.png</image>
+			<time>100</time>
+		</sprite>
+	</animation>
+</animations>

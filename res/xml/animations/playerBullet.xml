@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animations>
+	<animation id="playerbullet">
+		<sprite>
+			<image>Fireball0.png</image>
+			<time>150</time>
+		</sprite>
+		<sprite>
+			<image>Fireball1.png</image>
+			<time>150</time>
+		</sprite>
+		<sprite>
+			<image>Fireball2.png</image>
+			<time>150</time>
+		</sprite>
+	</animation>
+</animations>

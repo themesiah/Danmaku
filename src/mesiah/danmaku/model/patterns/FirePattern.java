@@ -11,6 +11,8 @@ public abstract class FirePattern extends Pattern {
 	protected ArrayList<Shootable> gol;
 	protected ArrayList<Shootable> toRemove;
 	protected VisibleGameObject parent;
+	protected int delay;
+	protected int timer;
 	
 	public FirePattern(VisibleGameObject parent) {
 		this.parent = parent;
@@ -69,6 +71,32 @@ public abstract class FirePattern extends Pattern {
 	
 	public void move(int delta) {
 
+	}
+	
+	public ArrayList<Shootable> getBullets() {
+		return gol;
+	}
+	
+	public void changeDirection(float direction) {
+		for (Shootable s:gol) {
+			s.setDirection(direction);
+		}
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
+	public int getTimer() {
+		return timer;
+	}
+
+	public void setTimer(int timer) {
+		this.timer = timer;
 	}
 
 }

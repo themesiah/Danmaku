@@ -114,5 +114,15 @@ public class BasicFirePattern extends FirePattern {
 	public void setState(String s) {
 		state = s;
 	}
+	
+	public ArrayList<Shootable> getBullets() {
+		return gol;
+	}
+	
+	public void changeDirection(float d) {
+		for (Shootable s:gol) {
+			s.setDirection(d);
+		}
+	}
 
 }

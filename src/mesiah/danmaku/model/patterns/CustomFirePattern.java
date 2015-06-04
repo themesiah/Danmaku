@@ -7,6 +7,7 @@ import mesiah.danmaku.model.bullets.CustomBullet;
 public class CustomFirePattern {
 	protected String id;
 	protected ArrayList<CustomBullet> cbs;
+	protected int delay;
 
 	public CustomFirePattern(String id) {
 		cbs = new ArrayList<CustomBullet>();
@@ -27,6 +28,14 @@ public class CustomFirePattern {
 	
 	public CustomBullet getCustomBullet(int n) {
 		return cbs.get(n);
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
 	}
 
 }

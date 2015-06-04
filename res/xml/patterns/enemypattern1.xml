@@ -18,8 +18,8 @@
 				<fp>enemyfirepattern1_1</fp>
 			</firePatterns>
 			<lifeTime>1000</lifeTime>
-			<density>50</density>
-			<angleOffset>totalRandom</angleOffset>
+			<density>15</density>
+			<angleOffset>0</angleOffset>
 		</bullet>
 	</pattern>
 </patterns>

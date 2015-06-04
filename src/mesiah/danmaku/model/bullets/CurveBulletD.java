@@ -125,5 +125,9 @@ public class CurveBulletD extends BulletDecorator {
 		return super.getDelay();
 	}
 	
+	public Curve getCurve(int n) {
+		return cs.get(n);
+	}
+	
 
 }

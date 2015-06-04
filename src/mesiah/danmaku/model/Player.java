@@ -29,7 +29,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	private static float GRAZE_HITBOX_RADIUS = 10.0f;
 	
 	public Player() throws SlickException {
-		initPlayer();
+		//initPlayer();
 	}
 	
 	public boolean isCollidable() {
@@ -52,7 +52,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		posy = y;
 	}
 
-	private void initPlayer() throws SlickException {
+	public void initPlayer() throws SlickException {
 		ds = new ArrayList<Drawable>();
 		sounds = new ArrayList<String>();
 		fps = new ArrayList<String>();
@@ -62,11 +62,6 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 			ds.add(null);
 			sounds.add(null);
 		}
-		ds.set(ACTIVE, AnimationManager.get().getAnimation("player"));
-		ds.set(FOCUSED, AnimationManager.get().getAnimation("player-focused"));
-		ds.set(DESTROYED, AnimationManager.get().getAnimation("enemydestroyed"));
-		d = ds.get(ACTIVE);
-		
 		posx = Main.GAMEWIDTH/2;
 		posy = Main.GAMEHEIGHT/2;
 		direction = 0;
@@ -75,7 +70,15 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		collidable = true;
 		state = "active";
 		GRAZE = 0;
+		setAnimations();
 		addHitbox();
+	}
+	
+	public void setAnimations() {
+		ds.set(ACTIVE, AnimationManager.get().getAnimation("player"));
+		ds.set(FOCUSED, AnimationManager.get().getAnimation("player-focused"));
+		ds.set(DESTROYED, AnimationManager.get().getAnimation("enemydestroyed"));
+		d = ds.get(ACTIVE);
 	}
 	
 	public void CheckEnemyCollisions() {

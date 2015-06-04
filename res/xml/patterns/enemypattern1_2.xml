@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <patterns>
-	<pattern id="enemyfirepattern1_1">
+	<pattern id="enemyfirepattern1_2">
 		<bullet>
-			<property>divisible</property>
 			<delay>0</delay>
-			<speed>2</speed>
-			<animation>enemybullet</animation>
+			<speed>1</speed>
+			<animation>enemybullet3</animation>
 			<posx>parent</posx>
 			<posy>parent</posy>
 			<damage>10</damage>
@@ -14,12 +13,6 @@
 				<rectangle>sprite</rectangle>
 			</hitbox>
 			<ally>false</ally>
-			<firePatterns>
-				<fp>enemyfirepattern1_2</fp>
-			</firePatterns>
-			<lifeTime>1000</lifeTime>
-			<density>5</density>
-			<angleOffset>totalRandom</angleOffset>
 		</bullet>
 	</pattern>
 </patterns>

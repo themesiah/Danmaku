@@ -1,6 +1,7 @@
 package mesiah.danmaku.xml;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,6 +14,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.EnemiesManager;
 import mesiah.danmaku.model.Enemy;
 import mesiah.danmaku.model.bullets.CustomBullet;
@@ -20,8 +22,10 @@ import mesiah.danmaku.model.patterns.CustomFirePattern;
 import mesiah.danmaku.model.patterns.FirePatternManager;
 import mesiah.danmaku.util.CurveManager;
 import mesiah.danmaku.util.CustomCurve;
+import mesiah.danmaku.view.Animation;
 import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
+import mesiah.danmaku.view.Sprite;
 
 public class XMLLoader {
 	private DocumentBuilderFactory factory;
@@ -44,13 +48,114 @@ public class XMLLoader {
 		return xl;
 	}
 	
+	public void resourcesLoader(String fileName) throws Exception {
+		File f = new File("res/xml/" + fileName);
+		Document document = db.parse(f);
+		int i;
+		String content;
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				content = node.getLastChild().getTextContent().trim();
+				switch (node.getNodeName()) {
+					case "enemy":
+						getEnemyFromXML(content);
+						break;
+					case "curve":
+						getCurveFromXML(content);
+						break;
+					case "pattern":
+						getPatternFromXML(content);
+						break;
+					case "animation":
+						getAnimationFromXML(content);
+						break;
+					case "audio":
+						getAudioFromXML(content);
+						break;
+				}
+			}
+		}
+	}
+	
+	public void getAudioFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/audio/" + fileName);
+		Document document = db.parse(f);
+		int i;
+		AudioManager am = AudioManager.get();
+		am.setMusicVolume(0.2f);
+		String content, audioID = "";
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				audioID = ((Element) node).getAttributes().getNamedItem("id").getNodeValue();
+				content = node.getLastChild().getTextContent().trim();
+				switch (node.getNodeName()) {
+					case "sound":
+						am.addSound("res/sfx/" + content, audioID);
+						break;
+					case "music":
+						am.addMusic("res/music/" + content, audioID);
+						break;
+				}
+			}
+		}
+	}
+	
+	public void getAnimationFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/animations/" + fileName);
+		Document document = db.parse(f);
+		int i, j, k;
+		String content, animationID = "";
+		ArrayList<Sprite> sprites = new ArrayList<Sprite>();
+		ArrayList<Integer> spritesTime = new ArrayList<Integer>();
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node node = nodeList.item(i);
+			if (node instanceof Element) {
+				animationID = ((Element) node).getAttributes().getNamedItem("id").getNodeValue();
+				NodeList animation = node.getChildNodes();
+				for (j = 0; j < animation.getLength(); j++) {
+					Node sprite = animation.item(j);
+					if (sprite instanceof Element) {
+						
+						NodeList elements = sprite.getChildNodes();
+						for (k = 0; k < elements.getLength(); k++) {
+							Node element = elements.item(k);
+							if (element instanceof Element) {
+								content = element.getLastChild().getTextContent().trim();
+								switch (element.getNodeName()) {
+									case "image":
+										sprites.add(new Sprite("res/img/" + content));
+										break;
+									case "time":
+										spritesTime.add(Integer.parseInt(content));
+										break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		Sprite[] s = new Sprite[sprites.size()];
+		s = sprites.toArray(s);
+		int[] t = new int[spritesTime.size()];
+		for (i = 0; i < spritesTime.size(); i++) {
+			t[i] = spritesTime.get(i);
+		}
+		AnimationManager.get().addAnimation(new Animation(s, t), animationID);
+	}
+	
 	public void getPatternFromXML(String fileName) throws Exception {
 		File f = new File("res/xml/patterns/" + fileName);
 		Document document = db.parse(f);
 		CustomFirePattern fp = null;
 		String patternID;
 		String content;
-		int i, j, k, z;
+		int i, j, k, z, y;
 		int lastDelay = 0;
 		String[] parts;
 		NodeList nodeList = document.getDocumentElement().getChildNodes();
@@ -76,7 +181,7 @@ public class XMLLoader {
 									case "delay":
 										parts = content.split("\\+");
 										int tempDelay = 0;
-										for (int y = 0; y < parts.length; y++) {
+										for (y = 0; y < parts.length; y++) {
 											switch(parts[y]) {
 											case "last":
 												tempDelay += lastDelay;
@@ -122,6 +227,33 @@ public class XMLLoader {
 									case "lifeTime":
 										cb.setLifeTime(content);
 										break;
+									case "curves":
+										NodeList curves = bulletElement.getChildNodes();
+										for (z = 0; z < curves.getLength(); z++) {
+											Node curve = curves.item(z);
+											
+											if (curve instanceof Element) {
+												NodeList curveElements = curve.getChildNodes();
+												for (y = 0; y < curveElements.getLength(); y++) {
+													Node curveElement = curveElements.item(y);
+													if (curveElement instanceof Element) {
+														content = curveElement.getLastChild().getTextContent().trim();
+														switch(curveElement.getNodeName()) {
+														case "curveName":
+															cb.addCurve(content);
+															break;
+														case "curveTime":
+															cb.addCurveTime(content);
+															break;
+														}
+													}
+												}
+											}
+										}
+										break;
+									case "onlyCurve":
+										cb.setOnlyCurve(content);
+										break;
 									case "firePatterns":
 										NodeList patterns = bulletElement.getChildNodes();
 										for (z = 0; z < patterns.getLength(); z++) {
@@ -144,31 +276,31 @@ public class XMLLoader {
 															cb.addHitbox();
 														} else {
 															parts = content.split(",");
-															float x = Float.valueOf(parts[0]);
-															float y = Float.valueOf(parts[1]);
+															float posx = Float.valueOf(parts[0]);
+															float posy = Float.valueOf(parts[1]);
 															float width = Float.valueOf(parts[2]);
 															float height = Float.valueOf(parts[3]);
-															Rectangle r = new Rectangle(x, y, width, height);
+															Rectangle r = new Rectangle(posx, posy, width, height);
 															cb.addHitbox(r);
 														}
 														break;
 													case "ellipse":
 														parts = content.split(",");
-														float x = Float.valueOf(parts[0]);
-														float y = Float.valueOf(parts[1]);
+														float posx = Float.valueOf(parts[0]);
+														float posy = Float.valueOf(parts[1]);
 														float radiusX = Float.valueOf(parts[2]);
 														float radiusY = Float.valueOf(parts[3]);
-														Ellipse el = new Ellipse(x, y, radiusX, radiusY);
+														Ellipse el = new Ellipse(posx, posy, radiusX, radiusY);
 														cb.addHitbox(el);
 														break;
 												}
 											}
 										}
 										break;
+									}
 								}
 							}
-						}
-						fp.addCustomBullet(cb);
+							fp.addCustomBullet(cb);						
 					}
 				}
 			}
@@ -262,10 +394,6 @@ public class XMLLoader {
 								content = cNode.getLastChild().getTextContent().trim();
 								e.setDirection(Float.parseFloat(content));
 								break;
-							case "shotDelay":
-								content = cNode.getLastChild().getTextContent().trim();
-								e.setShotDelay(Integer.parseInt(content));
-								break;
 							case "hitbox":
 								NodeList hitboxChilds = cNode.getChildNodes();
 								for (k = 0; k < hitboxChilds.getLength(); k++) {
@@ -332,9 +460,9 @@ public class XMLLoader {
 														content = fpNode.getLastChild().getTextContent().trim();
 														e.addPattern(content);
 														break;
-													case "sound":
+													case "shotDelay":
 														content = fpNode.getLastChild().getTextContent().trim();
-														e.addSound(content, Enemy.SHOT);
+														e.addShotDelay(Integer.parseInt(content));
 														break;
 												}
 											}
@@ -352,6 +480,9 @@ public class XMLLoader {
 										switch(sNode.getNodeName()) {
 											case "destroyed":
 												e.addSound(content, Enemy.DESTROYED);
+												break;
+											case "shot":
+												e.addSound(content, Enemy.SHOT);
 												break;
 										}
 									}

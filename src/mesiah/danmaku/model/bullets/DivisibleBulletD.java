@@ -74,6 +74,12 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 		for (int i = 0; i < density; i++) {
 			for (String id : fps) {
 				fp = FirePatternManager.get().compose(id, this);
+				if (angleOffset != Float.valueOf(-1)) {
+					fp.changeDirection(360/density*i + angleOffset);
+				} else {
+					float random = (float) (Math.random()*360);
+					fp.changeDirection(random);
+				}
 				Play.bc.addToAdd(fp);
 			}
 		}		
@@ -151,6 +157,10 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 	
 	public float getSpeed() {
 		return super.getSpeed();
+	}
+	
+	public float getDirection() {
+		return super.getDirection();
 	}
 
 	public void setDensity(int density) {

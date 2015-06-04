@@ -102,5 +102,9 @@ public abstract class BulletDecorator extends VisibleGameObject implements Shoot
 	public void addToRemove(Shootable s) {
 		b.addToRemove(s);
 	}
+	
+	public float getDirection() {
+		return b.getDirection();
+	}
 
 }

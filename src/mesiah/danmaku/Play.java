@@ -1,6 +1,5 @@
 package mesiah.danmaku;
 
-import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.BulletContainer;
 import mesiah.danmaku.model.EnemiesManager;
 import mesiah.danmaku.model.Enemy;
@@ -10,9 +9,6 @@ import mesiah.danmaku.model.Player;
 import mesiah.danmaku.model.PlayerContainer;
 import mesiah.danmaku.model.PowerupContainer;
 import mesiah.danmaku.model.patterns.FirePatternsManager;
-import mesiah.danmaku.view.Animation;
-import mesiah.danmaku.view.AnimationManager;
-import mesiah.danmaku.view.Sprite;
 import mesiah.danmaku.xml.XMLLoader;
 
 import org.newdawn.slick.GameContainer;
@@ -28,8 +24,6 @@ public class Play extends BasicGameState {
 	public static EnemyContainer ec;
 	public static PowerupContainer puc;
 	private static GameObjectContainer goc;
-	private static AudioManager am;
-	private static AnimationManager ap;
 	private static int timer;
 	private static int lastKey;
 	private static int lastEnemy;
@@ -60,125 +54,28 @@ public class Play extends BasicGameState {
 		goc = new GameObjectContainer(pc, bc, ec, puc);
 	}
 	
-	private static void soundInit() {
-		// Inicializamos sonidos
-    	am = AudioManager.get();
-    	am.addSound("res/sfx/shot.ogg", "playershot");
-    	am.addMusic("res/music/pay.ogg", "pay");
-    	am.addSound("res/sfx/destroyed.ogg", "destroyed");
-    	am.setMusicVolume(0.2f);
-    	//am.playMusic("pay");
-	}
-	
-	private static void curvesInit() {
-		try {
-			XMLLoader.get().getCurveFromXML("curve1.xml");
-			XMLLoader.get().getCurveFromXML("curve2.xml");
-			XMLLoader.get().getCurveFromXML("curve3.xml");
-			XMLLoader.get().getCurveFromXML("curve4.xml");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private static void enemiesInit() {
-		try {
-			XMLLoader.get().getEnemyFromXML("enemy1.xml");
-			XMLLoader.get().getEnemyFromXML("enemy2.xml");
-			XMLLoader.get().getEnemyFromXML("enemy3.xml");
-			XMLLoader.get().getEnemyFromXML("enemy4.xml");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
-	}
-	
-	private static void animationInit() throws SlickException {
-    	// Inicializamos animaciones
-    	ap = AnimationManager.get();
-    	
-		Sprite[] destroySprite = new Sprite[6];
-		int[] destroyTime = {100, 100, 100, 100, 100, 100};
-		destroySprite[0] = new Sprite("res/img/destroy1.png");
-		destroySprite[1] = new Sprite("res/img/destroy2.png");
-		destroySprite[2] = new Sprite("res/img/destroy3.png");
-		destroySprite[3] = new Sprite("res/img/destroy4.png");
-		destroySprite[4] = new Sprite("res/img/destroy5.png");
-		destroySprite[5] = new Sprite("res/img/destroy6.png");
-		ap.addAnimation(new Animation(destroySprite, destroyTime), "enemydestroyed");
-		
-		Sprite[] enemySprite = new Sprite[1];
-		enemySprite[0] = new Sprite("res/img/enemy.png");
-		int[] enemyTime = {100};
-		ap.addAnimation(new Animation(enemySprite, enemyTime), "enemy1");
-		
-		enemySprite[0] = new Sprite("res/img/enemy2.png");
-		ap.addAnimation(new Animation(enemySprite, enemyTime), "enemy2");
-		
-		enemySprite[0] = new Sprite("res/img/enemy3.png");
-		ap.addAnimation(new Animation(enemySprite, enemyTime), "enemy3");
-		
-		enemySprite[0] = new Sprite("res/img/enemy4.png");
-		ap.addAnimation(new Animation(enemySprite, enemyTime), "enemy4");
-		
-		Sprite[] playerSprite = new Sprite[1];
-		int[] playerTime = {200};
-		playerSprite[0] = new Sprite("res/img/player.png");
-		ap.addAnimation(new Animation(playerSprite, playerTime), "player");
-		
-		Sprite[] playerFSprite = new Sprite[1];
-		int[] playerFTime = {200};
-		playerFSprite[0] = new Sprite("res/img/player-focused.png");
-		ap.addAnimation(new Animation(playerFSprite, playerFTime), "player-focused");
-		
-		Sprite[] pBulletSprite = new Sprite[3];
-		int[] pBulletTime = {150,150,150};
-		pBulletSprite[0] = new Sprite("res/img/Fireball0.png");
-		pBulletSprite[1] = new Sprite("res/img/Fireball1.png");
-		pBulletSprite[2] = new Sprite("res/img/Fireball2.png");
-		ap.addAnimation(new Animation(pBulletSprite, pBulletTime), "playerbullet");
-		
-		Sprite[] eBulletSprite = new Sprite[1];
-		int[] eBulletTime = {150};
-		eBulletSprite[0] = new Sprite("res/img/enemybullet.png");
-		ap.addAnimation(new Animation(eBulletSprite, eBulletTime), "enemybullet");
-		
-		eBulletSprite = new Sprite[1];
-		eBulletSprite[0] = new Sprite("res/img/enemybullet2.png");
-		ap.addAnimation(new Animation(eBulletSprite, eBulletTime), "enemybullet2");
-		
-		eBulletSprite = new Sprite[1];
-		eBulletSprite[0] = new Sprite("res/img/enemybullet3.png");
-		ap.addAnimation(new Animation(eBulletSprite, eBulletTime), "enemybullet3");
-	}
-	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		newGame();
     }
 	
 	public static void newGame() throws SlickException {
-		animationInit();
-		curvesInit();
-		patternsInit();
-		soundInit();
+		Player p = new Player();
 		containerInit();
+		
+		
+		try {
+			XMLLoader.get().resourcesLoader("Resources.xml");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		p.initPlayer();
     	
-    	Player p = new Player();
+    	
     	p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
     	pc.add(p);
     	
-    	enemiesInit();
+    	//enemiesInit();
     	timer = 0;
-	}
-	
-	public static void patternsInit() {
-		try {
-			XMLLoader.get().getPatternFromXML("pattern1.xml");
-			XMLLoader.get().getPatternFromXML("enemypattern1.xml");
-			XMLLoader.get().getPatternFromXML("enemypattern1_1.xml");
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
  
 	public void spawnEnemy(String type) throws SlickException {

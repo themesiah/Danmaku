@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<audio>
+	<sound id="playershot">shot.ogg</sound>
+	<sound id="destroyed">destroyed.ogg</sound>
+</audio>

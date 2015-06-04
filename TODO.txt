@@ -1,17 +1,20 @@
 Cargar weas desde XMLs 
 
-	patrones - PENDING
-	enemigos - HECHO!
 	player - PENDING
 	nivel! - PENDING
+	patrones - HECHO!
+	enemigos - HECHO!
 	curvas - HECHO!
+	sonidos - HECHO!
+	animaciones - HECHO!
 
-Hitbox para TODO - Hecho!
 Parallax - PENDING
 Particulas - PENDING
-DivisibleCurve bullet - Hecho! (Decorator)
+Opciones de sonido - PENDING
 TrickyBullet (disparos que salen muy rapido, luego se paran, y finalmente se mueven aleatoriamente) - PENDING
-Opciones de sonido
+Hitbox para TODO - Hecho!
+DivisibleCurve bullet - Hecho! (Decorator)
+XML de recursos - HECHO!
 
 
 
@@ -20,7 +23,6 @@ Sugerencias:
 - Cambiar nave player - Hecho!
 - Poder cambiar teclas - Hecho!
 - Patrones de más colores - Hecho!
-- Fondo no tan desenfocado
 
 
 Bugs:

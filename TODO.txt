@@ -30,3 +30,4 @@ Sugerencias:
 
 Bugs:
 - Por alguna razón, el hitbox del patrón W falla y no mata al player. - [Arreglado] Hay que hacer INTERSECTS y CONTAINS para los Shape, porque se puede dar el segundo caso y no el primero!
+- Sonar solo una vez al disparar!

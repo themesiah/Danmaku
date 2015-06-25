@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enemies>
+	<boss id="boss1">
+		<name>Tronchoboss</name>
+		<health>1500</health>
+		<speed>5</speed>
+		<facing>0</facing>
+		<direction>270</direction>
+		<animations>
+			<active>enemy4</active>
+			<destroyed>enemydestroyed</destroyed>
+		</animations>
+		<firePatterns>
+			<pattern>
+				<fp>enemyfirepattern4</fp>
+				<shotDelay>10000</shotDelay>
+			</pattern>
+		</firePatterns>
+		<sound>
+			<destroyed>destroyed</destroyed>
+			<shot>playershot</shot>
+		</sound>
+		<hitbox>
+			<rectangle>sprite</rectangle>
+		</hitbox>
+		<powerup>power1</powerup>
+		<powerup>points1</powerup>
+	</boss>
+</enemies>

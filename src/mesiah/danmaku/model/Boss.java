@@ -2,10 +2,6 @@ package mesiah.danmaku.model;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
-
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
 import mesiah.danmaku.audio.AudioManager;
@@ -13,27 +9,21 @@ import mesiah.danmaku.model.patterns.FirePattern;
 import mesiah.danmaku.model.patterns.FirePatternManager;
 import mesiah.danmaku.view.Drawable;
 
-public class Enemy extends VisibleGameObject implements BulletEmitter {
-	protected ArrayList<String> fps;
-	protected ArrayList<Integer> shotDelays;
-	protected ArrayList<Integer> shotTimers;
-	protected ArrayList<String> powerups;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
-	protected int health;
-	protected int damageTimer;
-	protected int damageDelay;
-	protected String enemyID;
-	protected float[] lastSize;
-	
-	public static int ACTIVE = 0;
-	public static int SHOT = 1;
-	public static int DESTROYED = 2;
+public class Boss extends Enemy {
+	private String name;
+	private int maxHealth;
 	
 	@SuppressWarnings("unchecked")
-	public Enemy copy() {
-		Enemy e = null;
+	public Boss copy() {
+		Boss e = null;
 		try {
-			e = new Enemy();
+			e = new Boss();
 			e.setFirePatterns((ArrayList<String>) this.fps.clone());
 			e.setHealth(health);
 			e.setShotDelays((ArrayList<Integer>) this.shotDelays.clone());
@@ -54,14 +44,75 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			e.setHitboxes((ArrayList<Shape>) this.ss.clone());
 			e.setRelatives((ArrayList<float[]>) this.relatives.clone());
 			e.setD(e.getFromDs(ACTIVE));
+			e.setName(name);
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
 		return e;		
 	}
+
+	public Boss() throws SlickException {
+		super();
+	}
 	
-	public Enemy() throws SlickException {
-		init();
+	public void setHealth(int h) {
+		health = h;
+		maxHealth = h;
+	}
+	
+	public void setName(String n) {
+		name = n;
+	}
+	
+	public float getHealthPercent() {
+		return (float) ((float) health / (float) maxHealth);
+	}
+	
+	public void drawBossInterface(Graphics g) {
+		float horizontalM = 5;
+		float verticalM = 5;
+		float healthPercent = getHealthPercent();
+		float posx = Main.LIMITLEFT + horizontalM;
+		float posy = Main.LIMITTOP + verticalM;
+		float maxWidth = (Main.LIMITRIGHT-Main.LIMITLEFT)-(horizontalM*2);
+		float healthWidth = maxWidth*healthPercent;
+		float height = 50;
+		
+		// Full rect
+		Color c = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+		g.setColor(c);
+		g.fillRect(posx, posy, maxWidth, height*2);
+		
+		// Name
+		c = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		g.setColor(c);
+		g.drawString(name, posx, posy+height);
+		
+		// Life rect
+		c = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+		g.setColor(c);
+		g.fillRect(posx, posy, healthWidth, height);
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void draw(Graphics g) {
+		if (state == "active") {
+			d.draw(posx, posy, facing);
+			lastSize = d.getSize();
+			drawBossInterface(g);
+		} else if (state == "destroyed") {
+			float[] size1 = lastSize;
+			float[] size2 = d.getSizeOf(d.getFrame());
+			if (lastSize != size2) {
+				posx -= ((size2[0] - size1[0])/2);
+				posy -= ((size2[1] - size1[1])/2);
+			}
+			lastSize = d.getSizeOf(d.getFrame());
+			d.play(posx, posy);
+		}
 	}
 	
 	public void init() {
@@ -139,7 +190,7 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			state = "destroyed";
 		}
 		if (!d.isPlaying() && state == "destroyed") {
-			Play.ec.addToRemove(this);
+			Play.bssc.addToRemove(this);
 		} else {
 			move(delta);
 			CheckPlayerCollisions();
@@ -248,10 +299,6 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public int getHealth() {
 		return health;
-	}
-	
-	public void setHealth(int h) {
-		health = h;
 	}
 	
 	public void addAnimation(Drawable d, int id) {

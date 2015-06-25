@@ -77,7 +77,6 @@ public class TrickyBulletD extends BulletDecorator {
 		if (secondaryDirection.equals("player")) {
 			d = GetDirection.getDirectionToPlayer(getPosX(), getPosY());
 		} else if (secondaryDirection.equals("random")) {
-			System.out.println("CHANGED!");
 			d = (float) (Math.random()*360.0f);
 		} else {
 			d = Float.valueOf(secondaryDirection);

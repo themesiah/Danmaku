@@ -115,6 +115,21 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		initFirePatterns();
 	}
 	
+	public void CheckBossCollisions() {
+		if (this.collidable) {
+			List<Boss> blist = Play.bssc.getEnemies();
+			for (Boss b: blist) {
+				for (Shape s: ss) {
+					for (Shape se: b.getHitBoxes()) {
+						if (collides(se, s) && b.isCollidable()) {
+							onDestroyed();
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public void CheckEnemyCollisions() {
 		if (this.collidable) {
 			List<Enemy> elist = Play.ec.getEnemies();
@@ -188,6 +203,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	public void update(int delta) {
 		if (state == "active") {
 			CheckEnemyCollisions();
+			CheckBossCollisions();
 			CheckPowerupCollisions();
 		}
 		if (state == "beingdestroyed") {
@@ -265,19 +281,6 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 	
 	public void shot(int delta) {
-		/*FirePattern fp = null;
-		if (state == "active") {
-			for (int i = 0; i < fps.size(); i++) {
-				if (shotTimers.get(i) >= shotDelays.get(i)) {
-					fp = FirePatternManager.get().compose(fps.get(i), this);
-					shotTimers.set(i, 0);
-					Play.bc.add(fp);
-					AudioManager.get().playSound(sounds.get(SHOT));
-				} else {
-					shotTimers.set(i, shotTimers.get(i) + delta);
-				}
-			}
-		}*/
 		FirePattern fp = null;
 		ArrayList<String> tempfps = firePatterns.get(Player.POWER);
 		ArrayList<Integer> tempdelays = shotDelays.get(Player.POWER);

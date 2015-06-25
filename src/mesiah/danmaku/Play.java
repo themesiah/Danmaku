@@ -1,5 +1,8 @@
 package mesiah.danmaku;
 
+import mesiah.danmaku.model.Boss;
+import mesiah.danmaku.model.BossContainer;
+import mesiah.danmaku.model.BossesManager;
 import mesiah.danmaku.model.BulletContainer;
 import mesiah.danmaku.model.EnemiesManager;
 import mesiah.danmaku.model.Enemy;
@@ -11,6 +14,7 @@ import mesiah.danmaku.model.PowerupContainer;
 import mesiah.danmaku.util.Signals;
 import mesiah.danmaku.xml.XMLLoader;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -23,6 +27,7 @@ public class Play extends BasicGameState {
 	public static BulletContainer bc;
 	public static EnemyContainer ec;
 	public static PowerupContainer puc;
+	public static BossContainer bssc;
 	private static GameObjectContainer goc;
 	private static int timer;
 	private static int lastKey;
@@ -51,7 +56,9 @@ public class Play extends BasicGameState {
 		bc = new BulletContainer();
 		ec = new EnemyContainer();
 		puc = new PowerupContainer();
-		goc = new GameObjectContainer(pc, bc, ec, puc);
+		bssc = new BossContainer();
+		goc = new GameObjectContainer(pc, bc, ec, puc, bssc);
+		
 	}
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -91,6 +98,22 @@ public class Play extends BasicGameState {
 			e.setPosX(x);
     		lastEnemy = 0;
     		ec.add(e);
+    	}
+	}
+	
+	public void spawnBoss(String type) throws SlickException {
+		if (lastEnemy >= enemyDelay) {
+    		Boss e = null;
+    		float x;
+    		try {
+    			e = BossesManager.get().newBoss(type);    			
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			x = Main.GAMEWIDTH/2-e.getSize()[0];
+			e.setPosX(x);
+    		lastEnemy = 0;
+    		bssc.add(e);
     	}
 	}
 	
@@ -144,7 +167,7 @@ public class Play extends BasicGameState {
     	
     	if(input.isKeyDown(SPAWN4_KEY) && lastKey >= Main.KEYDELAY) {
     		lastKey = 0;
-    		spawnEnemy("enemy4");
+    		spawnBoss("boss1");
     	}
     	
     	if(input.isKeyDown(FOCUS_KEY)) {
@@ -178,6 +201,8 @@ public class Play extends BasicGameState {
     
     private void renderDebugs(GameContainer gc, StateBasedGame sbg, Graphics g) {
     	// Debugs
+    	Color c = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		g.setColor(c);
     	g.drawString("Time: " + timer/1000, 10.0f, 30.0f);
     	g.drawString("Bullets: " + bc.size(), 10.0f, 50.0f);
     	g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
@@ -195,7 +220,7 @@ public class Play extends BasicGameState {
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	// Todos los objetos del juego
-    	goc.draw();
+    	goc.draw(g);
     	renderDebugs(gc, sbg, g);
     }
     

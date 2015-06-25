@@ -5,6 +5,7 @@ import java.util.List;
 
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
+import mesiah.danmaku.model.Boss;
 import mesiah.danmaku.model.Enemy;
 import mesiah.danmaku.model.GameObject;
 import mesiah.danmaku.model.Player;
@@ -101,6 +102,22 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		collidable = false;
 		parent.addToRemove(this);
 	}
+	
+	public void CheckBossCollisions() {
+		if (this.collidable && ally) {
+			List<Boss> blist = Play.bssc.getEnemies();
+			for (Boss b: blist) {
+				for (Shape s:getHitBoxes()) {
+					for (Shape se:b.getHitBoxes()) {
+						if (collides(s, se) && b.isCollidable()) {
+							b.onHit(damage);
+							onDestroyed();
+						}
+					}
+				}
+			}
+		}
+	}
 
 	public void CheckEnemyCollisions() {
 		if (this.collidable && ally) {
@@ -158,6 +175,7 @@ public class Bullet extends VisibleGameObject implements Shootable {
 			if (delay <= 0) {
 				CheckEnemyCollisions();
 				CheckPlayerCollisions();
+				CheckBossCollisions();
 				if (posx > Main.GAMEWIDTH+20 ||	posx < -20 || posy < -20 ||	posy > Main.GAMEHEIGHT+20) {
 					state = "dead";
 					parent.addToRemove(this);

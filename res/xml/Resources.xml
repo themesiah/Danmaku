@@ -36,4 +36,5 @@
 	<enemy>enemy2.xml</enemy>
 	<enemy>enemy3.xml</enemy>
 	<enemy>enemy4.xml</enemy>
+	<boss>boss1.xml</boss>
 </resources>

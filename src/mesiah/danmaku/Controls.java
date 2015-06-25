@@ -198,8 +198,9 @@ public class Controls extends BasicGameState {
 		    	}
 		    	
 		    	if (input.isKeyDown(Input.KEY_ESCAPE)) {
-		    		sbg.enterState(Main.PLAY);
+		    		saveChanges();
 		    		lastKey = 0;
+	    			sbg.enterState(Main.MAINMENU);
 		    	}
 		    	
 		    	if (input.isKeyDown(Input.KEY_ENTER) || input.isKeyDown(Input.KEY_Z)) {

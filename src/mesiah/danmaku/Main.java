@@ -13,6 +13,7 @@ public class Main extends StateBasedGame {
 	public static final int PLAY = 1;
 	public static final int MENU = 2;
 	public static final int CONTROLS = 3;
+	public static final int OPTIONS = 4;
 	
 	public static final int GAMEWIDTH = 1024;
 	public static final int GAMEHEIGHT = 768;
@@ -21,6 +22,8 @@ public class Main extends StateBasedGame {
 	public static final int LIMITTOP = 0;
 	public static final int LIMITBOTTOM = GAMEHEIGHT;
 	public static final boolean FULLSCREEN = false;
+	
+	public static int LASTMENU = MAINMENU;
 	
 	public static final int PLAYERNUM = 0;
 	
@@ -32,6 +35,7 @@ public class Main extends StateBasedGame {
 		this.addState(new Play(PLAY));
 		this.addState(new Menu(MENU));
 		this.addState(new Controls(CONTROLS));
+		this.addState(new Options(OPTIONS));
 	}
 	
 	
@@ -40,7 +44,8 @@ public class Main extends StateBasedGame {
 		this.getState(PLAY).init(gc, this);
 		this.getState(MENU).init(gc, this);
 		this.getState(CONTROLS).init(gc, this);
-		this.enterState(MAINMENU);
+		this.getState(OPTIONS).init(gc, this);
+		this.enterState(OPTIONS);
 	}
 	
 	@Override
@@ -76,6 +81,7 @@ public class Main extends StateBasedGame {
 	    	AppGameContainer appContainer = new AppGameContainer(new Main(GAMENAME));
 	        appContainer.setDisplayMode(GAMEWIDTH, GAMEHEIGHT, FULLSCREEN);
 	        appContainer.setTargetFrameRate(60);
+			AudioManager.get().setMusicVolume(0.2f);
 	        appContainer.start();
     	} catch (Exception e) {
     		e.printStackTrace();

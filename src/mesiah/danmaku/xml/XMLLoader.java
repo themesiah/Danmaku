@@ -339,7 +339,6 @@ public class XMLLoader {
 		Document document = db.parse(f);
 		int i;
 		AudioManager am = AudioManager.get();
-		am.setMusicVolume(0.2f);
 		String content, audioID = "";
 		NodeList nodeList = document.getDocumentElement().getChildNodes();
 		for (i = 0; i < nodeList.getLength(); i++) {

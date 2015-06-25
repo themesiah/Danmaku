@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import mesiah.danmaku.Options;
+
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -25,6 +27,46 @@ public class AudioManager {
 		soundVolume = 1.0f;
 		musicPitch = 1.0f;
 		soundPitch = 1.0f;
+	}
+	
+	public void musicVolumeUp() {
+		float qty = Options.MAX_MUSIC_VOLUME/50;
+		if (musicVolume <= Options.MAX_MUSIC_VOLUME) {
+			musicVolume += qty;
+		}
+		if (musicVolume > Options.MAX_MUSIC_VOLUME) {
+			musicVolume = Options.MAX_MUSIC_VOLUME;
+		}
+	}
+	
+	public void musicVolumeDown() {
+		float qty = Options.MAX_MUSIC_VOLUME/50;
+		if (musicVolume >= 0) {
+			musicVolume -= qty;
+		}
+		if (musicVolume < 0) {
+			musicVolume = 0;
+		}
+	}
+	
+	public void soundVolumeUp() {
+		float qty = Options.MAX_SOUND_VOLUME/50;
+		if (soundVolume <= Options.MAX_SOUND_VOLUME) {
+			soundVolume += qty;
+		}
+		if (soundVolume > Options.MAX_SOUND_VOLUME) {
+			soundVolume = Options.MAX_SOUND_VOLUME;
+		}
+	}
+	
+	public void soundVolumeDown() {
+		float qty = Options.MAX_SOUND_VOLUME/50;
+		if (soundVolume >= 0) {
+			soundVolume -= qty;
+		}
+		if (soundVolume < 0) {
+			soundVolume = 0;
+		}
 	}
 	
 	public void setMusicVolume(float musicVolume) {
@@ -49,6 +91,14 @@ public class AudioManager {
 
 	public void setCurrentlyPlaying(String currentlyPlaying) {
 		this.currentlyPlaying = currentlyPlaying;
+	}
+
+	public float getMusicVolume() {
+		return musicVolume;
+	}
+
+	public float getSoundVolume() {
+		return soundVolume;
 	}
 
 	public static AudioManager get() {

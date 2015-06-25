@@ -12,7 +12,7 @@ Cargar weas desde XMLs
 
 Parallax - PENDING
 Particulas - PENDING
-Opciones de sonido - PENDING
+Opciones de sonido - Hecho!
 Bosses-base - Hecho!
 Bosses-fases - Hecho!
 TrickyBullet (disparos que salen muy rapido, luego se paran, y finalmente se mueven aleatoriamente) - Hecho!

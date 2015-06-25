@@ -16,11 +16,13 @@ public class Menu extends BasicGameState {
 	private static final float MENU1_Y = 100.0f;
 	private static final String MENU2 = "Main Menu";
 	private static final float MENU2_Y = 150.0f;
-	private static final String MENU3 = "Quit";
+	private static final String MENU3 = "Options";
 	private static final float MENU3_Y = 200.0f;
+	private static final String MENU4 = "Quit";
+	private static final float MENU4_Y = 250.0f;
 	
 	private int option;
-	private static final int MAXOPTION = 2;
+	private static final int MAXOPTION = 3;
 	
 	private int lastKey;
 	
@@ -68,6 +70,10 @@ public class Menu extends BasicGameState {
 		    			sbg.enterState(Main.MAINMENU);
 		    			break;
 		    		case 2:
+		    			Main.LASTMENU = Main.MENU;
+		    			sbg.enterState(Main.OPTIONS);
+		    			break;
+		    		case 3:
 		    			AudioManager.get().stopMusic();
 		    			System.exit(0);
 		    			break;
@@ -90,6 +96,9 @@ public class Menu extends BasicGameState {
 	    	case 2:
 	    		selectionY = MENU3_Y - 10.0f;
 	    		break;
+	    	case 3:
+	    		selectionY = MENU4_Y - 10.0f;
+	    		break;
     	}
     	
     	g.setColor(new Color(1.0f, 0.0f, 0.0f));
@@ -100,6 +109,7 @@ public class Menu extends BasicGameState {
     	g.drawString(MENU1, MENU_X, MENU1_Y);
     	g.drawString(MENU2, MENU_X, MENU2_Y);
     	g.drawString(MENU3, MENU_X, MENU3_Y);
+    	g.drawString(MENU4, MENU_X, MENU4_Y);
     }
     
     public int getID() {

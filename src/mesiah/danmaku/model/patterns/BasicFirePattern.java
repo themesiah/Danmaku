@@ -47,6 +47,7 @@ public class BasicFirePattern extends FirePattern {
 	}
 
 	public void update(int delta) {
+		
 		for (Shootable b:gol) {
 			b.update(delta);
 		}

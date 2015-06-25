@@ -8,7 +8,7 @@ import mesiah.danmaku.model.GameObjectContainer;
 import mesiah.danmaku.model.Player;
 import mesiah.danmaku.model.PlayerContainer;
 import mesiah.danmaku.model.PowerupContainer;
-import mesiah.danmaku.model.patterns.FirePatternsManager;
+import mesiah.danmaku.util.Signals;
 import mesiah.danmaku.xml.XMLLoader;
 
 import org.newdawn.slick.GameContainer;
@@ -102,6 +102,13 @@ public class Play extends BasicGameState {
     	timer += delta;
     	lastKey += delta;
     	lastEnemy += delta;
+    	
+    	Signals s = Signals.getSignals();
+    	for (String key : s.getIntegerSignals().keySet()) {
+			if (s.getIntegerSignal(key) >= 0) {
+				s.changeIntegerSignal(key, -delta);
+			}
+    	}
     	
     	/*if (lastEnemy >= enemyDelay) {
     		Enemy e = new Enemy();

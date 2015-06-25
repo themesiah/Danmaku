@@ -10,8 +10,10 @@ import mesiah.danmaku.model.bullets.CurveBulletD;
 import mesiah.danmaku.model.bullets.CustomBullet;
 import mesiah.danmaku.model.bullets.DivisibleBulletD;
 import mesiah.danmaku.model.bullets.Shootable;
+import mesiah.danmaku.model.bullets.TrickyBulletD;
 import mesiah.danmaku.util.CurveManager;
 import mesiah.danmaku.util.GetDirection;
+import mesiah.danmaku.util.Signals;
 
 public class FirePatternManager {
 
@@ -92,6 +94,9 @@ public class FirePatternManager {
 				b.setHitboxes(cb.getHitboxes());
 				b.setRelatives(cb.getRelatives());
 				
+				// ------------------
+				// Divisible bullets
+				// ------------------
 				if (cb.haveProperty("divisible")) {
 					DivisibleBulletD db = new DivisibleBulletD(b);
 					
@@ -116,6 +121,9 @@ public class FirePatternManager {
 					s = db;
 				}
 				
+				// ------------------
+				// Curve bullets
+				// ------------------
 				if (cb.haveProperty("curve")) {
 					CurveBulletD cbd = new CurveBulletD(s);
 					s = cbd;
@@ -131,6 +139,28 @@ public class FirePatternManager {
 					}
 					s.setPosX(cbd.getCurve(0).getPoint(0)[0]);
 					s.setPosY(cbd.getCurve(0).getPoint(0)[1]);
+				}
+				
+				// ------------------
+				// Tricky bullets
+				// ------------------
+				if (cb.haveProperty("tricky")) {
+					
+					TrickyBulletD tbd = new TrickyBulletD(s);
+					s = tbd;
+					
+					if (cb.getTrickyTime().contains("patternBind")) {
+						String signalKey = cb.getTrickyTime().split(",")[2];
+						tbd.setBeforeTime(TrickyBulletD.PATTERNBINDVALUE);
+						tbd.setPatternKey(signalKey);
+						Signals sign = Signals.getSignals();
+						sign.addIntegerSignal(signalKey, Integer.valueOf(cb.getTrickyTime().split(",")[1]));
+					} else if (cb.getTrickyTime().contains("absolute")) {
+						tbd.setBeforeTime(Integer.valueOf(cb.getTrickyTime()));
+					}
+					tbd.setSecondarySpeed(cb.getSecondarySpeed());
+					
+					tbd.setSecondaryDirection(cb.getSecondaryDirection());
 				}
 				
 				fp.add((Shootable) s);

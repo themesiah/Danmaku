@@ -13,7 +13,6 @@ import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.patterns.FirePattern;
 import mesiah.danmaku.model.patterns.FirePatternManager;
 import mesiah.danmaku.util.GetDirection;
-import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
 
 public class Player extends VisibleGameObject implements BulletEmitter{

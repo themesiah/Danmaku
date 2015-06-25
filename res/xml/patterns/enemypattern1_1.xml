@@ -11,7 +11,7 @@
 			<damage>10</damage>
 			<direction>random</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<ellipse>8,8,8,8</ellipse>
 			</hitbox>
 			<ally>false</ally>
 			<firePatterns>

@@ -11,7 +11,7 @@
 		</animations>
 		<firePatterns>
 			<pattern>
-				<fp>enemyfirepattern3</fp>
+				<fp>enemyfirepattern5</fp>
 				<shotDelay>2000</shotDelay>
 			</pattern>
 		</firePatterns>

@@ -40,6 +40,8 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		addHitbox();
 	}
 	
+	
+	
 	public void setDelay(int d) {
 		delay = d;
 	}
@@ -92,6 +94,13 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		}
 		return ss;
 	}
+	
+	public void onDestroyed() {
+		state = "dead";
+		collidable = false;
+		collidable = false;
+		parent.addToRemove(this);
+	}
 
 	public void CheckEnemyCollisions() {
 		if (this.collidable && ally) {
@@ -101,8 +110,7 @@ public class Bullet extends VisibleGameObject implements Shootable {
 					for (Shape se:e.getHitBoxes()) {
 						if (collides(s, se) && e.isCollidable()) {
 							e.onHit(damage);
-							collidable = false;
-							parent.addToRemove(this);
+							onDestroyed();
 						}
 					}
 				}
@@ -118,8 +126,7 @@ public class Bullet extends VisibleGameObject implements Shootable {
 					for (Shape sp:p.getHitBoxes()) {
 						if ((s.intersects(sp) || s.contains(sp)) && p.isCollidable()) {
 							p.onHit(damage);
-							collidable = false;
-							parent.addToRemove(this);
+							onDestroyed();
 						} else if (collides(s, p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
 							grazed = true;
 							Player.GRAZE += 1;

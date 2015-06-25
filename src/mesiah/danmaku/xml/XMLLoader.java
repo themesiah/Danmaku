@@ -488,6 +488,15 @@ public class XMLLoader {
 									case "lifeTime":
 										cb.setLifeTime(content);
 										break;
+									case "trickyTime":
+										cb.setTrickyTime(content);
+										break;
+									case "secondaryDirection":
+										cb.setSecondaryDirection(content);
+										break;
+									case "secondarySpeed":
+										cb.setSecondarySpeed(content);
+										break;
 									case "curves":
 										NodeList curves = bulletElement.getChildNodes();
 										for (z = 0; z < curves.getLength(); z++) {

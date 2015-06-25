@@ -9,11 +9,12 @@ Cargar weas desde XMLs
 	animaciones - HECHO!
 	powerups - HECHO!
 
-Hitboxes para los bullets! - PENDING
-TrickyBullet (disparos que salen muy rapido, luego se paran, y finalmente se mueven aleatoriamente) - PENDING
+Bosses - PENDING
 Parallax - PENDING
 Particulas - PENDING
 Opciones de sonido - PENDING
+TrickyBullet (disparos que salen muy rapido, luego se paran, y finalmente se mueven aleatoriamente) - Hecho!
+Hitboxes para los bullets! - Hecho!
 Hitbox para TODO - Hecho!
 DivisibleCurve bullet - Hecho! (Decorator)
 XML de recursos - HECHO!

@@ -2,6 +2,7 @@
 <patterns>
 	<pattern id="enemyfirepattern1_2">
 		<bullet>
+			<property>tricky</property>
 			<delay>0</delay>
 			<speed>1</speed>
 			<animation>enemybullet3</animation>
@@ -10,9 +11,12 @@
 			<damage>10</damage>
 			<direction>random</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<ellipse>8,8,8,8</ellipse>
 			</hitbox>
 			<ally>false</ally>
+			<trickyTime>patternBind,3000,trickytest</trickyTime>
+			<secondaryDirection>random</secondaryDirection>
+			<secondarySpeed>2</secondarySpeed>
 		</bullet>
 	</pattern>
 </patterns>

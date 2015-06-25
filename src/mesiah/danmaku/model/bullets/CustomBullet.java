@@ -24,6 +24,11 @@ public class CustomBullet {
 	protected ArrayList<Integer> curveTimes;
 	protected String onlyCurve;
 	
+	// Tricky
+	protected String trickyTime;
+	protected String secondaryDirection;
+	protected String secondarySpeed;
+	
 
 	public CustomBullet() {
 		properties = new ArrayList<String>();
@@ -277,6 +282,36 @@ public class CustomBullet {
 	
 	public int getCurveTime(int n) {
 		return curveTimes.get(n);
+	}
+
+
+	public String getTrickyTime() {
+		return trickyTime;
+	}
+
+
+	public void setTrickyTime(String trickyTime) {
+		this.trickyTime = trickyTime;
+	}
+
+
+	public String getSecondaryDirection() {
+		return secondaryDirection;
+	}
+
+
+	public void setSecondaryDirection(String secondaryDirection) {
+		this.secondaryDirection = secondaryDirection;
+	}
+
+
+	public String getSecondarySpeed() {
+		return secondarySpeed;
+	}
+
+
+	public void setSecondarySpeed(String secondarySpeed) {
+		this.secondarySpeed = secondarySpeed;
 	}
 
 }

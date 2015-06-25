@@ -12,7 +12,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<ellipse>8,8,8,8</ellipse>
 			</hitbox>
 			<ally>false</ally>
 			<firePatterns>
@@ -40,7 +40,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<ellipse>8,8,8,8</ellipse>
 			</hitbox>
 			<ally>false</ally>
 			<firePatterns>
@@ -68,7 +68,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<ellipse>8,8,8,8</ellipse>
 			</hitbox>
 			<ally>false</ally>
 			<firePatterns>
@@ -96,7 +96,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<ellipse>8,8,8,8</ellipse>
 			</hitbox>
 			<ally>false</ally>
 			<firePatterns>

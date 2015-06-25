@@ -33,17 +33,17 @@ public class PowerupManager {
 		float posx, posy;
 		posx = (float) (parent.getPosX() + Math.random()*parent.getSize()[0]);
 		if (posx+20 <= Main.LIMITLEFT) {
-			posx = Main.LIMITLEFT-20;
+			posx = Main.LIMITLEFT+40;
 		}
 		if (posx+20 >= Main.LIMITRIGHT) {
-			posx = Main.LIMITRIGHT-20;
+			posx = Main.LIMITRIGHT-40;
 		}
 		posy = (float) (parent.getPosY() + Math.random()*parent.getSize()[1]);
 		if (posy+20 <= Main.LIMITTOP) {
-			posy = Main.LIMITTOP-20;
+			posy = Main.LIMITTOP+40;
 		}
 		if (posy+20 >= Main.LIMITBOTTOM) {
-			posy = Main.LIMITBOTTOM-20;
+			posy = Main.LIMITBOTTOM-40;
 		}
 		p = new Powerup(posx, posy, cp.getType(), cp.getValue(), cp.getAnimation());
 		p.setSpeed(cp.getSpeed());

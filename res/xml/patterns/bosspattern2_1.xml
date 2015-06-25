@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+	<pattern id="bosspattern2_1">
+		<bullet>
+			<property>tricky</property>
+			<delay>0</delay>
+			<speed>10</speed>
+			<animation>enemybullet</animation>
+			<posx>parent</posx>
+			<posy>20+parent</posy>
+			<damage>10</damage>
+			<direction>player</direction>
+			<hitbox>
+				<ellipse>8,8,8,8</ellipse>
+			</hitbox>
+			<ally>false</ally>
+			<trickyTime>patternBind,250,trickything</trickyTime>
+			<secondaryDirection>player</secondaryDirection>
+			<secondarySpeed>8</secondarySpeed>
+		</bullet>
+	</pattern>
+</patterns>

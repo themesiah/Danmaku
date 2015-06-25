@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+	<pattern id="bosspattern2">
+		<bullet>
+			<property>divisible</property>
+			<delay>0</delay>
+			<speed>5</speed>
+			<animation>enemybullet</animation>
+			<posx>parent</posx>
+			<posy>20+parent</posy>
+			<damage>10</damage>
+			<direction>player</direction>
+			<hitbox>
+				<ellipse>8,8,8,8</ellipse>
+			</hitbox>
+			<ally>false</ally>
+			<firePatterns>
+				<fp>bosspattern2_1</fp>
+			</firePatterns>
+			<lifeTime>1000</lifeTime>
+			<density>100</density>
+			<angleOffset>0</angleOffset>
+		</bullet>
+	</pattern>
+</patterns>

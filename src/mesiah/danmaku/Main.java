@@ -45,7 +45,7 @@ public class Main extends StateBasedGame {
 		this.getState(MENU).init(gc, this);
 		this.getState(CONTROLS).init(gc, this);
 		this.getState(OPTIONS).init(gc, this);
-		this.enterState(OPTIONS);
+		this.enterState(MAINMENU);
 	}
 	
 	@Override

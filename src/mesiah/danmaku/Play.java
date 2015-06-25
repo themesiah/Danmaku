@@ -33,7 +33,7 @@ public class Play extends BasicGameState {
 	private static int lastKey;
 	private static int lastEnemy;
 	private static int enemyDelay = 500;
-	
+
 	public static int UP_KEY = Input.KEY_UP;
 	public static int DOWN_KEY = Input.KEY_DOWN;
 	public static int RIGHT_KEY = Input.KEY_RIGHT;
@@ -45,11 +45,10 @@ public class Play extends BasicGameState {
 	public static int SPAWN3_KEY = Input.KEY_E;
 	public static int SPAWN4_KEY = Input.KEY_R;
 	public static int MENU_KEY = Input.KEY_ESCAPE;
-	
-	
+
 	public Play(int code) {
 	}
-	
+
 	private static void containerInit() throws SlickException {
 		// Inicializamos containers
 		pc = new PlayerContainer();
@@ -58,176 +57,178 @@ public class Play extends BasicGameState {
 		puc = new PowerupContainer();
 		bssc = new BossContainer();
 		goc = new GameObjectContainer(pc, bc, ec, puc, bssc);
-		
+
 	}
-	
-	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+
+	public void init(GameContainer gc, StateBasedGame sbg)
+			throws SlickException {
 		newGame();
-    }
-	
+	}
+
 	public static void newGame() throws SlickException {
-		//Player p = new Player();
+		// Player p = new Player();
 		containerInit();
-		
-		
+
 		try {
 			XMLLoader.get().resourcesLoader("Resources.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//p.initPlayer();
-    	
-    	
-    	//p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
-    	//pc.add(p);
-    	
-    	//enemiesInit();
-    	timer = 0;
+		// p.initPlayer();
+
+		// p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
+		// pc.add(p);
+
+		// enemiesInit();
+		timer = 0;
 	}
- 
+
 	public void spawnEnemy(String type) throws SlickException {
 		if (lastEnemy >= enemyDelay) {
-    		Enemy e = null;
-    		float x;
-    		try {
-    			e = EnemiesManager.get().newEnemy(type);    			
+			Enemy e = null;
+			float x;
+			try {
+				e = EnemiesManager.get().newEnemy(type);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			x = ((float) Math.random() * (Main.GAMEWIDTH/2-e.getSize()[0]/2)) + Main.GAMEWIDTH/4;
+			x = ((float) Math.random() * (Main.GAMEWIDTH / 2 - e.getSize()[0] / 2))
+					+ Main.GAMEWIDTH / 4;
 			e.setPosX(x);
-    		lastEnemy = 0;
-    		ec.add(e);
-    	}
+			lastEnemy = 0;
+			ec.add(e);
+		}
 	}
-	
+
 	public void spawnBoss(String type) throws SlickException {
 		if (lastEnemy >= enemyDelay) {
-    		Boss e = null;
-    		float x;
-    		float y;
-    		try {
-    			e = BossesManager.get().newBoss(type);    			
+			Boss e = null;
+			float x;
+			float y;
+			try {
+				e = BossesManager.get().newBoss(type);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-    		y = 0 - e.getSize()[1]/2;
-			x = Main.GAMEWIDTH/2 - e.getSize()[0]/2;
+			y = 0 - e.getSize()[1] / 2;
+			x = Main.GAMEWIDTH / 2 - e.getSize()[0] / 2;
 			e.setPosX(x);
 			e.setPosY(y);
-    		lastEnemy = 0;
-    		bssc.add(e);
-    	}
+			lastEnemy = 0;
+			bssc.add(e);
+		}
 	}
-	
-    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-    	if (pc.get(Main.PLAYERNUM).getState() == "dead") {
-    		sbg.enterState(Main.MAINMENU);
-    	}
-    	goc.update(delta);
-    	timer += delta;
-    	lastKey += delta;
-    	lastEnemy += delta;
-    	
-    	Signals s = Signals.getSignals();
-    	for (String key : s.getIntegerSignals().keySet()) {
+
+	public void update(GameContainer gc, StateBasedGame sbg, int delta)
+			throws SlickException {
+		if (pc.get(Main.PLAYERNUM).getState() == "dead") {
+			sbg.enterState(Main.MAINMENU);
+		}
+		goc.update(delta);
+		timer += delta;
+		lastKey += delta;
+		lastEnemy += delta;
+
+		Signals s = Signals.getSignals();
+		for (String key : s.getIntegerSignals().keySet()) {
 			if (s.getIntegerSignal(key) >= 0) {
 				s.changeIntegerSignal(key, -delta);
 			}
-    	}
-    	
-    	/*if (lastEnemy >= enemyDelay) {
-    		Enemy e = new Enemy();
-    		float x = (float) Math.random() * (Main.GAMEWIDTH-e.getSize()[0]);
-    		e.setPosX(x);
-    		ec.add(e);
-    		lastEnemy = 0;
-    	}*/
-    	
-    	
-    	// Inputs del usuario
-    	Input input = gc.getInput();
-    	
-    	if(input.isKeyDown(MENU_KEY) && lastKey >= Main.KEYDELAY) {
-    		lastKey = 0;
-    		sbg.enterState(Main.MENU);
-    	}
-    	
-    	if(input.isKeyDown(SPAWN1_KEY) && lastKey >= Main.KEYDELAY) {
-    		lastKey = 0;
-    		spawnEnemy("enemy1");
-    	}
-    	
-    	if(input.isKeyDown(SPAWN2_KEY) && lastKey >= Main.KEYDELAY) {
-    		lastKey = 0;
-    		spawnEnemy("enemy2");
-    	}
-    	
-    	if(input.isKeyDown(SPAWN3_KEY) && lastKey >= Main.KEYDELAY) {
-    		lastKey = 0;
-    		spawnEnemy("enemy3");
-    	}
-    	
-    	if(input.isKeyDown(SPAWN4_KEY) && lastKey >= Main.KEYDELAY) {
-    		lastKey = 0;
-    		spawnBoss("boss1");
-    	}
-    	
-    	if(input.isKeyDown(FOCUS_KEY)) {
-    		pc.get(Main.PLAYERNUM).setFocused(true);
-    	} else {
-    		pc.get(Main.PLAYERNUM).setFocused(false);
-    	}
-    	
-    	if(input.isKeyDown(LEFT_KEY)) {
-    		pc.get(Main.PLAYERNUM).moveLeft();
-    	}
-    	
-    	if(input.isKeyDown(RIGHT_KEY)) {
-    		pc.get(Main.PLAYERNUM).moveRight();
-    	}
-    	
-    	if(input.isKeyDown(UP_KEY)) {
-    		pc.get(Main.PLAYERNUM).moveUp();
-    	}
-    	
-    	if(input.isKeyDown(DOWN_KEY)) {
-    		pc.get(Main.PLAYERNUM).moveDown();
-    	}
-    	
-    	if(input.isKeyDown(SHOT_KEY)) {
+		}
+
+		/*
+		 * if (lastEnemy >= enemyDelay) { Enemy e = new Enemy(); float x =
+		 * (float) Math.random() * (Main.GAMEWIDTH-e.getSize()[0]);
+		 * e.setPosX(x); ec.add(e); lastEnemy = 0; }
+		 */
+
+		// Inputs del usuario
+		Input input = gc.getInput();
+
+		if (input.isKeyDown(MENU_KEY) && lastKey >= Main.KEYDELAY) {
+			lastKey = 0;
+			sbg.enterState(Main.MENU);
+		}
+
+		if (input.isKeyDown(SPAWN1_KEY) && lastKey >= Main.KEYDELAY) {
+			lastKey = 0;
+			spawnEnemy("enemy1");
+		}
+
+		if (input.isKeyDown(SPAWN2_KEY) && lastKey >= Main.KEYDELAY) {
+			lastKey = 0;
+			spawnEnemy("enemy2");
+		}
+
+		if (input.isKeyDown(SPAWN3_KEY) && lastKey >= Main.KEYDELAY) {
+			lastKey = 0;
+			spawnEnemy("enemy3");
+		}
+
+		if (input.isKeyDown(SPAWN4_KEY) && lastKey >= Main.KEYDELAY) {
+			lastKey = 0;
+			spawnBoss("boss1");
+		}
+
+		if (input.isKeyDown(FOCUS_KEY)) {
+			pc.get(Main.PLAYERNUM).setFocused(true);
+		} else {
+			pc.get(Main.PLAYERNUM).setFocused(false);
+		}
+
+		if (input.isKeyDown(LEFT_KEY)) {
+			pc.get(Main.PLAYERNUM).moveLeft();
+		}
+
+		if (input.isKeyDown(RIGHT_KEY)) {
+			pc.get(Main.PLAYERNUM).moveRight();
+		}
+
+		if (input.isKeyDown(UP_KEY)) {
+			pc.get(Main.PLAYERNUM).moveUp();
+		}
+
+		if (input.isKeyDown(DOWN_KEY)) {
+			pc.get(Main.PLAYERNUM).moveDown();
+		}
+
+		if (input.isKeyDown(SHOT_KEY)) {
 			pc.get(Main.PLAYERNUM).shot(delta);
-    	}
-    	
-    	
-    }
-    
-    private void renderDebugs(GameContainer gc, StateBasedGame sbg, Graphics g) {
-    	// Debugs
-    	Color c = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+
+	}
+
+	private void renderDebugs(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		// Debugs
+		Color c = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		g.setColor(c);
-    	g.drawString("Time: " + timer/1000, 10.0f, 30.0f);
-    	g.drawString("Bullets: " + bc.size(), 10.0f, 50.0f);
-    	g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
-    	g.drawString("Press "+ Input.getKeyName(SPAWN1_KEY) +" to spawn Enemy 1", 10.0f, 110.0f);
-    	g.drawString("Press "+ Input.getKeyName(SPAWN2_KEY) +" to spawn Enemy 2", 10.0f, 130.0f);
-    	g.drawString("Press "+ Input.getKeyName(SPAWN3_KEY) +" to spawn Enemy 3", 10.0f, 150.0f);
-    	g.drawString("Press "+ Input.getKeyName(SPAWN4_KEY) +" to spawn Enemy 4", 10.0f, 170.0f);
-    	
-    	g.drawString("Lives: " + Player.LIVES, 10.0f, Main.GAMEHEIGHT-110.0f);
-    	g.drawString("Bombs: " + Player.BOMBS, 10.0f, Main.GAMEHEIGHT-90.0f);
-    	g.drawString("Power: " + Player.POWER, 10.0f, Main.GAMEHEIGHT-70.0f);
-    	g.drawString("Points: " + Player.POINTS, 10.0f, Main.GAMEHEIGHT-50.0f);
-    	g.drawString("Graze: " + Player.GRAZE, 10.0f, Main.GAMEHEIGHT-30.0f);
-    }
- 
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-    	// Todos los objetos del juego
-    	goc.draw(g);
-    	renderDebugs(gc, sbg, g);
-    }
-    
-    public int getID() {
-    	return Main.PLAY;
-    }
+		g.drawString("Time: " + timer / 1000, 10.0f, 30.0f);
+		g.drawString("Bullets: " + bc.size(), 10.0f, 50.0f);
+		g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
+		g.drawString("Press " + Input.getKeyName(SPAWN1_KEY)
+				+ " to spawn Enemy 1", 10.0f, 110.0f);
+		g.drawString("Press " + Input.getKeyName(SPAWN2_KEY)
+				+ " to spawn Enemy 2", 10.0f, 130.0f);
+		g.drawString("Press " + Input.getKeyName(SPAWN3_KEY)
+				+ " to spawn Enemy 3", 10.0f, 150.0f);
+		g.drawString("Press " + Input.getKeyName(SPAWN4_KEY)
+				+ " to spawn Enemy 4", 10.0f, 170.0f);
+
+		g.drawString("Lives: " + Player.LIVES, 10.0f, Main.GAMEHEIGHT - 110.0f);
+		g.drawString("Bombs: " + Player.BOMBS, 10.0f, Main.GAMEHEIGHT - 90.0f);
+		g.drawString("Power: " + Player.POWER, 10.0f, Main.GAMEHEIGHT - 70.0f);
+		g.drawString("Points: " + Player.POINTS, 10.0f, Main.GAMEHEIGHT - 50.0f);
+		g.drawString("Graze: " + Player.GRAZE, 10.0f, Main.GAMEHEIGHT - 30.0f);
+	}
+
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
+			throws SlickException {
+		// Todos los objetos del juego
+		goc.draw(g);
+		renderDebugs(gc, sbg, g);
+	}
+
+	public int getID() {
+		return Main.PLAY;
+	}
 }

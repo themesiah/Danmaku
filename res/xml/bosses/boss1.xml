@@ -12,6 +12,7 @@
 		<invulnerableTime>3000</invulnerableTime>
 		<phases>
 			<phase id="begin">
+				<music>boss</music>
 				<health>500</health>
 				<firePatterns>
 					<pattern>

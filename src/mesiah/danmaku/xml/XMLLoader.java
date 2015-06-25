@@ -137,6 +137,10 @@ public class XMLLoader {
 							content = element.getLastChild().getTextContent().trim();
 							p.setPOWERUP_HITBOX_RADIUS(Float.valueOf(content));
 							break;
+						case "extraPowerupHitboxRadius":
+							content = element.getLastChild().getTextContent().trim();
+							p.setEXTRA_POWERUP_HITBOX_RADIUS(Float.valueOf(content));
+							break;
 						case "posx":
 							content = element.getLastChild().getTextContent().trim();
 							parts = content.split("\\+");
@@ -688,6 +692,10 @@ public class XMLLoader {
 											Node phaseElement = phaseElements.item(z);
 											if (phaseElement instanceof Element) {
 												switch(phaseElement.getNodeName()) {
+													case "music":
+														content = phaseElement.getLastChild().getTextContent().trim();
+														e.addMusicPhase(phaseID, content);
+														break;
 													case "health":
 														content = phaseElement.getLastChild().getTextContent().trim();
 														e.addHealthPhase(phaseID, Integer.valueOf(content));
@@ -705,8 +713,6 @@ public class XMLLoader {
 																		switch(fpNode.getNodeName()) {
 																			case "fp":
 																				content = fpNode.getLastChild().getTextContent().trim();
-																				System.out
-																						.println("PHASE IS: " + phaseID);
 																				e.addPatternPhase(phaseID, content);
 																				break;
 																			case "shotDelay":

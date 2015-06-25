@@ -24,9 +24,11 @@ public class Boss extends Enemy {
 	private HashMap<String, ArrayList<Integer>> shotDelaysPhases;
 	private HashMap<String, ArrayList<Integer>> shotTimersPhases;
 	private HashMap<String, Integer> healthPhases;
+	private HashMap<String, String> musicPhases;
 	private ArrayList<String> phases;
 	int invulnerableDelay;
 	int invulnerableTimer;
+	private String lastSong;
 	
 	@SuppressWarnings("unchecked")
 	public Boss copy() {
@@ -56,6 +58,7 @@ public class Boss extends Enemy {
 			e.setShotTimersPhases((HashMap<String, ArrayList<Integer>>) this.getShotTimersPhases().clone());
 			e.setHealthPhases((HashMap<String, Integer>) this.getHealthPhases().clone());
 			e.setPhases((ArrayList<String>) this.phases.clone());
+			e.setMusicPhases((HashMap<String, String>) this.musicPhases.clone());
 			e.setInvulnerableDelay(invulnerableDelay);
 		} catch (SlickException e1) {
 			e1.printStackTrace();
@@ -141,6 +144,7 @@ public class Boss extends Enemy {
 		shotDelaysPhases = new HashMap<String, ArrayList<Integer>>();
 		shotTimersPhases = new HashMap<String, ArrayList<Integer>>();
 		healthPhases = new HashMap<String, Integer>();
+		musicPhases = new HashMap<String, String>();
 		phases = new ArrayList<String>();
 		
 		for (int i = 0; i < DESTROYED+1; i++) {
@@ -161,6 +165,7 @@ public class Boss extends Enemy {
 		damageDelay = 200;
 		invulnerableDelay = 0;
 		lastSize = new float[2];
+		lastSong = AudioManager.get().getCurrentlyPlaying();
 	}
 	
 	public void initBoss() {
@@ -307,6 +312,7 @@ public class Boss extends Enemy {
 				Play.puc.add(p);
 			}
 		}
+		AudioManager.get().playMusic(lastSong);
 	}
 	
 	public void onHit(int damage) {
@@ -498,6 +504,9 @@ public class Boss extends Enemy {
 			health = healthPhases.get(phase);
 			maxHealth = health;
 			copyArrays(phase);
+			if (musicPhases.containsKey(phase)) {
+				AudioManager.get().playMusic(musicPhases.get(phase));
+			}
 			phases.remove(0);
 		} else {
 			onDestroyed();
@@ -520,6 +529,18 @@ public class Boss extends Enemy {
 	
 	public void addHealthPhase(String phase, int health) {
 		healthPhases.put(phase, health);
+	}
+	
+	public void addMusicPhase(String phase, String audio) {
+		musicPhases.put(phase,  audio);
+	}
+
+	public HashMap<String, String> getMusicPhases() {
+		return musicPhases;
+	}
+
+	public void setMusicPhases(HashMap<String, String> musicPhases) {
+		this.musicPhases = musicPhases;
 	}
 
 }

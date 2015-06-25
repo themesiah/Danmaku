@@ -16,6 +16,7 @@ public class AudioManager {
 	private float soundVolume;
 	private float musicPitch;
 	private float soundPitch;
+	private String currentlyPlaying;
 	
 	private AudioManager() {
 		musics = new HashMap<String, Music>();
@@ -40,6 +41,14 @@ public class AudioManager {
 
 	public void setSoundPitch(float soundPitch) {
 		this.soundPitch = soundPitch;
+	}
+
+	public String getCurrentlyPlaying() {
+		return currentlyPlaying;
+	}
+
+	public void setCurrentlyPlaying(String currentlyPlaying) {
+		this.currentlyPlaying = currentlyPlaying;
 	}
 
 	public static AudioManager get() {
@@ -74,6 +83,7 @@ public class AudioManager {
 	
 	public void playMusic(String key) {
 		musics.get(key).loop(musicPitch, musicVolume);
+		currentlyPlaying = key;
 	}
 	
 	public void stopMusic(String key) {

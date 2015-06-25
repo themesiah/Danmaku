@@ -39,7 +39,8 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	
 	private float HITBOX_RADIUS = 0.1f;
 	private float GRAZE_HITBOX_RADIUS = 20.0f;
-	private float POWERUP_HITBOX_RADIUS = 40.0f;
+	private float POWERUP_HITBOX_RADIUS = 10.0f;
+	private float EXTRA_POWERUP_HITBOX_RADIUS = 40.0f;
 	
 	
 	
@@ -175,15 +176,13 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		if (this.collidable) {
 			List<Powerup> pulist = Play.puc.getPowerups();
 			for (Powerup pu: pulist) {
-				for (Shape s: ss) {
-					for (Shape se: pu.getHitBoxes()) {
-						if (collides(se, s) && pu.isCollidable()) {
-							onPowerupWin(pu);
-							Play.puc.addToRemove(pu);
-						} else if (collides (se, getPowerupHitBox()) && pu.isCollidable()) {
-							pu.setDirection(GetDirection.getDirectionToPlayer(pu.getPosX(), pu.getPosY()));
-							pu.setSpeed(speed*2);
-						}
+				for (Shape se: pu.getHitBoxes()) {
+					if (collides(se, getPowerupHitBox()) && pu.isCollidable()) {
+						onPowerupWin(pu);
+						Play.puc.addToRemove(pu);
+					} else if (collides (se, getExtraPowerupHitBox()) && pu.isCollidable()) {
+						pu.setDirection(GetDirection.getDirectionToPlayer(pu.getPosX(), pu.getPosY()));
+						pu.setSpeed(speed*2);
 					}
 				}
 			}
@@ -390,6 +389,11 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, POWERUP_HITBOX_RADIUS, POWERUP_HITBOX_RADIUS);
 		return el;
 	}
+	
+	public Shape getExtraPowerupHitBox() {
+		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, EXTRA_POWERUP_HITBOX_RADIUS, EXTRA_POWERUP_HITBOX_RADIUS);
+		return el;
+	}
 
 	public void addHitbox(Shape s) {
 		float[] rel = {s.getX(), s.getY()};
@@ -442,6 +446,14 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 
 	public void setPOWERUP_HITBOX_RADIUS(float pOWERUP_HITBOX_RADIUS) {
 		POWERUP_HITBOX_RADIUS = pOWERUP_HITBOX_RADIUS;
+	}
+	
+	public float getEXTRA_POWERUP_HITBOX_RADIUS() {
+		return EXTRA_POWERUP_HITBOX_RADIUS;
+	}
+
+	public void setEXTRA_POWERUP_HITBOX_RADIUS(float pOWERUP_HITBOX_RADIUS) {
+		EXTRA_POWERUP_HITBOX_RADIUS = pOWERUP_HITBOX_RADIUS;
 	}
 
 }

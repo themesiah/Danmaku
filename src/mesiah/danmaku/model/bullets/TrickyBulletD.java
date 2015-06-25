@@ -180,6 +180,10 @@ public class TrickyBulletD extends BulletDecorator {
 	public void setOnlyOnce(boolean onlyOnce) {
 		this.onlyOnce = onlyOnce;
 	}
+	
+	public boolean isAlly() {
+		return super.isAlly();
+	}
 
 
 }

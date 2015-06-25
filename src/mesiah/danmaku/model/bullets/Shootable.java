@@ -26,6 +26,7 @@ public interface Shootable {
 	public float getPosY();
 	public float getSpeed();
 	public float getDirection();
+	public boolean isAlly();
 	
 	public String getState();
 	

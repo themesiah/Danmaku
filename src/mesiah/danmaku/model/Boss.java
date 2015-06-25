@@ -498,6 +498,7 @@ public class Boss extends Enemy {
 	
 	
 	private void changePhase() {
+		Play.bc.addToRemoveEnemies();
 		if (phases.size() > 0) {
 			String phase = phases.get(0);
 			invulnerableTimer = invulnerableDelay;

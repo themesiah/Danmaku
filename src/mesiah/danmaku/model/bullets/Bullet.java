@@ -178,7 +178,7 @@ public class Bullet extends VisibleGameObject implements Shootable {
 				CheckEnemyCollisions();
 				CheckPlayerCollisions();
 				CheckBossCollisions();
-				if (posx > Main.GAMEWIDTH+20 ||	posx < -20 || posy < -20 ||	posy > Main.GAMEHEIGHT+20) {
+				if (posx > Main.LIMITRIGHT+50 || posx < Main.LIMITLEFT-50 || posy < Main.LIMITTOP-50 || posy > Main.LIMITBOTTOM+50) {
 					state = "dead";
 					parent.addToRemove(this);
 				}
@@ -266,6 +266,10 @@ public class Bullet extends VisibleGameObject implements Shootable {
 	
 	public int getDamage() {
 		return damage;
+	}
+	
+	public boolean isAlly() {
+		return ally;
 	}
 	
 

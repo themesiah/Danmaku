@@ -10,6 +10,22 @@ public class BulletContainer {
 	List<Object> toRemove;
 	List<FirePattern> toAdd;
 	
+	public void addToRemoveEnemies() {
+		for (FirePattern fp : blist) {
+			if (fp.size() > 0) {
+				if (!(fp.getBullet(0).isAlly())) {
+					if (!toRemove.contains(fp)) {
+						addToRemove(fp);
+					}
+				}
+			} else {
+				if (!toRemove.contains(fp)) {
+					addToRemove(fp);
+				}
+			}
+		}
+	}
+	
 	public void addToRemove(Object o) {
 		toRemove.add(o);
 	}
@@ -56,7 +72,9 @@ public class BulletContainer {
 		for (FirePattern fp:blist) {
 			fp.update(delta);
 			if (fp.size() == 0) {
-				addToRemove(fp);
+				if (!toRemove.contains(fp)) {
+					addToRemove(fp);
+				}
 			}
 		}
 		for (Object o:toRemove) {

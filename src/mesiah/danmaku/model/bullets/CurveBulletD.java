@@ -129,5 +129,9 @@ public class CurveBulletD extends BulletDecorator {
 		return cs.get(n);
 	}
 	
+	public boolean isAlly() {
+		return super.isAlly();
+	}
+	
 
 }

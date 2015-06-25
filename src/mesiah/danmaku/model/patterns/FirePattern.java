@@ -2,6 +2,7 @@ package mesiah.danmaku.model.patterns;
 
 import java.util.ArrayList;
 
+import mesiah.danmaku.Play;
 import mesiah.danmaku.model.GameObject;
 import mesiah.danmaku.model.VisibleGameObject;
 import mesiah.danmaku.model.bullets.Shootable;
@@ -35,6 +36,9 @@ public abstract class FirePattern extends Pattern {
 		for (Shootable b:toRemove) {
 			gol.remove(b);
 			b = null;
+		}
+		if (gol.size() <= 0) {
+			Play.bc.addToRemove(this);
 		}
 		toRemove.clear();
 	}
@@ -97,6 +101,10 @@ public abstract class FirePattern extends Pattern {
 
 	public void setTimer(int timer) {
 		this.timer = timer;
+	}
+	
+	public Shootable getBullet(int n) {
+		return gol.get(n);
 	}
 
 }

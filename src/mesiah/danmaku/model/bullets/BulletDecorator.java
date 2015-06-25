@@ -106,5 +106,9 @@ public abstract class BulletDecorator extends VisibleGameObject implements Shoot
 	public float getDirection() {
 		return b.getDirection();
 	}
+	
+	public boolean isAlly() {
+		return b.isAlly();
+	}
 
 }

@@ -166,5 +166,9 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 	public void setDensity(int density) {
 		this.density = density;
 	}
+	
+	public boolean isAlly() {
+		return super.isAlly();
+	}
 
 }

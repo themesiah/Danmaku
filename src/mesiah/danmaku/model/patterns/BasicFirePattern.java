@@ -125,5 +125,9 @@ public class BasicFirePattern extends FirePattern {
 			s.setDirection(d);
 		}
 	}
+	
+	public Shootable getBullet(int n) {
+		return gol.get(n);
+	}
 
 }

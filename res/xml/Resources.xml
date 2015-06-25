@@ -7,6 +7,7 @@
 	<animation>enemy2.xml</animation>
 	<animation>enemy3.xml</animation>
 	<animation>enemy4.xml</animation>
+	<animation>boss1.xml</animation>
 	<animation>playerBullet.xml</animation>
 	<animation>enemyBullet1.xml</animation>
 	<animation>enemyBullet2.xml</animation>

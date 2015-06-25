@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<animations>
+	<animation id="boss1">
+		<sprite>
+			<image>boss1.png</image>
+			<time>100</time>
+		</sprite>
+	</animation>
+</animations>

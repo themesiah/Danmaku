@@ -1,6 +1,7 @@
 package mesiah.danmaku.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
@@ -19,15 +20,20 @@ public class Boss extends Enemy {
 	private String name;
 	private int maxHealth;
 	
+	private HashMap<String, ArrayList<String>> fpsPhases;
+	private HashMap<String, ArrayList<Integer>> shotDelaysPhases;
+	private HashMap<String, ArrayList<Integer>> shotTimersPhases;
+	private HashMap<String, Integer> healthPhases;
+	private ArrayList<String> phases;
+	int invulnerableDelay;
+	int invulnerableTimer;
+	
 	@SuppressWarnings("unchecked")
 	public Boss copy() {
 		Boss e = null;
 		try {
 			e = new Boss();
-			e.setFirePatterns((ArrayList<String>) this.fps.clone());
 			e.setHealth(health);
-			e.setShotDelays((ArrayList<Integer>) this.shotDelays.clone());
-			e.setShotTimers((ArrayList<Integer>) this.shotTimers.clone());
 			e.setPosX(posx);
 			e.setPosY(posy);
 			e.setSpeed(speed);
@@ -45,6 +51,12 @@ public class Boss extends Enemy {
 			e.setRelatives((ArrayList<float[]>) this.relatives.clone());
 			e.setD(e.getFromDs(ACTIVE));
 			e.setName(name);
+			e.setFpsPhases((HashMap<String, ArrayList<String>>) this.getFpsPhases().clone());
+			e.setShotDelaysPhases((HashMap<String, ArrayList<Integer>>) this.getShotDelaysPhases().clone());
+			e.setShotTimersPhases((HashMap<String, ArrayList<Integer>>) this.getShotTimersPhases().clone());
+			e.setHealthPhases((HashMap<String, Integer>) this.getHealthPhases().clone());
+			e.setPhases((ArrayList<String>) this.phases.clone());
+			e.setInvulnerableDelay(invulnerableDelay);
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -52,7 +64,7 @@ public class Boss extends Enemy {
 	}
 
 	public Boss() throws SlickException {
-		super();
+		init();
 	}
 	
 	public void setHealth(int h) {
@@ -81,7 +93,7 @@ public class Boss extends Enemy {
 		// Full rect
 		Color c = new Color(0.0f, 0.0f, 0.0f, 1.0f);
 		g.setColor(c);
-		g.fillRect(posx, posy, maxWidth, height*2);
+		g.fillRect(posx, posy, maxWidth, height);
 		
 		// Name
 		c = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -124,6 +136,13 @@ public class Boss extends Enemy {
 		ss = new ArrayList<Shape>();
 		relatives = new ArrayList<float[]>();
 		powerups = new ArrayList<String>();
+		
+		fpsPhases = new HashMap<String, ArrayList<String>>();
+		shotDelaysPhases = new HashMap<String, ArrayList<Integer>>();
+		shotTimersPhases = new HashMap<String, ArrayList<Integer>>();
+		healthPhases = new HashMap<String, Integer>();
+		phases = new ArrayList<String>();
+		
 		for (int i = 0; i < DESTROYED+1; i++) {
 			ds.add(null);
 			sounds.add(null);
@@ -134,14 +153,18 @@ public class Boss extends Enemy {
 		//sounds.set(DESTROYED, "destroyed");
 		
 		posx = Main.GAMEWIDTH/2;
-		posy = Main.GAMEHEIGHT/4;
+		
 		state = "active";
 		collidable = true;
 		health = 100;
 		damageTimer = 0;
 		damageDelay = 200;
+		invulnerableDelay = 0;
 		lastSize = new float[2];
-		
+	}
+	
+	public void initBoss() {
+		changePhase();
 	}
 	
 	public boolean isCollidable() {
@@ -201,20 +224,50 @@ public class Boss extends Enemy {
 		} else {
 			damageTimer -= delta;
 		}
+		
+		if (invulnerableTimer >= 0) {
+			invulnerableTimer -= delta;
+		}
 		shot(delta);
 	}
 	
+	public ArrayList<String> getPhases() {
+		return phases;
+	}
+
+	public void setPhases(ArrayList<String> phases) {
+		this.phases = phases;
+	}
+
+	public int getInvulnerableDelay() {
+		return invulnerableDelay;
+	}
+
+	public void setInvulnerableDelay(int invulnerableDelay) {
+		this.invulnerableDelay = invulnerableDelay;
+	}
+
+	public int getInvulnerableTimer() {
+		return invulnerableTimer;
+	}
+
+	public void setInvulnerableTimer(int invulnerableTimer) {
+		this.invulnerableTimer = invulnerableTimer;
+	}
+
 	public void shot(int delta) {
-		FirePattern fp = null;
-		if (state == "active") {
-			for (int i = 0; i < fps.size(); i++) {
-				if (shotTimers.get(i) >= shotDelays.get(i)) {
-					fp = FirePatternManager.get().compose(fps.get(i), this);
-					shotTimers.set(i, 0);
-					Play.bc.add(fp);
-					AudioManager.get().playSound(sounds.get(SHOT));
-				} else {
-					shotTimers.set(i, shotTimers.get(i) + delta);
+		if (invulnerableTimer <= 0) {
+			FirePattern fp = null;
+			if (state == "active") {
+				for (int i = 0; i < fps.size(); i++) {
+					if (shotTimers.get(i) >= shotDelays.get(i)) {
+						fp = FirePatternManager.get().compose(fps.get(i), this);
+						shotTimers.set(i, 0);
+						Play.bc.add(fp);
+						AudioManager.get().playSound(sounds.get(SHOT));
+					} else {
+						shotTimers.set(i, shotTimers.get(i) + delta);
+					}
 				}
 			}
 		}
@@ -257,11 +310,13 @@ public class Boss extends Enemy {
 	}
 	
 	public void onHit(int damage) {
-		health -= damage;
-		damageTimer = damageDelay;
-		d.setColor(0.8f, 0.0f, 0.0f, 1.0f);
-		if (health <= 0) {
-			onDestroyed();
+		if (invulnerableTimer <= 0) {
+			health -= damage;
+			damageTimer = damageDelay;
+			d.setColor(0.8f, 0.0f, 0.0f, 1.0f);
+			if (health <= 0) {
+				changePhase();
+			}
 		}
 	}
 	
@@ -308,16 +363,12 @@ public class Boss extends Enemy {
 		}
 	}
 	
-	public void addPattern(String id) {
-		fps.add(id);
+	public void addPatternPhase(String phase, String id) {
+		fpsPhases.get(phase).add(id);
 	}
 	
 	public void addSound(String key, int id) {
 		sounds.set(id, key);
-	}
-	
-	public void setFirePatterns(ArrayList<String> fps) {
-		this.fps = fps;
 	}
 	
 	public void setDrawables(ArrayList<Drawable> ds) {
@@ -387,26 +438,10 @@ public class Boss extends Enemy {
 	public void setRelatives(ArrayList<float[]> rel) {
 		this.relatives = rel;
 	}
-
-	public ArrayList<Integer> getShotDelays() {
-		return shotDelays;
-	}
-
-	public void setShotDelays(ArrayList<Integer> shotDelays) {
-		this.shotDelays = shotDelays;
-	}
-
-	public ArrayList<Integer> getShotTimers() {
-		return shotTimers;
-	}
-
-	public void setShotTimers(ArrayList<Integer> shotTimers) {
-		this.shotTimers = shotTimers;
-	}
 	
-	public void addShotDelay(int delay) {
-		shotDelays.add(delay);
-		shotTimers.add(delay);
+	public void addShotDelayPhase(String key, int delay) {
+		this.getShotDelaysPhases().get(key).add(delay);
+		this.getShotTimersPhases().get(key).add(delay);
 	}
 
 	public ArrayList<String> getPowerup() {
@@ -419,6 +454,72 @@ public class Boss extends Enemy {
 	
 	public void addPowerup(String p) {
 		powerups.add(p);
+	}
+
+	public HashMap<String, ArrayList<String>> getFpsPhases() {
+		return fpsPhases;
+	}
+
+	public void setFpsPhases(HashMap<String, ArrayList<String>> fpsPhases) {
+		this.fpsPhases = fpsPhases;
+	}
+
+	public HashMap<String, ArrayList<Integer>> getShotDelaysPhases() {
+		return shotDelaysPhases;
+	}
+
+	public void setShotDelaysPhases(
+			HashMap<String, ArrayList<Integer>> shotDelaysPhases) {
+		this.shotDelaysPhases = shotDelaysPhases;
+	}
+
+	public HashMap<String, ArrayList<Integer>> getShotTimersPhases() {
+		return shotTimersPhases;
+	}
+
+	public void setShotTimersPhases(
+			HashMap<String, ArrayList<Integer>> shotTimersPhases) {
+		this.shotTimersPhases = shotTimersPhases;
+	}
+
+	public HashMap<String, Integer> getHealthPhases() {
+		return healthPhases;
+	}
+
+	public void setHealthPhases(HashMap<String, Integer> healthPhases) {
+		this.healthPhases = healthPhases;
+	}
+	
+	
+	private void changePhase() {
+		if (phases.size() > 0) {
+			String phase = phases.get(0);
+			invulnerableTimer = invulnerableDelay;
+			health = healthPhases.get(phase);
+			maxHealth = health;
+			copyArrays(phase);
+			phases.remove(0);
+		} else {
+			onDestroyed();
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void copyArrays(String phase) {
+		fps = (ArrayList<String>) fpsPhases.get(phase).clone();
+		shotDelays = (ArrayList<Integer>) shotDelaysPhases.get(phase).clone();
+		shotTimers = (ArrayList<Integer>) shotTimersPhases.get(phase).clone();
+	}
+	
+	public void addPhase(String phase) {
+		phases.add(phase);
+		fpsPhases.put(phase, new ArrayList<String>());
+		shotDelaysPhases.put(phase, new ArrayList<Integer>());
+		shotTimersPhases.put(phase, new ArrayList<Integer>());
+	}
+	
+	public void addHealthPhase(String phase, int health) {
+		healthPhases.put(phase, health);
 	}
 
 }

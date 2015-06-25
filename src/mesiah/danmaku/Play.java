@@ -94,7 +94,7 @@ public class Play extends BasicGameState {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			x = ((float) Math.random() * (Main.GAMEWIDTH/2-e.getSize()[0])) + Main.GAMEWIDTH/4;
+			x = ((float) Math.random() * (Main.GAMEWIDTH/2-e.getSize()[0]/2)) + Main.GAMEWIDTH/4;
 			e.setPosX(x);
     		lastEnemy = 0;
     		ec.add(e);
@@ -105,13 +105,16 @@ public class Play extends BasicGameState {
 		if (lastEnemy >= enemyDelay) {
     		Boss e = null;
     		float x;
+    		float y;
     		try {
     			e = BossesManager.get().newBoss(type);    			
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			x = Main.GAMEWIDTH/2-e.getSize()[0];
+    		y = 0 - e.getSize()[1]/2;
+			x = Main.GAMEWIDTH/2 - e.getSize()[0]/2;
 			e.setPosX(x);
+			e.setPosY(y);
     		lastEnemy = 0;
     		bssc.add(e);
     	}

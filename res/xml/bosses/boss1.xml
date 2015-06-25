@@ -2,26 +2,40 @@
 <enemies>
 	<boss id="boss1">
 		<name>Tronchoboss</name>
-		<health>1500</health>
 		<speed>5</speed>
 		<facing>0</facing>
 		<direction>270</direction>
 		<animations>
-			<active>enemy4</active>
+			<active>boss1</active>
 			<destroyed>enemydestroyed</destroyed>
 		</animations>
-		<firePatterns>
-			<pattern>
-				<fp>enemyfirepattern4</fp>
-				<shotDelay>10000</shotDelay>
-			</pattern>
-		</firePatterns>
+		<invulnerableTime>3000</invulnerableTime>
+		<phases>
+			<phase id="begin">
+				<health>500</health>
+				<firePatterns>
+					<pattern>
+						<fp>enemyfirepattern4</fp>
+						<shotDelay>10000</shotDelay>
+					</pattern>
+				</firePatterns>
+			</phase>
+			<phase id="end">
+				<health>750</health>
+				<firePatterns>
+					<pattern>
+						<fp>enemyfirepattern2</fp>
+						<shotDelay>3000</shotDelay>
+					</pattern>
+				</firePatterns>
+			</phase>
+		</phases>
 		<sound>
 			<destroyed>destroyed</destroyed>
 			<shot>playershot</shot>
 		</sound>
 		<hitbox>
-			<rectangle>sprite</rectangle>
+			<ellipse>256,256,200,200</ellipse>
 		</hitbox>
 		<powerup>power1</powerup>
 		<powerup>points1</powerup>

@@ -18,7 +18,9 @@ public class BossesManager {
 	}
 	
 	public Boss newBoss(String key) {
-		return bosses.get(key).copy();
+		Boss b = bosses.get(key).copy();
+		b.initBoss();
+		return b;
 	}
 	
 	public void addBoss(Boss e) {

@@ -630,7 +630,7 @@ public class XMLLoader {
 		Boss e = new Boss();
 		String enemyID;
 		String content;
-		int k, j, i, z;
+		int k, j, i, z, i2, j2;
 		NodeList nodeList = document.getDocumentElement().getChildNodes();
 		for (i = 0; i < nodeList.getLength(); i++) {
 			// Un enemigo concreto
@@ -649,6 +649,9 @@ public class XMLLoader {
 								content = cNode.getLastChild().getTextContent().trim();
 								e.setName(content);
 								break;
+							case "invulnerableTime":
+								content = cNode.getLastChild().getTextContent().trim();
+								e.setInvulnerableDelay(Integer.valueOf(content));
 							case "posx":
 								content = cNode.getLastChild().getTextContent().trim();
 								e.setPosX(Integer.parseInt(content));
@@ -656,10 +659,6 @@ public class XMLLoader {
 							case "posy":
 								content = cNode.getLastChild().getTextContent().trim();
 								e.setPosY(Integer.parseInt(content));
-								break;
-							case "health":
-								content = cNode.getLastChild().getTextContent().trim();
-								e.setHealth(Integer.parseInt(content));
 								break;
 							case "speed":
 								content = cNode.getLastChild().getTextContent().trim();
@@ -676,6 +675,55 @@ public class XMLLoader {
 							case "powerup":
 								content = cNode.getLastChild().getTextContent().trim();
 								e.addPowerup(content);
+								break;
+							case "phases":
+								NodeList phases = cNode.getChildNodes();
+								for (k = 0; k < phases.getLength(); k++) {
+									Node phase = phases.item(k);
+									if (phase instanceof Element) {
+										String phaseID = phase.getAttributes().getNamedItem("id").getNodeValue();
+										e.addPhase(phaseID);
+										NodeList phaseElements = phase.getChildNodes();
+										for (z = 0; z < phaseElements.getLength(); z++) {
+											Node phaseElement = phaseElements.item(z);
+											if (phaseElement instanceof Element) {
+												switch(phaseElement.getNodeName()) {
+													case "health":
+														content = phaseElement.getLastChild().getTextContent().trim();
+														e.addHealthPhase(phaseID, Integer.valueOf(content));
+														break;
+													case "firePatterns":
+														NodeList fireChilds = phaseElement.getChildNodes();
+														for (i2 = 0; i2 < fireChilds.getLength(); i2++) {
+															// Single fire pattern
+															Node fpsNode = fireChilds.item(i2);
+															if (fpsNode instanceof Element) {
+																NodeList fpsChildNodes = fpsNode.getChildNodes();
+																for (j2 = 0; j2 < fpsChildNodes.getLength(); j2++) {
+																	Node fpNode = fpsChildNodes.item(j2);
+																	if (fpNode instanceof Element) {
+																		switch(fpNode.getNodeName()) {
+																			case "fp":
+																				content = fpNode.getLastChild().getTextContent().trim();
+																				System.out
+																						.println("PHASE IS: " + phaseID);
+																				e.addPatternPhase(phaseID, content);
+																				break;
+																			case "shotDelay":
+																				content = fpNode.getLastChild().getTextContent().trim();
+																				e.addShotDelayPhase(phaseID, Integer.parseInt(content));
+																				break;
+																		}
+																	}
+																}
+															}
+														}
+														break;
+												}
+											}
+										}
+									}
+								}
 								break;
 							case "hitbox":
 								NodeList hitboxChilds = cNode.getChildNodes();
@@ -728,31 +776,6 @@ public class XMLLoader {
 										}
 									}
 								}
-								break;
-							case "firePatterns":
-								NodeList fireChilds = cNode.getChildNodes();
-								for (k = 0; k < fireChilds.getLength(); k++) {
-									Node fpsNode = fireChilds.item(k);
-									if (fpsNode instanceof Element) {
-										NodeList fpsChildNodes = fpsNode.getChildNodes();
-										for (z = 0; z < fpsChildNodes.getLength(); z++) {
-											Node fpNode = fpsChildNodes.item(z);
-											if (fpNode instanceof Element) {
-												switch(fpNode.getNodeName()) {
-													case "fp":
-														content = fpNode.getLastChild().getTextContent().trim();
-														e.addPattern(content);
-														break;
-													case "shotDelay":
-														content = fpNode.getLastChild().getTextContent().trim();
-														e.addShotDelay(Integer.parseInt(content));
-														break;
-												}
-											}
-										}
-									}
-								}
-								
 								break;
 							case "sound":
 								NodeList soundsList = cNode.getChildNodes();

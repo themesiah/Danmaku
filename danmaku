@@ -1,0 +1,62 @@
+<NotepadPlus>
+    <Project name="Danmaku">
+        <Folder name="XML">
+            <Folder name="animations">
+                <File name="res\xml\animations\boss1.xml" />
+                <File name="res\xml\animations\destroy.xml" />
+                <File name="res\xml\animations\enemy1.xml" />
+                <File name="res\xml\animations\enemy2.xml" />
+                <File name="res\xml\animations\enemy3.xml" />
+                <File name="res\xml\animations\enemy4.xml" />
+                <File name="res\xml\animations\enemyBullet1.xml" />
+                <File name="res\xml\animations\enemyBullet2.xml" />
+                <File name="res\xml\animations\enemyBullet3.xml" />
+                <File name="res\xml\animations\playerAnimation.xml" />
+                <File name="res\xml\animations\playerBullet.xml" />
+                <File name="res\xml\animations\playerFAnimation.xml" />
+                <File name="res\xml\animations\points1.xml" />
+                <File name="res\xml\animations\powerup1.xml" />
+            </Folder>
+            <Folder name="audio">
+                <File name="res\xml\audio\bgmusic.xml" />
+                <File name="res\xml\audio\sounds.xml" />
+            </Folder>
+            <Folder name="bosses">
+                <File name="res\xml\bosses\boss1.xml" />
+            </Folder>
+            <Folder name="curves">
+                <File name="res\xml\curves\curve1.xml" />
+                <File name="res\xml\curves\curve2.xml" />
+                <File name="res\xml\curves\curve3.xml" />
+                <File name="res\xml\curves\curve4.xml" />
+                <File name="res\xml\curves\doc.txt" />
+            </Folder>
+            <Folder name="enemies">
+                <File name="res\xml\enemies\enemy1.xml" />
+                <File name="res\xml\enemies\enemy2.xml" />
+                <File name="res\xml\enemies\enemy3.xml" />
+                <File name="res\xml\enemies\enemy4.xml" />
+            </Folder>
+            <Folder name="patterns">
+                <File name="res\xml\patterns\doc.txt" />
+                <File name="res\xml\patterns\enemypattern1.xml" />
+                <File name="res\xml\patterns\enemypattern1_1.xml" />
+                <File name="res\xml\patterns\enemypattern1_2.xml" />
+                <File name="res\xml\patterns\enemypattern2.xml" />
+                <File name="res\xml\patterns\enemypattern3.xml" />
+                <File name="res\xml\patterns\enemypattern4.xml" />
+                <File name="res\xml\patterns\enemypattern5.xml" />
+                <File name="res\xml\patterns\pattern1.xml" />
+                <File name="res\xml\patterns\pattern2.xml" />
+                <File name="res\xml\patterns\pattern3.xml" />
+            </Folder>
+            <Folder name="powerups">
+                <File name="res\xml\powerups\points1.xml" />
+                <File name="res\xml\powerups\power1.xml" />
+            </Folder>
+            <File name="res\xml\Player.xml" />
+            <File name="res\xml\Resources.xml" />
+        </Folder>
+        <File name="TODO.txt" />
+    </Project>
+</NotepadPlus>

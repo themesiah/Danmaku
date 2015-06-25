@@ -6,19 +6,23 @@ import mesiah.danmaku.util.Signals;
 
 public class TrickyBulletD extends BulletDecorator {
 	private int beforeTime;
+	private int initialBeforeTime;
 	private String secondaryDirection;
 	private String secondarySpeed;
 	boolean changed;
 	public static int PATTERNBINDVALUE = -1000;
 	private String patternKey;
+	private boolean onlyOnce;
 
 	public TrickyBulletD(Shootable b) {
 		super(b);
 		beforeTime = 0;
+		initialBeforeTime = 0;
 		secondaryDirection = "0";
 		secondarySpeed = "1";
 		changed = false;
 		patternKey = "";
+		onlyOnce = true;
 	}
 	
 	public String getPatternKey() {
@@ -51,6 +55,7 @@ public class TrickyBulletD extends BulletDecorator {
 
 	public void setBeforeTime(int beforeTime) {
 		this.beforeTime = beforeTime;
+		initialBeforeTime = beforeTime;
 	}
 
 	public void move(int delta) {
@@ -72,6 +77,7 @@ public class TrickyBulletD extends BulletDecorator {
 	}
 	
 	public void change() {
+		changed = true;
 		float d = 0;
 		float s = 0;
 		if (secondaryDirection.equals("player")) {
@@ -85,19 +91,21 @@ public class TrickyBulletD extends BulletDecorator {
 		s = Float.valueOf(secondarySpeed);
 		this.setDirection(d);
 		this.setSpeed(s);
+		if (!onlyOnce) {
+			beforeTime = initialBeforeTime;
+			changed = false;
+		}
 	}
 	
 	public void update(int delta) {
 		if (beforeTime <= 0 && beforeTime != PATTERNBINDVALUE) {
 			if (!changed) {
 				change();
-				changed = true;
 			}
 		} else if (beforeTime == PATTERNBINDVALUE) {
 			Signals s = Signals.getSignals();
 			if (!changed && s.getIntegerSignal(patternKey) <= 0) {
 				change();
-				changed = true;
 			}
 		} else {
 			beforeTime -= delta;
@@ -163,6 +171,14 @@ public class TrickyBulletD extends BulletDecorator {
 	
 	public float getDirection() {
 		return super.getDirection();
+	}
+
+	public boolean isOnlyOnce() {
+		return onlyOnce;
+	}
+
+	public void setOnlyOnce(boolean onlyOnce) {
+		this.onlyOnce = onlyOnce;
 	}
 
 

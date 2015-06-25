@@ -139,14 +139,16 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		if (this.collidable && !ally) {
 			List<Player> plist = Play.pc.getPlayers();
 			for (Player p: plist) {
-				for (Shape s:getHitBoxes()) {
-					for (Shape sp:p.getHitBoxes()) {
-						if ((s.intersects(sp) || s.contains(sp)) && p.isCollidable()) {
-							p.onHit(damage);
-							onDestroyed();
-						} else if (collides(s, p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
-							grazed = true;
-							Player.GRAZE += 1;
+				if (p.isCollidable()) {
+					for (Shape s : getHitBoxes()) {
+						for (Shape sp : p.getHitBoxes()) {
+							if (collides(s, sp)) {
+								p.onHit(damage);
+								onDestroyed();
+							} else if (collides(s, p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
+								grazed = true;
+								Player.GRAZE += 1;
+							}
 						}
 					}
 				}

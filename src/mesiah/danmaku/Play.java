@@ -131,6 +131,9 @@ public class Play extends BasicGameState {
 
 		Signals s = Signals.getSignals();
 		for (String key : s.getIntegerSignals().keySet()) {
+			if (s.getIntegerSignal(key) < 0) {
+				s.resetIntegerSignal(key);
+			}
 			if (s.getIntegerSignal(key) >= 0) {
 				s.changeIntegerSignal(key, -delta);
 			}

@@ -13,11 +13,11 @@
 		<phases>
 			<phase id="begin">
 				<music>boss</music>
-				<health>5000</health>
+				<health>3000</health>
 				<firePatterns>
 					<pattern>
-						<fp>bosspattern1</fp>
-						<shotDelay>10</shotDelay>
+						<fp>bosspattern3</fp>
+						<shotDelay>50</shotDelay>
 					</pattern>
 				</firePatterns>
 			</phase>
@@ -34,8 +34,8 @@
 				<health>2000</health>
 				<firePatterns>
 					<pattern>
-						<fp>bosspattern1</fp>
-						<shotDelay>10</shotDelay>
+						<fp>bosspattern3</fp>
+						<shotDelay>5</shotDelay>
 					</pattern>
 				</firePatterns>
 			</phase>

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Ellipse;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Shape;
 
 import mesiah.danmaku.Main;
@@ -381,17 +381,17 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	
 	
 	public Shape getGrazeHitBox() {
-		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, GRAZE_HITBOX_RADIUS, GRAZE_HITBOX_RADIUS);
+		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, GRAZE_HITBOX_RADIUS);
 		return el;
 	}
 	
 	public Shape getPowerupHitBox() {
-		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, POWERUP_HITBOX_RADIUS, POWERUP_HITBOX_RADIUS);
+		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, POWERUP_HITBOX_RADIUS);
 		return el;
 	}
 	
 	public Shape getExtraPowerupHitBox() {
-		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, EXTRA_POWERUP_HITBOX_RADIUS, EXTRA_POWERUP_HITBOX_RADIUS);
+		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, EXTRA_POWERUP_HITBOX_RADIUS);
 		return el;
 	}
 
@@ -402,7 +402,7 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 
 	public void addHitbox() {
-		Ellipse el = new Ellipse(posx + getSize()[0]/2, posy + getSize()[1]/2, HITBOX_RADIUS, HITBOX_RADIUS);
+		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2, HITBOX_RADIUS);
 		float[] rel = {0.0f, 0.0f};
 		addRelative(rel);
 		ss.add(el);

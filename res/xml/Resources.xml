@@ -30,6 +30,8 @@
 	<pattern>bosspattern1.xml</pattern>
 	<pattern>bosspattern2.xml</pattern>
 	<pattern>bosspattern2_1.xml</pattern>
+	<pattern>bosspattern3.xml</pattern>
+	<pattern>testpattern.xml</pattern>
 	<pattern>pattern1.xml</pattern>
 	<pattern>pattern2.xml</pattern>
 	<pattern>pattern3.xml</pattern>

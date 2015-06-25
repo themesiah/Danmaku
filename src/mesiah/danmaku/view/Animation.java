@@ -1,5 +1,7 @@
 package mesiah.danmaku.view;
 
+import mesiah.danmaku.Main;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -73,13 +75,30 @@ public class Animation implements Drawable {
 		return !ani.isStopped();
 	}
 	
+	private boolean checkDraw(float x, float y) {
+		float width = this.ani.getWidth();
+		float height = this.ani.getHeight();
+		if (x + width/2 < Main.LIMITLEFT ||
+			x - width/2 > Main.LIMITRIGHT ||
+			y + height/2 < Main.LIMITTOP ||
+			y - height/2 > Main.LIMITBOTTOM) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	public void draw(float x, float y) {
-		this.ani.draw(x, y);
+		if (checkDraw(x, y)) {
+			this.ani.draw(x, y);
+		}
 	}
 	
 	public void draw(float x, float y, float facing) {
-		this.ani.getCurrentFrame().setRotation(facing);
-		this.ani.draw(x, y);
+		if (checkDraw(x, y)) {
+			this.ani.getCurrentFrame().setRotation(facing);
+			this.ani.draw(x, y);
+		}
 	}
 	
 	public void setColor(float r, float g, float b) {

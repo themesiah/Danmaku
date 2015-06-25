@@ -12,7 +12,7 @@
 		<firePatterns>
 			<pattern>
 				<fp>enemyfirepattern5</fp>
-				<shotDelay>2000</shotDelay>
+				<shotDelay>5</shotDelay>
 			</pattern>
 		</firePatterns>
 		<sound>

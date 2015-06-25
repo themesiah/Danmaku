@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <patterns>
-	<pattern id="bosspattern2">
+	<pattern id="test">
 		<bullet>
 			<property>divisible</property>
 			<delay>0</delay>
@@ -9,17 +9,16 @@
 			<posx>parent</posx>
 			<posy>20+parent</posy>
 			<damage>10</damage>
-			<direction>player</direction>
+			<direction>random</direction>
 			<hitbox>
-				<circle>8,8,8,8</circle>
+				<ellipse>8,8,8,8</ellipse>
 			</hitbox>
 			<ally>false</ally>
 			<firePatterns>
-				<fp>bosspattern2_1</fp>
 			</firePatterns>
-			<lifeTime>1000</lifeTime>
+			<lifeTime>1</lifeTime>
 			<density>100</density>
-			<angleOffset>random</angleOffset>
+			<angleOffset>0</angleOffset>
 		</bullet>
 	</pattern>
 </patterns>

@@ -5,9 +5,11 @@ import java.util.HashMap;
 public class Signals {
 	private static Signals s = null;
 	private HashMap<String, Integer> integers;
+	private HashMap<String, Integer> iintegers;
 	
 	private Signals() {
 		integers = new HashMap<String, Integer>();
+		iintegers = new HashMap<String, Integer>();
 	}
 	
 	public static Signals getSignals() {
@@ -18,7 +20,10 @@ public class Signals {
 	}
 	
 	public void addIntegerSignal(String key, int i) {
-		integers.put(key, i);
+		if (!integers.containsKey(key)) {
+			integers.put(key, i);
+			iintegers.put(key, i);
+		}
 	}
 	
 	public void removeIntegerSignal(String key) {
@@ -33,6 +38,10 @@ public class Signals {
 	
 	public int getIntegerSignal(String key) {
 		return integers.get(key);
+	}
+	
+	public void resetIntegerSignal(String key) {
+		integers.replace(key, iintegers.get(key));
 	}
 	
 	public boolean hasIntegerSignal(String key) {

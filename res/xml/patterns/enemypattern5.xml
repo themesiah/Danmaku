@@ -11,7 +11,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<ellipse>8,8,8,8</ellipse>
+				<rectangle>sprite</rectangle>
 			</hitbox>
 			<ally>false</ally>
 			<trickyTime>patternBind,1000,trickything</trickyTime>
@@ -28,7 +28,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<ellipse>8,8,8,8</ellipse>
+				<rectangle>sprite</rectangle>
 			</hitbox>
 			<ally>false</ally>
 			<trickyTime>patternBind,1000,trickything</trickyTime>
@@ -45,7 +45,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<ellipse>8,8,8,8</ellipse>
+				<rectangle>sprite</rectangle>
 			</hitbox>
 			<ally>false</ally>
 			<trickyTime>patternBind,1000,trickything</trickyTime>

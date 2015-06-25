@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Ellipse;
 import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.Document;
@@ -571,6 +572,15 @@ public class XMLLoader {
 														Ellipse el = new Ellipse(posx, posy, radiusX, radiusY);
 														cb.addHitbox(el);
 														break;
+													case "circle":
+														parts = content.split(",");
+														posx = Float.valueOf(parts[0]);
+														posy = Float.valueOf(parts[1]);
+														float radius = Float.valueOf(parts[2]);
+														Circle cir = new Circle(posx, posy, radius);
+														cb.addHitbox(cir);
+														break;
+														
 												}
 											}
 										}
@@ -759,6 +769,14 @@ public class XMLLoader {
 											Ellipse el = new Ellipse(x, y, radiusX, radiusY);
 											e.addHitbox(el);
 											break;
+										case "circle":
+											parts = content.split(",");
+											x = Float.valueOf(parts[0]);
+											y = Float.valueOf(parts[1]);
+											float radius = Float.valueOf(parts[2]);
+											Circle cir = new Circle(x, y, radius);
+											e.addHitbox(cir);
+											break;
 										}
 										
 									}
@@ -884,6 +902,14 @@ public class XMLLoader {
 											float radiusY = Float.valueOf(parts[3]);
 											Ellipse el = new Ellipse(x, y, radiusX, radiusY);
 											e.addHitbox(el);
+											break;
+										case "circle":
+											parts = content.split(",");
+											x = Float.valueOf(parts[0]);
+											y = Float.valueOf(parts[1]);
+											float radius = Float.valueOf(parts[2]);
+											Circle cir = new Circle(x, y, radius);
+											e.addHitbox(cir);
 											break;
 										}
 										

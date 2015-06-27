@@ -18,6 +18,10 @@ import org.w3c.dom.NodeList;
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
 import mesiah.danmaku.audio.AudioManager;
+import mesiah.danmaku.controller.EnemySpawn;
+import mesiah.danmaku.controller.Level;
+import mesiah.danmaku.controller.LevelsManager;
+import mesiah.danmaku.model.BackgroundManager;
 import mesiah.danmaku.model.Boss;
 import mesiah.danmaku.model.BossesManager;
 import mesiah.danmaku.model.CustomPowerup;
@@ -92,9 +96,194 @@ public class XMLLoader {
 					case "boss":
 						getBossFromXML(content);
 						break;
+					case "level":
+						getLevelFromXML(content);
+						break;
 				}
 			}
 		}
+	}
+	
+	public void getConfigFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/" + fileName);
+		Document document = db.parse(f);
+		int i;
+		String content;
+		String[] parts;
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node game = nodeList.item(i);
+			if (game instanceof Element) {
+				content = game.getLastChild().getTextContent().trim();
+				switch (game.getNodeName()) {
+					case "gamename":
+						Main.GAMENAME = content;
+						break;
+					case "gamewidth":
+						Main.GAMEWIDTH = Integer.valueOf(content);
+						break;
+					case "gameheight":
+						Main.GAMEHEIGHT = Integer.valueOf(content);
+						break;
+					case "fullscreen":
+						Main.FULLSCREEN = Boolean.valueOf(content);
+						break;
+					case "limitleft":
+						Main.LIMITLEFT = Integer.valueOf(content);
+						break;
+					case "limitright":
+						Main.LIMITRIGHT = Integer.valueOf(content);
+						break;
+					case "limitbottom":
+						Main.LIMITBOTTOM = Integer.valueOf(content);
+						break;
+					case "limittop":
+						Main.LIMITTOP = Integer.valueOf(content);
+						break;
+					case "pointspos":
+						parts = content.split(",");
+						Play.POINTS_X = Integer.valueOf(parts[0]);
+						Play.POINTS_Y = Integer.valueOf(parts[1]);
+						break;
+					case "bombspos":
+						parts = content.split(",");
+						Play.BOMBS_X = Integer.valueOf(parts[0]);
+						Play.BOMBS_Y = Integer.valueOf(parts[1]);
+						break;
+					case "grazepos":
+						parts = content.split(",");
+						Play.GRAZE_X = Integer.valueOf(parts[0]);
+						Play.GRAZE_Y = Integer.valueOf(parts[1]);
+						break;
+					case "livespos":
+						parts = content.split(",");
+						Play.LIVES_X = Integer.valueOf(parts[0]);
+						Play.LIVES_Y = Integer.valueOf(parts[1]);
+						break;
+					case "powerpos":
+						parts = content.split(",");
+						Play.POWER_X = Integer.valueOf(parts[0]);
+						Play.POWER_Y = Integer.valueOf(parts[1]);
+						break;
+				}
+			}
+		}
+	}
+	
+	public void getLevelFromXML(String fileName) throws Exception {
+		File f = new File("res/xml/levels/" + fileName);
+		Document document = db.parse(f);
+		int i, j, k, z;
+		String content;
+		String[] parts;
+		Level lv = new Level();
+		NodeList nodeList = document.getDocumentElement().getChildNodes();
+		for (i = 0; i < nodeList.getLength(); i++) {
+			Node level = nodeList.item(i);
+			if (level instanceof Element) {
+				//levelID = ((Element) level).getAttributes().getNamedItem("id").getNodeValue();
+				NodeList levelElements = level.getChildNodes();
+				for (j = 0; j < levelElements.getLength(); j++) {
+					Node levelElement = levelElements.item(j);
+					if (levelElement instanceof Element) {
+						// Cada elemento
+						String nodeName = levelElement.getNodeName();
+						switch (nodeName) {
+							case "music":
+								content = levelElement.getLastChild().getTextContent().trim();
+								lv.setMusic(content);
+								break;
+							case "bg":
+								content = levelElement.getLastChild().getTextContent().trim();
+								BackgroundManager.get().addBackground(content);
+								lv.setBg(content);
+								break;
+							case "template":
+								content = levelElement.getLastChild().getTextContent().trim();
+								BackgroundManager.get().addTemplate(content);
+								lv.setTemplate(content);
+								break;
+							case "canFocus":
+								content = levelElement.getLastChild().getTextContent().trim();
+								if (content == "false") {
+									Play.CANFOCUS = false;
+								} else {
+									Play.CANFOCUS = true;
+								}
+								break;
+							case "canGraze":
+								content = levelElement.getLastChild().getTextContent().trim();
+								if (content == "false") {
+									Play.CANGRAZE = false;
+								} else {
+									Play.CANGRAZE = true;
+								}
+								break;
+							case "step":
+								ArrayList<EnemySpawn> es = new ArrayList<EnemySpawn>();
+								int spawnTime = Integer.valueOf(((Element) levelElement).getAttributes().getNamedItem("time").getNodeValue());
+								
+								NodeList enemies = levelElement.getChildNodes();
+								for (k = 0; k < enemies.getLength(); k++) {
+									// DIFERENCIAR ENEMIGOS DE BOSSES!!!
+									Node enemy = enemies.item(k);
+									if (enemy instanceof Element) {
+										EnemySpawn enemySpawn = new EnemySpawn();
+										NodeList enemyElements = enemy.getChildNodes();
+										for (z = 0; z < enemyElements.getLength(); z++) {
+											Node enemyElement = enemyElements.item(z);
+											if (enemyElement instanceof Element) {
+												switch (enemyElement.getNodeName()) {
+													case "type":
+														content = enemyElement.getLastChild().getTextContent().trim();
+														enemySpawn.setEnemy(content);
+														break;
+													case "route":
+														content = enemyElement.getLastChild().getTextContent().trim();
+														parts = content.split(",");
+														enemySpawn.addCurve(parts[0], Integer.valueOf(parts[1]));
+														break;
+													case "pos":
+														content = enemyElement.getLastChild().getTextContent().trim();
+														parts = content.split(",");
+														enemySpawn.setPosX(parts[0]);
+														enemySpawn.setPosY(parts[1]);
+													case "finalPos":
+														content = enemyElement.getLastChild().getTextContent().trim();
+														parts = content.split(",");
+														enemySpawn.setFinalPosX(parts[0]);
+														enemySpawn.setFinalPosY(parts[1]);
+														break;
+													case "transitionTime":
+														content = enemyElement.getLastChild().getTextContent().trim();
+														enemySpawn.setTransitionTime(content);
+														break;
+												}
+											}
+										}
+										es.add(enemySpawn);
+										switch(enemy.getNodeName()) {
+											case "enemy":
+												enemySpawn.setType("enemy");
+												break;
+											case "boss":
+												enemySpawn.setType("boss");
+												break;
+											case "win":
+												enemySpawn.setType("win");
+												break;
+										}
+									}
+								}
+								
+								lv.addStep(es, spawnTime);
+								break;
+						}
+					}
+				}
+			}
+		}
+		LevelsManager.get().addLevel(lv);
 	}
 	
 	public void getPlayerFromXML(String fileName) throws Exception {
@@ -148,7 +337,7 @@ public class XMLLoader {
 							for (String s : parts) {
 								switch(s) {
 									case "center":
-										posx += Main.GAMEWIDTH/2;
+										posx += (Main.LIMITRIGHT-Main.LIMITLEFT)/2 + Main.LIMITLEFT;
 										break;
 									case "limitbottom":
 										break;
@@ -173,7 +362,7 @@ public class XMLLoader {
 							for (String s : parts) {
 								switch(s) {
 									case "center":
-										posy += Main.GAMEHEIGHT/2;
+										posy += (Main.LIMITBOTTOM-Main.LIMITTOP)/2 + Main.LIMITTOP;
 										break;
 									case "limitbottom":
 										posy += Main.LIMITBOTTOM;
@@ -466,6 +655,15 @@ public class XMLLoader {
 										break;
 									case "speed":
 										cb.setSpeed(content);
+										break;
+									case "acceleration":
+										cb.setAcceleration(content);
+										break;
+									case "maxSpeed":
+										cb.setMaxSpeed(content);
+										break;
+									case "minSpeed":
+										cb.setMinSpeed(content);
 										break;
 									case "posx":
 										cb.setPosx(content);

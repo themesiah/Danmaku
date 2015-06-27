@@ -7,6 +7,6 @@
 		<speed>3</speed>
 		<direction>gravity</direction>
 		<bounce>false</bounce>
-		<qty>1</qty>
+		<qty>10</qty>
 	</powerup>
 </powerups>

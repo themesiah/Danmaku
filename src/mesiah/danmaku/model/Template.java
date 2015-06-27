@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
+import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
-import mesiah.danmaku.view.Sprite;
 
 public class Template extends VisibleGameObject {
-	Sprite s;
+	Drawable d;
 	
-	public Template() throws SlickException {
-		s = new Sprite("res/img/template.png");
+	public Template(String aniKey) throws SlickException {
+		d = AnimationManager.get().getAnimation(aniKey);
 		posx = 0;
 		posy = 0;
 	}
@@ -66,7 +66,7 @@ public class Template extends VisibleGameObject {
 	}
 
 	public void draw() {
-		s.draw(posx, posy);
+		d.draw(posx, posy);
 	}
 
 	public boolean checkCollision(GameObject go) {

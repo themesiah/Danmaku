@@ -25,7 +25,9 @@ public class Bullet extends VisibleGameObject implements Shootable {
 	public static int ACTIVE = 0;
 	public static int DESTROYED = 1;
 	protected FirePattern parent;
-	protected Shootable superBullet;
+	protected float acceleration;
+	protected float maxSpeed;
+	protected float minSpeed;
 	
 	
 	public Bullet(float x, float y, boolean ally, String key) throws SlickException {
@@ -39,6 +41,9 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		grazed = false;
 		canMove = true;
 		addHitbox();
+		acceleration = 0.0f;
+		maxSpeed = 1000.0f;
+		minSpeed = -1000.0f;
 	}
 	
 	
@@ -145,9 +150,11 @@ public class Bullet extends VisibleGameObject implements Shootable {
 							if (collides(s, sp)) {
 								p.onHit(damage);
 								onDestroyed();
-							} else if (collides(s, p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
-								grazed = true;
-								Player.GRAZE += 1;
+							} else if (Play.CANGRAZE) {
+								if (collides(s, p.getGrazeHitBox()) && p.isCollidable() && !grazed) {
+									grazed = true;
+									Player.GRAZE += 1;
+								}
 							}
 						}
 					}
@@ -175,6 +182,13 @@ public class Bullet extends VisibleGameObject implements Shootable {
 	public void update(int delta) {
 		if (state != "dead") {
 			if (delay <= 0) {
+				speed += acceleration*( (float) delta / 1000.0f);
+				if (speed > maxSpeed) {
+					speed = maxSpeed;
+				}
+				if (speed < minSpeed) {
+					speed = minSpeed;
+				}
 				CheckEnemyCollisions();
 				CheckPlayerCollisions();
 				CheckBossCollisions();
@@ -270,6 +284,42 @@ public class Bullet extends VisibleGameObject implements Shootable {
 	
 	public boolean isAlly() {
 		return ally;
+	}
+
+
+
+	public float getAcceleration() {
+		return acceleration;
+	}
+
+
+
+	public void setAcceleration(float acceleration) {
+		this.acceleration = acceleration;
+	}
+
+
+
+	public float getMaxSpeed() {
+		return maxSpeed;
+	}
+
+
+
+	public void setMaxSpeed(float maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+
+
+
+	public float getMinSpeed() {
+		return minSpeed;
+	}
+
+
+
+	public void setMinSpeed(float minSpeed) {
+		this.minSpeed = minSpeed;
 	}
 	
 

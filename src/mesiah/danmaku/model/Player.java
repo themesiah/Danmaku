@@ -220,41 +220,41 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 	
 	public void moveUp() {
-		if (posy > 0 && state == "active") {
-			if (!focused) {
-				posy -= speed;
-			} else {
+		if (posy > Main.LIMITTOP && state == "active") {
+			if (focused && Play.CANFOCUS) {
 				posy -= speed/2;
+			} else {
+				posy -= speed;
 			}
 		}
 	}
 	
 	public void moveDown() {
-		if (posy < Main.GAMEHEIGHT - d.getSize()[1] && state == "active") {
-			if (!focused) {
-				posy += speed;
-			} else {
+		if (posy < Main.LIMITBOTTOM - d.getSize()[1] && state == "active") {
+			if (focused && Play.CANFOCUS) {
 				posy += speed/2;
+			} else {
+				posy += speed;
 			}
 		}
 	}
 	
 	public void moveLeft() {
 		if (posx > Main.LIMITLEFT && state == "active") {
-			if (!focused) {
-				posx -= speed;
-			} else {
+			if (focused && Play.CANFOCUS) {
 				posx -= speed/2;
+			} else {
+				posx -= speed;
 			}
 		}
 	}
 	
 	public void moveRight() {
 		if (posx < Main.LIMITRIGHT - d.getSize()[0] && state == "active") {
-			if (!focused) {
-				posx += speed;
-			} else {
+			if (focused && Play.CANFOCUS) {
 				posx += speed/2;
+			} else {
+				posx += speed;
 			}
 		}
 	}

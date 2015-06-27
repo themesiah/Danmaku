@@ -1,6 +1,6 @@
 Cargar weas desde XMLs 
 
-	nivel! - PENDING
+	nivel! - HECHO! (falta imagen de pasarse nivel y cambiar de nivel)
 	player - HECHO!
 	patrones - HECHO!
 	enemigos - HECHO!
@@ -9,7 +9,7 @@ Cargar weas desde XMLs
 	animaciones - HECHO!
 	powerups - HECHO!
 
-
+Bombas - PENDING
 Parallax - PENDING
 Particulas - PENDING
 Opciones de sonido - Hecho!
@@ -33,4 +33,5 @@ Sugerencias:
 
 Bugs:
 - Por alguna razón, el hitbox del patrón W falla y no mata al player. - [Arreglado] Hay que hacer INTERSECTS y CONTAINS para los Shape, porque se puede dar el segundo caso y no el primero!
-- Sonar solo una vez al disparar!
+- Sonar solo una vez al disparar! - Hecho
+- Solucionado problema de rendimiento. He cambiado elipses por círculos.

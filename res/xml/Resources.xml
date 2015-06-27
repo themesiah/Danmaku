@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+	<animation>template1.xml</animation>
+	<animation>bg1.xml</animation>
 	<animation>playerAnimation.xml</animation>
 	<animation>playerFAnimation.xml</animation>
 	<animation>destroy.xml</animation>
@@ -20,6 +22,8 @@
 	<curve>curve2.xml</curve>
 	<curve>curve3.xml</curve>
 	<curve>curve4.xml</curve>
+	<curve>route1.xml</curve>
+	<curve>route2.xml</curve>
 	<pattern>enemypattern1.xml</pattern>
 	<pattern>enemypattern1_1.xml</pattern>
 	<pattern>enemypattern1_2.xml</pattern>
@@ -31,6 +35,7 @@
 	<pattern>bosspattern2.xml</pattern>
 	<pattern>bosspattern2_1.xml</pattern>
 	<pattern>bosspattern3.xml</pattern>
+	<pattern>bosspattern4.xml</pattern>
 	<pattern>testpattern.xml</pattern>
 	<pattern>pattern1.xml</pattern>
 	<pattern>pattern2.xml</pattern>
@@ -43,4 +48,5 @@
 	<enemy>enemy3.xml</enemy>
 	<enemy>enemy4.xml</enemy>
 	<boss>boss1.xml</boss>
+	<level>level1.xml</level>
 </resources>

@@ -9,7 +9,7 @@
 			<posx>parent</posx>
 			<posy>20+parent</posy>
 			<damage>10</damage>
-			<direction>player</direction>
+			<direction>270</direction>
 			<hitbox>
 				<circle>8,8,8,8</circle>
 			</hitbox>
@@ -18,8 +18,48 @@
 				<fp>bosspattern2_1</fp>
 			</firePatterns>
 			<lifeTime>1000</lifeTime>
-			<density>100</density>
-			<angleOffset>random</angleOffset>
+			<density>180</density>
+			<angleOffset>50</angleOffset>
+		</bullet>
+		<bullet>
+			<property>divisible</property>
+			<delay>500</delay>
+			<speed>5</speed>
+			<animation>enemybullet</animation>
+			<posx>parent</posx>
+			<posy>20+parent</posy>
+			<damage>10</damage>
+			<direction>270</direction>
+			<hitbox>
+				<circle>8,8,8,8</circle>
+			</hitbox>
+			<ally>false</ally>
+			<firePatterns>
+				<fp>bosspattern2_1</fp>
+			</firePatterns>
+			<lifeTime>1000</lifeTime>
+			<density>180</density>
+			<angleOffset>50</angleOffset>
+		</bullet>
+		<bullet>
+			<property>divisible</property>
+			<delay>1000</delay>
+			<speed>5</speed>
+			<animation>enemybullet</animation>
+			<posx>parent</posx>
+			<posy>20+parent</posy>
+			<damage>10</damage>
+			<direction>270</direction>
+			<hitbox>
+				<circle>8,8,8,8</circle>
+			</hitbox>
+			<ally>false</ally>
+			<firePatterns>
+				<fp>bosspattern2_1</fp>
+			</firePatterns>
+			<lifeTime>1000</lifeTime>
+			<density>180</density>
+			<angleOffset>50</angleOffset>
 		</bullet>
 	</pattern>
 </patterns>

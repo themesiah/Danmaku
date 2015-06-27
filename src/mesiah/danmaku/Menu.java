@@ -64,7 +64,6 @@ public class Menu extends BasicGameState {
 	    		switch(option) {
 		    		case 0:
 		    			sbg.enterState(Main.PLAY);
-		    			AudioManager.get().playMusic("pay");
 		    			break;
 		    		case 1:
 		    			sbg.enterState(Main.MAINMENU);

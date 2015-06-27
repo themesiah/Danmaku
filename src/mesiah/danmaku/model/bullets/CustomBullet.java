@@ -10,7 +10,7 @@ import org.newdawn.slick.geom.Shape;
 
 public class CustomBullet {
 	// Normal
-	protected String posx, posy, speed, direction, delay, damage, animation, type, ally;
+	protected String posx, posy, speed, direction, delay, damage, animation, type, ally, acceleration, maxSpeed, minSpeed;
 	protected ArrayList<String> properties;
 	protected ArrayList<Shape> ss;
 	protected ArrayList<float[]> relatives;
@@ -37,6 +37,45 @@ public class CustomBullet {
 		curveTimes = new ArrayList<Integer>();
 		ss = new ArrayList<Shape>();
 		relatives = new ArrayList<float[]>();
+		posx = "";
+		posy = "";
+		speed = "";
+		direction = "";
+		delay = "";
+		damage = "";
+		acceleration = "";
+		maxSpeed = "";
+		minSpeed = "";
+	}
+
+
+	public String getAcceleration() {
+		return acceleration;
+	}
+
+
+	public void setAcceleration(String acceleration) {
+		this.acceleration = acceleration;
+	}
+
+
+	public String getMaxSpeed() {
+		return maxSpeed;
+	}
+
+
+	public void setMaxSpeed(String maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+
+
+	public String getMinSpeed() {
+		return minSpeed;
+	}
+
+
+	public void setMinSpeed(String minSpeed) {
+		this.minSpeed = minSpeed;
 	}
 
 

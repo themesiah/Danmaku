@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.newdawn.slick.SlickException;
 
+import mesiah.danmaku.Main;
 import mesiah.danmaku.model.VisibleGameObject;
 import mesiah.danmaku.model.bullets.Bullet;
 import mesiah.danmaku.model.bullets.CurveBulletD;
@@ -50,27 +51,39 @@ public class FirePatternManager {
 				float posy = 0;
 				boolean ally = false;
 				String anim = cb.getAnimation();
-				String[] parts = cb.getPosx().split("\\+");
-				for (int j = 0; j < parts.length; j++) {
-					switch(parts[j]) {
-						case "parent":
-							posx += parent.getPosX() + parent.getSize()[0]/2;
-							break;
-						default:
-							posx += Float.valueOf(parts[j]);
-							break;
-						}
+				if (!cb.getPosx().equals("")) {
+					String[] parts = cb.getPosx().split("\\+");
+					for (int j = 0; j < parts.length; j++) {
+						switch(parts[j]) {
+							case "parent":
+								posx += parent.getPosX() + parent.getSize()[0]/2;
+								break;
+							default:
+								if (parts[j].contains("%")) {
+									posx += (Float.valueOf(parts[j].split("%")[0])/100.0f*(Main.LIMITRIGHT - Main.LIMITLEFT) + Main.LIMITLEFT);
+								} else {
+									posx += Float.valueOf(parts[j]);
+								}
+								break;
+							}
+					}
 				}
-				parts = cb.getPosy().split("\\+");
-				for (int j = 0; j < parts.length; j++) {
-					switch(parts[j]) {
-						case "parent":
-							posy += parent.getPosY() + parent.getSize()[1]/2;
-							break;
-						default:
-							posy += Float.valueOf(parts[j]);
-							break;
-						}
+				if (!cb.getPosy().equals("")) {
+					String[] parts = cb.getPosy().split("\\+");
+					for (int j = 0; j < parts.length; j++) {
+						switch(parts[j]) {
+							case "parent":
+								posy += parent.getPosY() + parent.getSize()[1]/2;
+								break;
+							default:
+								if (parts[j].contains("%")) {
+									posy += (Float.valueOf(parts[j].split("%")[0])/100.0f*(Main.LIMITBOTTOM - Main.LIMITTOP) + Main.LIMITTOP);
+								} else {
+									posy += Float.valueOf(parts[j]);
+								}
+								break;
+							}
+					}
 				}
 				if (cb.getAlly().equals("true")) {
 					ally = true;
@@ -89,8 +102,21 @@ public class FirePatternManager {
 				}
 				
 				b.setParent(fp);
-				b.setSpeed(Float.valueOf(cb.getSpeed()));
-				b.setDamage(Integer.valueOf(cb.getDamage()));
+				if (!cb.getSpeed().equals("")) {
+					b.setSpeed(Float.valueOf(cb.getSpeed()));
+				}
+				if (!cb.getDamage().equals("")) {
+					b.setDamage(Integer.valueOf(cb.getDamage()));
+				}
+				if (!cb.getAcceleration().equals("")) {
+					b.setAcceleration(Float.valueOf(cb.getAcceleration()));
+				}
+				if (!cb.getMaxSpeed().equals("")) {
+					b.setMaxSpeed(Float.valueOf(cb.getMaxSpeed()));
+				}
+				if (!cb.getMinSpeed().equals("")) {
+					b.setMinSpeed(Float.valueOf(cb.getMinSpeed()));
+				}
 				b.setHitboxes(cb.getHitboxes());
 				b.setRelatives(cb.getRelatives());
 				
@@ -156,7 +182,7 @@ public class FirePatternManager {
 						Signals sign = Signals.getSignals();
 						sign.addIntegerSignal(signalKey, Integer.valueOf(cb.getTrickyTime().split(",")[1]));
 					} else if (cb.getTrickyTime().contains("absolute")) {
-						tbd.setBeforeTime(Integer.valueOf(cb.getTrickyTime()));
+						tbd.setBeforeTime(Integer.valueOf(cb.getTrickyTime().split(",")[1]));
 					}
 					tbd.setSecondarySpeed(cb.getSecondarySpeed());
 					

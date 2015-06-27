@@ -37,6 +37,7 @@ public class AudioManager {
 		if (musicVolume > Options.MAX_MUSIC_VOLUME) {
 			musicVolume = Options.MAX_MUSIC_VOLUME;
 		}
+		musics.get(currentlyPlaying).setVolume(musicVolume);
 	}
 	
 	public void musicVolumeDown() {
@@ -47,6 +48,7 @@ public class AudioManager {
 		if (musicVolume < 0) {
 			musicVolume = 0;
 		}
+		musics.get(currentlyPlaying).setVolume(musicVolume);
 	}
 	
 	public void soundVolumeUp() {
@@ -132,7 +134,11 @@ public class AudioManager {
 	}
 	
 	public void playMusic(String key) {
-		musics.get(key).loop(musicPitch, musicVolume);
+		if (musics.get(key).playing()) {
+			musics.get(key).resume();
+		} else {
+			musics.get(key).loop(musicPitch, musicVolume);
+		}
 		currentlyPlaying = key;
 	}
 	

@@ -108,10 +108,11 @@ public class TrickyBulletD extends BulletDecorator {
 				change();
 			}
 		} else {
-			beforeTime -= delta;
+			if (super.getDelay() <= 0) {
+				beforeTime -= delta;
+			}
 		}
 		super.update(delta);
-		//move(delta);
 		if (super.getState() == "dead") {
 			super.addToRemove(this);
 		}

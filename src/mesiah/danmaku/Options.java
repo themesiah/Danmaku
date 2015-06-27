@@ -20,7 +20,7 @@ public class Options extends BasicGameState {
 	private static final String MENU3 = "SFX";
 	private static final float MENU3_Y = 150.0f;
 	
-	public static final float MAX_MUSIC_VOLUME = 0.2f;
+	public static final float MAX_MUSIC_VOLUME = 0.5f;
 	public static final float MAX_SOUND_VOLUME = 1.0f;
 	
 	private int option;

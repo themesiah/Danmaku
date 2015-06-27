@@ -2,7 +2,6 @@
 <patterns>
 	<pattern id="enemyfirepattern5">
 		<bullet>
-			<property>tricky</property>
 			<delay>0</delay>
 			<speed>8</speed>
 			<animation>enemybullet</animation>
@@ -11,15 +10,11 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
-			<trickyTime>patternBind,1000,trickything</trickyTime>
-			<secondaryDirection>player</secondaryDirection>
-			<secondarySpeed>2</secondarySpeed>
 		</bullet>
 		<bullet>
-			<property>tricky</property>
 			<delay>50</delay>
 			<speed>8</speed>
 			<animation>enemybullet</animation>
@@ -28,15 +23,11 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
-			<trickyTime>patternBind,1000,trickything</trickyTime>
-			<secondaryDirection>player</secondaryDirection>
-			<secondarySpeed>2</secondarySpeed>
 		</bullet>
 		<bullet>
-			<property>tricky</property>
 			<delay>100</delay>
 			<speed>8</speed>
 			<animation>enemybullet</animation>
@@ -45,12 +36,9 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<rectangle>sprite</rectangle>
+				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
-			<trickyTime>patternBind,1000,trickything</trickyTime>
-			<secondaryDirection>player</secondaryDirection>
-			<secondarySpeed>2</secondarySpeed>
 		</bullet>
 	</pattern>
 </patterns>

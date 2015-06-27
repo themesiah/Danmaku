@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<levels>
+	<level id="level1">
+		<bg>bg</bg>
+		<template>template</template>
+		<canFocus>true</canFocus>
+		<canGraze>true</canGraze>
+		<step time="1000">
+			<enemy>
+				<type>enemy1</type>
+				<route>route1,5000</route>
+			</enemy>
+			<enemy>
+				<type>enemy1</type>
+				<route>route2,5000</route>
+			</enemy>
+		</step>
+		<step time="2000">
+			<enemy>
+				<type>enemy1</type>
+				<route>route1,5000</route>
+			</enemy>
+			<enemy>
+				<type>enemy1</type>
+				<route>route2,5000</route>
+			</enemy>
+		</step>
+		<step time="3000">
+			<enemy>
+				<type>enemy1</type>
+				<route>route1,5000</route>
+			</enemy>
+			<enemy>
+				<type>enemy1</type>
+				<route>route2,5000</route>
+			</enemy>
+		</step>
+	</level>
+</levels>

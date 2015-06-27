@@ -10,7 +10,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<ellipse>8,8,8,8</ellipse>
+				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
 		</bullet>
@@ -23,7 +23,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<ellipse>8,8,8,8</ellipse>
+				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
 		</bullet>
@@ -36,7 +36,7 @@
 			<damage>10</damage>
 			<direction>player</direction>
 			<hitbox>
-				<ellipse>8,8,8,8</ellipse>
+				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
 		</bullet>

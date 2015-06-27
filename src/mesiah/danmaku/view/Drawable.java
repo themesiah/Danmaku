@@ -13,4 +13,5 @@ public interface Drawable {
 	public Drawable copy();
 	public float[] getSizeOf(int n);
 	public int getFrame();
+	public void draw(float x, float y, float x2, float y2, float srcx, float srcy, float srcx2, float srcy2);
 }

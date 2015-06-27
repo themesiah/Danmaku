@@ -92,7 +92,7 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 			collidable = false;
 			super.setState("dead");
 		} else {
-			if (lifeTime != INFINITE) {
+			if (lifeTime != INFINITE && super.getDelay() <= 0) {
 				lifeTime -= delta;
 			}
 		}

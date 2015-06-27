@@ -18,8 +18,8 @@ public class GameObjectContainer {
 		this.ec = ec;
 		this.puc = puc;
 		this.bssc = bssc;
-		this.bg = new Background();
-		this.template = new Template();
+		//this.bg = new Background("bg.jpg");
+		//this.template = new Template("template.png");
 	}
 	
 	public void update(int delta) {
@@ -38,6 +38,14 @@ public class GameObjectContainer {
 		bc.draw();
 		bssc.draw(g);
 		template.draw();
+	}
+	
+	public void setBg(String bg) {
+		this.bg = BackgroundManager.get().getBackground(bg);
+	}
+	
+	public void setTemplate(String t) {
+		this.template = BackgroundManager.get().getTemplate(t);
 	}
 	
 	

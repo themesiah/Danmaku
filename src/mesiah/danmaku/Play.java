@@ -1,5 +1,11 @@
 package mesiah.danmaku;
 
+import java.util.ArrayList;
+
+import mesiah.danmaku.audio.AudioManager;
+import mesiah.danmaku.controller.EnemySpawn;
+import mesiah.danmaku.controller.Level;
+import mesiah.danmaku.controller.LevelsManager;
 import mesiah.danmaku.model.Boss;
 import mesiah.danmaku.model.BossContainer;
 import mesiah.danmaku.model.BossesManager;
@@ -33,6 +39,9 @@ public class Play extends BasicGameState {
 	private static int lastKey;
 	private static int lastEnemy;
 	private static int enemyDelay = 500;
+	
+	private static Level currentLevel = null;
+	private static boolean won = false;
 
 	public static int UP_KEY = Input.KEY_UP;
 	public static int DOWN_KEY = Input.KEY_DOWN;
@@ -45,6 +54,20 @@ public class Play extends BasicGameState {
 	public static int SPAWN3_KEY = Input.KEY_E;
 	public static int SPAWN4_KEY = Input.KEY_R;
 	public static int MENU_KEY = Input.KEY_ESCAPE;
+	
+	public static float POINTS_X = 10.0f;
+	public static float POINTS_Y = 658.0f;
+	public static float BOMBS_X = 10.0f;
+	public static float BOMBS_Y = 678.0f;
+	public static float GRAZE_X = 10.0f;
+	public static float GRAZE_Y = 698.0f;
+	public static float LIVES_X = 10.0f;
+	public static float LIVES_Y = 718.0f;
+	public static float POWER_X = 10.0f;
+	public static float POWER_Y = 738.0f;
+	
+	public static boolean CANGRAZE = true;
+	public static boolean CANFOCUS = true;
 
 	public Play(int code) {
 	}
@@ -66,7 +89,7 @@ public class Play extends BasicGameState {
 	}
 
 	public static void newGame() throws SlickException {
-		// Player p = new Player();
+		currentLevel = null;
 		containerInit();
 
 		try {
@@ -74,12 +97,6 @@ public class Play extends BasicGameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// p.initPlayer();
-
-		// p.addPattern(FirePatternsManager.PLAYERFIREPATTERN);
-		// pc.add(p);
-
-		// enemiesInit();
 		timer = 0;
 	}
 
@@ -118,16 +135,48 @@ public class Play extends BasicGameState {
 			bssc.add(e);
 		}
 	}
+	
+	public void spawnEnemies(ArrayList<EnemySpawn> es) {
+		for (EnemySpawn e : es) {
+			if (e.getType().equals("enemy")) {
+				ec.add(e.composeEnemy());
+			} else if (e.getType().equals("boss")) {
+				bssc.add((Boss) e.composeEnemy()); 
+			} else if (e.getType().equals("win")) {
+				won = true;
+			}
+		}
+	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
+		if (bssc.size() <= 0) {
+			timer += delta;
+		}
+		lastKey += delta;
+		lastEnemy += delta;
+		
+		if (currentLevel == null || won) {
+			if (LevelsManager.get().finished()) {
+				sbg.enterState(Main.MAINMENU);
+			} else {
+				currentLevel = LevelsManager.get().getLevel();
+				goc.setBg(currentLevel.getBg());
+				goc.setTemplate(currentLevel.getTemplate());
+				AudioManager.get().playMusic(currentLevel.getMusic());
+				won = false;
+			}
+		}
+		
+		if (!currentLevel.finished()) {
+			spawnEnemies(currentLevel.getSpawns(timer));
+		}
+		
 		if (pc.get(Main.PLAYERNUM).getState() == "dead") {
 			sbg.enterState(Main.MAINMENU);
 		}
 		goc.update(delta);
-		timer += delta;
-		lastKey += delta;
-		lastEnemy += delta;
+		
 
 		Signals s = Signals.getSignals();
 		for (String key : s.getIntegerSignals().keySet()) {
@@ -207,21 +256,17 @@ public class Play extends BasicGameState {
 		g.setColor(c);
 		g.drawString("Time: " + timer / 1000, 10.0f, 30.0f);
 		g.drawString("Bullets: " + bc.size(), 10.0f, 50.0f);
-		g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
-		g.drawString("Press " + Input.getKeyName(SPAWN1_KEY)
-				+ " to spawn Enemy 1", 10.0f, 110.0f);
-		g.drawString("Press " + Input.getKeyName(SPAWN2_KEY)
-				+ " to spawn Enemy 2", 10.0f, 130.0f);
-		g.drawString("Press " + Input.getKeyName(SPAWN3_KEY)
-				+ " to spawn Enemy 3", 10.0f, 150.0f);
-		g.drawString("Press " + Input.getKeyName(SPAWN4_KEY)
-				+ " to spawn Enemy 4", 10.0f, 170.0f);
+		//g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
+		//g.drawString("Press " + Input.getKeyName(SPAWN1_KEY) + " to spawn Enemy 1", 10.0f, 110.0f);
+		//g.drawString("Press " + Input.getKeyName(SPAWN2_KEY) + " to spawn Enemy 2", 10.0f, 130.0f);
+		//g.drawString("Press " + Input.getKeyName(SPAWN3_KEY) + " to spawn Enemy 3", 10.0f, 150.0f);
+		//g.drawString("Press " + Input.getKeyName(SPAWN4_KEY) + " to spawn Enemy 4", 10.0f, 170.0f);
 
-		g.drawString("Lives: " + Player.LIVES, 10.0f, Main.GAMEHEIGHT - 110.0f);
-		g.drawString("Bombs: " + Player.BOMBS, 10.0f, Main.GAMEHEIGHT - 90.0f);
-		g.drawString("Power: " + Player.POWER, 10.0f, Main.GAMEHEIGHT - 70.0f);
-		g.drawString("Points: " + Player.POINTS, 10.0f, Main.GAMEHEIGHT - 50.0f);
-		g.drawString("Graze: " + Player.GRAZE, 10.0f, Main.GAMEHEIGHT - 30.0f);
+		g.drawString("Lives: " + Player.LIVES, LIVES_X, LIVES_Y);
+		//g.drawString("Bombs: " + Player.BOMBS, BOMBS_X, BOMBS_Y);
+		g.drawString("Power: " + Player.POWER, POWER_X, POWER_Y);
+		g.drawString("Points: " + Player.POINTS, POINTS_X, POINTS_Y);
+		g.drawString("Graze: " + Player.GRAZE, GRAZE_X, GRAZE_Y);
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)

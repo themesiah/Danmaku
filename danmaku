@@ -38,6 +38,10 @@
                 <File name="res\xml\enemies\enemy4.xml" />
             </Folder>
             <Folder name="patterns">
+                <File name="res\xml\patterns\bosspattern1.xml" />
+                <File name="res\xml\patterns\bosspattern2.xml" />
+                <File name="res\xml\patterns\bosspattern2_1.xml" />
+                <File name="res\xml\patterns\bosspattern3.xml" />
                 <File name="res\xml\patterns\doc.txt" />
                 <File name="res\xml\patterns\enemypattern1.xml" />
                 <File name="res\xml\patterns\enemypattern1_1.xml" />
@@ -49,6 +53,8 @@
                 <File name="res\xml\patterns\pattern1.xml" />
                 <File name="res\xml\patterns\pattern2.xml" />
                 <File name="res\xml\patterns\pattern3.xml" />
+                <File name="res\xml\patterns\testpattern.xml" />
+                <File name="res\xml\patterns\bosspattern4.xml" />
             </Folder>
             <Folder name="powerups">
                 <File name="res\xml\powerups\points1.xml" />

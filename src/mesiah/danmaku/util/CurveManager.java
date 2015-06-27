@@ -110,7 +110,18 @@ public class CurveManager {
 										}
 										break;
 									default:
-										tempValue += Float.valueOf(st);
+										
+										if (s.contains("%")) {
+											float percentPos;
+											if (j == 0) {
+												percentPos = (Float.valueOf(s.split("%")[0])/100.0f*(Main.LIMITRIGHT - Main.LIMITLEFT) + Main.LIMITLEFT);
+											} else {
+												percentPos = (Float.valueOf(s.split("%")[0])/100.0f*(Main.LIMITBOTTOM - Main.LIMITTOP) + Main.LIMITTOP);
+											}
+											tempValue += percentPos;
+										} else {
+											tempValue += Float.valueOf(st);
+										}
 										break;
 								}
 							}
@@ -127,10 +138,21 @@ public class CurveManager {
 							}
 							break;
 						default:
-							value += Float.valueOf(s);
+							if (s.contains("%")) {
+								float percentPos;
+								if (j == 0) {
+									percentPos = (Float.valueOf(s.split("%")[0])/100.0f*(Main.LIMITRIGHT - Main.LIMITLEFT) + Main.LIMITLEFT);
+								} else {
+									percentPos = (Float.valueOf(s.split("%")[0])/100.0f*(Main.LIMITBOTTOM - Main.LIMITTOP) + Main.LIMITTOP);
+								}
+								value += percentPos;
+							} else {
+								value += Float.valueOf(s);
+							}
 							break;
 					}
 				}
+				
 				if (j == 0) {
 					tempX = Float.valueOf(value);
 				} else {

@@ -3,8 +3,10 @@ package mesiah.danmaku.model;
 import java.util.ArrayList;
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Curve;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
@@ -18,6 +20,18 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	protected ArrayList<Integer> shotDelays;
 	protected ArrayList<Integer> shotTimers;
 	protected ArrayList<String> powerups;
+	
+	protected ArrayList<Curve> route;
+	protected ArrayList<Integer> routeTime;
+	protected int curveTimer;
+	protected boolean onlyCurve;
+	
+	protected float finalPosX;
+	protected float finalPosY;
+	protected int transitionTime;
+	protected int transitionTimer;
+	protected float initialPosX;
+	protected float initialPosY;
 
 	protected int health;
 	protected int damageTimer;
@@ -54,6 +68,11 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			e.setHitboxes((ArrayList<Shape>) this.ss.clone());
 			e.setRelatives((ArrayList<float[]>) this.relatives.clone());
 			e.setD(e.getFromDs(ACTIVE));
+			e.setRoute((ArrayList<Curve>) this.route.clone());
+			e.setRouteTime((ArrayList<Integer>) this.routeTime.clone());
+			e.setTransitionTime(transitionTime);
+			e.setFinalPosX(finalPosX);
+			e.setFinalPosY(finalPosY);
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -73,6 +92,9 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		ss = new ArrayList<Shape>();
 		relatives = new ArrayList<float[]>();
 		powerups = new ArrayList<String>();
+		
+		route = new ArrayList<Curve>();
+		routeTime = new ArrayList<Integer>();
 		for (int i = 0; i < DESTROYED+1; i++) {
 			ds.add(null);
 			sounds.add(null);
@@ -91,6 +113,13 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		damageDelay = 200;
 		lastSize = new float[2];
 		
+		curveTimer = 0;
+		onlyCurve = false;
+		
+		transitionTime = 0;
+		finalPosX = 0;
+		finalPosY = 0;
+		transitionTimer = 0;
 	}
 	
 	public boolean isCollidable() {
@@ -107,10 +136,12 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public void setPosX(float x) {
 		posx = x;
+		initialPosX = x;
 	}
 	
 	public void setPosY(float y) {
 		posy = y;
+		initialPosY = y;
 	}
 
 	public void CheckEnemyCollisions() {
@@ -141,8 +172,10 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		if (!d.isPlaying() && state == "destroyed") {
 			Play.ec.addToRemove(this);
 		} else {
-			move(delta);
-			CheckPlayerCollisions();
+			if (state == "active") {
+				move(delta);
+				CheckPlayerCollisions();
+			}
 		}
 		if (damageTimer <= 0) {
 			d.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -168,9 +201,47 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 			}
 		}
 	}
+	
+	public boolean moreCurves() {
+		return route.size() > 0;
+	}
+	
+	public void pop() {
+		route.remove(0);
+		routeTime.remove(0);
+	}
+	
+	public Vector2f nextPoint(float t) {
+		return route.get(0).pointAt(t);
+	}
 
 	public void move(int delta) {
-
+		if (transitionTime > transitionTimer) {
+			float movx = (finalPosX - initialPosX) * (float) ((float) transitionTimer / (float) transitionTime);
+			float movy = (finalPosY - initialPosY) * (float) ((float) transitionTimer / (float) transitionTime);
+			posx = movx + initialPosX;
+			posy = movy + initialPosY;
+			transitionTimer += delta;
+		}
+		if (moreCurves()) {
+			if (super.getDelay() <= 0) {
+				if (curveTimer <= routeTime.get(0)) {
+					float t = (float) ((float) curveTimer / (float) routeTime.get(0));
+					Vector2f point = nextPoint(t);
+					super.setPosX(point.getX());
+					super.setPosY(point.getY());
+					curveTimer += delta;
+				} else {
+					curveTimer = 0;
+					pop();
+				}
+			}
+		} else if (!onlyCurve) {
+			setCanMove(true);
+		} else {
+			//setState("dead");
+			Play.ec.addToRemove(this);
+		}
 	}
 
 	public void draw() {
@@ -372,6 +443,54 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	
 	public void addPowerup(String p) {
 		powerups.add(p);
+	}
+
+	public ArrayList<Curve> getRoute() {
+		return route;
+	}
+
+	public void setRoute(ArrayList<Curve> route) {
+		this.route = route;
+	}
+
+	public ArrayList<Integer> getRouteTime() {
+		return routeTime;
+	}
+
+	public void setRouteTime(ArrayList<Integer> routeTime) {
+		this.routeTime = routeTime;
+	}
+
+	public boolean isOnlyCurve() {
+		return onlyCurve;
+	}
+
+	public void setOnlyCurve(boolean onlyCurve) {
+		this.onlyCurve = onlyCurve;
+	}
+
+	public float getFinalPosX() {
+		return finalPosX;
+	}
+
+	public void setFinalPosX(float finalPosX) {
+		this.finalPosX = finalPosX;
+	}
+
+	public float getFinalPosY() {
+		return finalPosY;
+	}
+
+	public void setFinalPosY(float finalPosY) {
+		this.finalPosY = finalPosY;
+	}
+
+	public int getTransitionTime() {
+		return transitionTime;
+	}
+
+	public void setTransitionTime(int transitionTime) {
+		this.transitionTime = transitionTime;
 	}
 
 }

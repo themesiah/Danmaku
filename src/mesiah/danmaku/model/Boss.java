@@ -13,12 +13,15 @@ import mesiah.danmaku.view.Drawable;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Curve;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 public class Boss extends Enemy {
 	private String name;
 	private int maxHealth;
+	private boolean initOnce;
 	
 	private HashMap<String, ArrayList<String>> fpsPhases;
 	private HashMap<String, ArrayList<Integer>> shotDelaysPhases;
@@ -29,6 +32,18 @@ public class Boss extends Enemy {
 	int invulnerableDelay;
 	int invulnerableTimer;
 	private String lastSong;
+	
+	protected ArrayList<Curve> route;
+	protected ArrayList<Integer> routeTime;
+	protected int curveTimer;
+	protected boolean onlyCurve;
+
+	protected float finalPosX;
+	protected float finalPosY;
+	protected float initialPosX;
+	protected float initialPosY;
+	protected int transitionTime;
+	protected int transitionTimer;
 	
 	@SuppressWarnings("unchecked")
 	public Boss copy() {
@@ -60,6 +75,8 @@ public class Boss extends Enemy {
 			e.setPhases((ArrayList<String>) this.phases.clone());
 			e.setMusicPhases((HashMap<String, String>) this.musicPhases.clone());
 			e.setInvulnerableDelay(invulnerableDelay);
+			e.setRoute((ArrayList<Curve>) this.route.clone());
+			e.setRouteTime((ArrayList<Integer>) this.routeTime.clone());
 		} catch (SlickException e1) {
 			e1.printStackTrace();
 		}
@@ -91,7 +108,7 @@ public class Boss extends Enemy {
 		float posy = Main.LIMITTOP + verticalM;
 		float maxWidth = (Main.LIMITRIGHT-Main.LIMITLEFT)-(horizontalM*2);
 		float healthWidth = maxWidth*healthPercent;
-		float height = 50;
+		float height = 10;
 		
 		// Full rect
 		Color c = new Color(0.0f, 0.0f, 0.0f, 1.0f);
@@ -109,6 +126,30 @@ public class Boss extends Enemy {
 		g.fillRect(posx, posy, healthWidth, height);
 	}
 	
+	public float getFinalPosX() {
+		return finalPosX;
+	}
+
+	public void setFinalPosX(float finalPosX) {
+		this.finalPosX = finalPosX;
+	}
+
+	public float getFinalPosY() {
+		return finalPosY;
+	}
+
+	public void setFinalPosY(float finalPosY) {
+		this.finalPosY = finalPosY;
+	}
+
+	public int getTransitionTime() {
+		return transitionTime;
+	}
+
+	public void setTransitionTime(int transitionTime) {
+		this.transitionTime = transitionTime;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -147,6 +188,8 @@ public class Boss extends Enemy {
 		musicPhases = new HashMap<String, String>();
 		phases = new ArrayList<String>();
 		
+		route = new ArrayList<Curve>();
+		routeTime = new ArrayList<Integer>();
 		for (int i = 0; i < DESTROYED+1; i++) {
 			ds.add(null);
 			sounds.add(null);
@@ -159,17 +202,27 @@ public class Boss extends Enemy {
 		posx = Main.GAMEWIDTH/2;
 		
 		state = "active";
-		collidable = true;
+		collidable = false;
 		health = 100;
 		damageTimer = 0;
 		damageDelay = 200;
 		invulnerableDelay = 0;
 		lastSize = new float[2];
 		lastSong = AudioManager.get().getCurrentlyPlaying();
+		
+		finalPosX = 0;
+		finalPosY = 0;
+		transitionTime = 0;
+		transitionTimer = 0;
+		initOnce = false;
 	}
 	
 	public void initBoss() {
-		changePhase();
+		if (!initOnce) {
+			collidable = true;
+			changePhase();
+			initOnce = true;
+		}
 	}
 	
 	public boolean isCollidable() {
@@ -186,10 +239,12 @@ public class Boss extends Enemy {
 	
 	public void setPosX(float x) {
 		posx = x;
+		initialPosX = x;
 	}
 	
 	public void setPosY(float y) {
 		posy = y;
+		initialPosY = y;
 	}
 
 	public void CheckEnemyCollisions() {
@@ -279,7 +334,36 @@ public class Boss extends Enemy {
 	}
 
 	public void move(int delta) {
-
+		if (transitionTime > transitionTimer) {
+			float movx = (finalPosX - initialPosX) * (float) ((float) transitionTimer / (float) transitionTime);
+			float movy = (finalPosY - initialPosY) * (float) ((float) transitionTimer / (float) transitionTime);
+			posx = movx + initialPosX;
+			posy = movy + initialPosY;
+			transitionTimer += delta;
+		} else if (transitionTime != 0) {
+			initBoss();
+		} else {
+			if (moreCurves()) {
+				if (super.getDelay() <= 0) {
+					if (curveTimer <= routeTime.get(0)) {
+						float t = (float) ((float) curveTimer / (float) routeTime.get(0));
+						Vector2f point = nextPoint(t);
+						super.setPosX(point.getX());
+						super.setPosY(point.getY());
+						curveTimer += delta;
+					} else {
+						curveTimer = 0;
+						pop();
+					}
+				}
+			} else {
+				initBoss();
+			}
+		}
+	}
+	
+	public boolean moreCurves() {
+		return route.size() > 0;
 	}
 
 	public void draw() {

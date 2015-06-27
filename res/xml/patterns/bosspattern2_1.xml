@@ -4,8 +4,8 @@
 		<bullet>
 			<property>tricky</property>
 			<delay>0</delay>
-			<speed>10</speed>
-			<animation>enemybullet</animation>
+			<speed>5</speed>
+			<animation>enemybullet2</animation>
 			<posx>parent</posx>
 			<posy>20+parent</posy>
 			<damage>10</damage>
@@ -14,7 +14,7 @@
 				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
-			<trickyTime>patternBind,250,trickything</trickyTime>
+			<trickyTime>absolute,499,trickything</trickyTime>
 			<secondaryDirection>player</secondaryDirection>
 			<secondarySpeed>8</secondarySpeed>
 		</bullet>

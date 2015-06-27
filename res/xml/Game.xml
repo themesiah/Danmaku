@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<game>
+	<gamename>Danmaku</gamename>
+	<gamewidth>1024</gamewidth>
+	<gameheight>768</gameheight>
+	<fullscreen>false</fullscreen>
+	<limitleft>256</limitleft>
+	<limitright>768</limitright>
+	<limittop>0</limittop>
+	<limitbottom>768</limitbottom>
+	<pointspos>10,658</pointspos>
+	<bombspos>10,718</bombspos>
+	<grazepos>10,738</grazepos>
+	<livespos>10,678</livespos>
+	<powerpos>10,698</powerpos>
+</game>

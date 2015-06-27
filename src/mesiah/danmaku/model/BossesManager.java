@@ -19,7 +19,7 @@ public class BossesManager {
 	
 	public Boss newBoss(String key) {
 		Boss b = bosses.get(key).copy();
-		b.initBoss();
+		//b.initBoss();
 		return b;
 	}
 	

@@ -6,14 +6,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Shape;
 
 import mesiah.danmaku.Main;
+import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
-import mesiah.danmaku.view.Sprite;
 
 public class Background extends VisibleGameObject {
-	Sprite s;
+	Drawable d;
 	
-	public Background() throws SlickException {
-		s = new Sprite("res/img/bg.jpg");
+	public Background(String aniKey) throws SlickException {
+		d = AnimationManager.get().getAnimation(aniKey);
 		posx = 0;
 		posy = 0;
 	}
@@ -67,7 +67,7 @@ public class Background extends VisibleGameObject {
 	}
 
 	public void draw() {
-		s.draw(Main.GAMEWIDTH/4, posy, Main.GAMEWIDTH*3/4, Main.GAMEHEIGHT, 0, 0, Main.GAMEWIDTH/2, Main.GAMEHEIGHT);
+		d.draw(Main.GAMEWIDTH/4, posy, Main.GAMEWIDTH*3/4, Main.GAMEHEIGHT, 0, 0, Main.GAMEWIDTH/2, Main.GAMEHEIGHT);
 	}
 
 	public boolean checkCollision(GameObject go) {

@@ -78,10 +78,10 @@ public class Animation implements Drawable {
 	private boolean checkDraw(float x, float y) {
 		float width = this.ani.getWidth();
 		float height = this.ani.getHeight();
-		if (x + width/2 < Main.LIMITLEFT ||
-			x - width/2 > Main.LIMITRIGHT ||
-			y + height/2 < Main.LIMITTOP ||
-			y - height/2 > Main.LIMITBOTTOM) {
+		if (x + width < Main.LIMITLEFT ||
+			x - width > Main.LIMITRIGHT ||
+			y + height < Main.LIMITTOP ||
+			y - height > Main.LIMITBOTTOM) {
 			return false;
 		} else {
 			return true;
@@ -149,5 +149,10 @@ public class Animation implements Drawable {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void draw(float x, float y, float x2, float y2, float srcx, float srcy, float srcx2, float srcy2) {
+		Sprite img = new Sprite(ani.getImage(0).copy());
+		img.draw(x, y, x2, y2, srcx, srcy, srcx2, srcy2);
 	}
 }

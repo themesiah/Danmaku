@@ -2,7 +2,7 @@
 <levels>
 	<level id="level1">
 		<bg>bg1</bg>
-		<template>template1</template>
+		<template>spaceshiptemplate</template>
 		<canFocus>true</canFocus>
 		<canGraze>true</canGraze>
 		<music>pay</music>

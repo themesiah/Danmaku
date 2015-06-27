@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
  
 public class Main extends StateBasedGame {
+	public static boolean DEBUG = true;
 	public static String GAMENAME = "Danmaku";
 	public static final int MAINMENU = 0;
 	public static final int PLAY = 1;
@@ -100,6 +101,10 @@ public class Main extends StateBasedGame {
 	    	AppGameContainer appContainer = new AppGameContainer(new Main(GAMENAME));
 	        appContainer.setDisplayMode(GAMEWIDTH, GAMEHEIGHT, FULLSCREEN);
 	        appContainer.setTargetFrameRate(60);
+	        appContainer.setVSync(true);
+	        if (DEBUG == false) {
+	        	appContainer.setShowFPS(false);
+	        }
 			AudioManager.get().setMusicVolume(Options.MAX_MUSIC_VOLUME);
 			AudioManager.get().setSoundVolume(Options.MAX_MUSIC_VOLUME);
 	        appContainer.start();

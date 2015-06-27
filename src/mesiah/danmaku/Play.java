@@ -294,13 +294,16 @@ public class Play extends BasicGameState {
 		// Debugs
 		Color c = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 		g.setColor(c);
-		g.drawString("Time: " + timer / 1000, 10.0f, 30.0f);
-		g.drawString("Bullets: " + bc.size(), 10.0f, 50.0f);
-		//g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
-		//g.drawString("Press " + Input.getKeyName(SPAWN1_KEY) + " to spawn Enemy 1", 10.0f, 110.0f);
-		//g.drawString("Press " + Input.getKeyName(SPAWN2_KEY) + " to spawn Enemy 2", 10.0f, 130.0f);
-		//g.drawString("Press " + Input.getKeyName(SPAWN3_KEY) + " to spawn Enemy 3", 10.0f, 150.0f);
-		//g.drawString("Press " + Input.getKeyName(SPAWN4_KEY) + " to spawn Enemy 4", 10.0f, 170.0f);
+		
+		if (Main.DEBUG) {
+			g.drawString("Time: " + timer / 1000, 10.0f, 30.0f);
+			g.drawString("Bullets: " + bc.size(), 10.0f, 50.0f);
+			//g.drawString("Patterns: " + bc.patterns(), 10.0f, 70.0f);
+			//g.drawString("Press " + Input.getKeyName(SPAWN1_KEY) + " to spawn Enemy 1", 10.0f, 110.0f);
+			//g.drawString("Press " + Input.getKeyName(SPAWN2_KEY) + " to spawn Enemy 2", 10.0f, 130.0f);
+			//g.drawString("Press " + Input.getKeyName(SPAWN3_KEY) + " to spawn Enemy 3", 10.0f, 150.0f);
+			//g.drawString("Press " + Input.getKeyName(SPAWN4_KEY) + " to spawn Enemy 4", 10.0f, 170.0f);
+		}
 
 		g.drawString("Lives: " + Player.LIVES, LIVES_X, LIVES_Y);
 		//g.drawString("Bombs: " + Player.BOMBS, BOMBS_X, BOMBS_Y);

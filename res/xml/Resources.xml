@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<animation>template1.xml</animation>
+	<animation>spaceshiptemplate.xml</animation>
 	<animation>bg1.xml</animation>
 	<animation>playerAnimation.xml</animation>
 	<animation>playerFAnimation.xml</animation>

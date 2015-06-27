@@ -165,6 +165,9 @@ public class XMLLoader {
 						Play.POWER_X = Integer.valueOf(parts[0]);
 						Play.POWER_Y = Integer.valueOf(parts[1]);
 						break;
+					case "debug":
+						Main.DEBUG = Boolean.valueOf(content);
+						break;
 				}
 			}
 		}

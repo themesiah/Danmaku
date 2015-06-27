@@ -8,9 +8,10 @@
 	<limitright>768</limitright>
 	<limittop>0</limittop>
 	<limitbottom>768</limitbottom>
-	<pointspos>10,658</pointspos>
-	<bombspos>10,718</bombspos>
-	<grazepos>10,738</grazepos>
-	<livespos>10,678</livespos>
-	<powerpos>10,698</powerpos>
+	<pointspos>10,263</pointspos>
+	<bombspos>10,190</bombspos>
+	<grazepos>10,293</grazepos>
+	<livespos>10,130</livespos>
+	<powerpos>10,160</powerpos>
+	<debug>false</debug>
 </game>

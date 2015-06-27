@@ -3,6 +3,21 @@ package mesiah.danmaku.model;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+/**
+ * Clase que contiene todos los contenedores de diferentes
+ * tipos de objetos del juego.
+ * Contiene:
+ * Jugadores
+ * Patrones de disparo
+ * Enemigos
+ * Powerups
+ * Bosses
+ * Fondos
+ * Templates
+ * Además, actualiza y dibuja todos en un orden específico.
+ * @author Mesiah
+ *
+ */
 public class GameObjectContainer {
 	PlayerContainer pc;
 	BulletContainer bc;
@@ -22,21 +37,33 @@ public class GameObjectContainer {
 		//this.template = new Template("template.png");
 	}
 	
+	/**
+	 * Actualiza todos los objetos del juego en un orden específico.
+	 * @param delta Tiempo pasado desde el último update.
+	 */
 	public void update(int delta) {
 		pc.update(delta);
-		bc.update(delta);
 		ec.update(delta);
-		bssc.update(delta);
 		puc.update(delta);
+		bssc.update(delta);
+		bc.update(delta);
 	}
 	
+	/**
+	 * Dibuja todos los objetos del juego en un orden específico.
+	 * Aquí es realmente importante, pues determinará qué objetos se
+	 * ven y qué objetos no. Por ello, el fondo está el primero,
+	 * puesto que todo se verá por encima, y el template por debajo,
+	 * puesto que no se verá nada por encima suyo.
+	 * @param g Gráficos de Slick2D, para los bosses.
+	 */
 	public void draw(Graphics g) {
 		bg.draw();
 		pc.draw();
 		ec.draw();
 		puc.draw();
-		bc.draw();
 		bssc.draw(g);
+		bc.draw();
 		template.draw();
 	}
 	

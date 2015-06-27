@@ -45,6 +45,12 @@ public class Boss extends Enemy {
 	protected int transitionTime;
 	protected int transitionTimer;
 	
+	/**
+	 * Función para copiar un boss entero.
+	 * Al contrario que otras clases, Boss no usa una clase proxy de la
+	 * que componer el boss, así que se crea uno que no se renderiza y luego
+	 * se copia.
+	 */
 	@SuppressWarnings("unchecked")
 	public Boss copy() {
 		Boss e = null;
@@ -100,6 +106,10 @@ public class Boss extends Enemy {
 		return (float) ((float) health / (float) maxHealth);
 	}
 	
+	/**
+	 * Dibuja la vida y nombre del boss.
+	 * @param g Graficos de slick2D.
+	 */
 	public void drawBossInterface(Graphics g) {
 		float horizontalM = 5;
 		float verticalM = 5;
@@ -154,6 +164,10 @@ public class Boss extends Enemy {
 		return name;
 	}
 
+	/**
+	 * Muestra el boss si sigue vivo, o la animación de muerte.
+	 * @param g
+	 */
 	public void draw(Graphics g) {
 		if (state == "active") {
 			d.draw(posx, posy, facing);
@@ -171,6 +185,9 @@ public class Boss extends Enemy {
 		}
 	}
 	
+	/**
+	 * Inicializa todos los arrays del boss y algunas variables.
+	 */
 	public void init() {
 		ds = new ArrayList<Drawable>();
 		fps = new ArrayList<String>();
@@ -217,6 +234,10 @@ public class Boss extends Enemy {
 		initOnce = false;
 	}
 	
+	/**
+	 * Inicializa al boss como tal. Hace que se pueda matar y que ponga su primera fase.
+	 * Solo se inicializa una vez.
+	 */
 	public void initBoss() {
 		if (!initOnce) {
 			collidable = true;
@@ -267,6 +288,15 @@ public class Boss extends Enemy {
 		return false;
 	}
 
+	/**
+	 * Actualiza todos los datos del boss. Controla lo siguiente:
+	 * Si el boss ha sido destruido.
+	 * Si debe moverse.
+	 * Si colisiona con el player.
+	 * Si debe estar rojo porque se le ha causado daño.
+	 * Si es invulnerable aún.
+	 * Dispara.
+	 */
 	public void update(int delta) {
 		if (state == "beingdestroyed") {
 			d = ds.get(DESTROYED);
@@ -315,6 +345,12 @@ public class Boss extends Enemy {
 		this.invulnerableTimer = invulnerableTimer;
 	}
 
+	/**
+	 * Gestiona los disparos del boss.
+	 * Solo dispara cuando toca (cuando ha sido inicializado y ha cambiado completamente de fase).
+	 * Tiene temporizadores propios para cada patrón que tenga en la fase actual.
+	 * Suena un disparo por cada patrón.
+	 */
 	public void shot(int delta) {
 		if (invulnerableTimer <= 0) {
 			FirePattern fp = null;
@@ -333,6 +369,11 @@ public class Boss extends Enemy {
 		}
 	}
 
+	/**
+	 * Movimiento del boss.
+	 * En caso de los bosses, el movimiento solo se aplica cuando aparecen, y luego quedan estáticos.
+	 * En ese momento, el boss se inicializa y empieza la batalla.
+	 */
 	public void move(int delta) {
 		if (transitionTime > transitionTimer) {
 			float movx = (finalPosX - initialPosX) * (float) ((float) transitionTimer / (float) transitionTime);
@@ -362,10 +403,16 @@ public class Boss extends Enemy {
 		}
 	}
 	
+	/**
+	 * Comprueba si aún quedan curvas de la ruta del boss antes de inicializarse.
+	 */
 	public boolean moreCurves() {
 		return route.size() > 0;
 	}
 
+	/**
+	 * Muestra por pantalla el boss o su destrucción en otro caso.
+	 */
 	public void draw() {
 		if (state == "active") {
 			d.draw(posx, posy, facing);
@@ -386,6 +433,11 @@ public class Boss extends Enemy {
 		return d.getSize();
 	}
 	
+	/**
+	 * Función que se ejecuta al bajar la vida del boss a 0 o menos y no quedarle más fases.
+	 * Reproduce un sonido, suelta los powerups que hagan falta, y vuelve a hacer sonar la
+	 * canción que sonaba antes del boss.
+	 */
 	public void onDestroyed() {
 		state = "beingdestroyed";
 		AudioManager.get().playSound(sounds.get(DESTROYED));
@@ -399,6 +451,11 @@ public class Boss extends Enemy {
 		AudioManager.get().playMusic(lastSong);
 	}
 	
+	/**
+	 * Función que se ejecuta al perder vida el boss.
+	 * Cambia de color al recibir daño.
+	 * Cada vez que su vida baja a 0 cambia de fase.
+	 **/
 	public void onHit(int damage) {
 		if (invulnerableTimer <= 0) {
 			health -= damage;
@@ -489,6 +546,11 @@ public class Boss extends Enemy {
 		return ds.get(code);
 	}
 
+	/**
+	 * Obtiene la hitbox o hitboxes del boss.
+	 * Puesto que las hitboxes tienen una posición y un tamaño,
+	 * se tiene que actualizar la posición antes de devolveras.
+	 */
 	public ArrayList<Shape> getHitBoxes() {
 		for (int i = 0; i < ss.size(); i++) {
 			Shape shape = ss.get(i);
@@ -500,12 +562,18 @@ public class Boss extends Enemy {
 		return ss;
 	}
 	
+	/**
+	 * Añade una hitbox a la lista y su posición relativa.
+	 */
 	public void addHitbox(Shape s) {
 		float[] rel = {s.getX(), s.getY()};
 		addRelative(rel);
 		ss.add(s);
 	}
 
+	/**
+	 * Añade la hitbox básica (rectángulo de sprite).
+	 */
 	public void addHitbox() {
 		Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
 		float[] rel = {0.0f, 0.0f};
@@ -580,7 +648,14 @@ public class Boss extends Enemy {
 		this.healthPhases = healthPhases;
 	}
 	
-	
+	/**
+	 * Cambia la fase del boss. Esto ocurre cuando la vida baja a 0.
+	 * Cada vez que se cambia de fase, se eliminan todas las balas enemigas.
+	 * Después se cargan los patrones que se usarán en la fase y la vida que tendrá.
+	 * Si hay cambio de música, también lo actualiza.
+	 * Finalmente, elimina esa fase para que no se repita.
+	 * Si no quedan fases, se destruye el boss.
+	 */
 	private void changePhase() {
 		Play.bc.addToRemoveEnemies();
 		if (phases.size() > 0) {
@@ -605,6 +680,10 @@ public class Boss extends Enemy {
 		shotTimers = (ArrayList<Integer>) shotTimersPhases.get(phase).clone();
 	}
 	
+	/**
+	 * Añade una fase a la lista de fases.
+	 * @param phase
+	 */
 	public void addPhase(String phase) {
 		phases.add(phase);
 		fpsPhases.put(phase, new ArrayList<String>());

@@ -2,6 +2,12 @@ package mesiah.danmaku.controller;
 
 import java.util.ArrayList;
 
+/**
+ * Contiene un nivel completo del juego, lo que significa que tiene spawns de enemigos para cada tiempo
+ * correspondiente. Además, tiene el fondo, template y música de nivel.
+ * @author Mesiah
+ *
+ */
 public class Level {
 	private ArrayList<ArrayList<EnemySpawn>> enemySpawn;
 	private ArrayList<Integer> spawnTimes;
@@ -22,6 +28,11 @@ public class Level {
 		spawnTimes = new ArrayList<Integer>();
 	}
 
+	/**
+	 * Añade los spawns de enemigos para un tiempo concreto.
+	 * @param es Spawns de enemigos.
+	 * @param spawnTime Tiempo en milisegundos en el que aparecerán los enemigos.
+	 */
 	public void addStep(ArrayList<EnemySpawn> es, int spawnTime) {
 		enemySpawn.add(es);
 		spawnTimes.add(spawnTime);
@@ -55,6 +66,12 @@ public class Level {
 		return enemySpawn.size() <= 0;
 	}
 	
+	/**
+	 * Devuelve todos los spawns correspondientes al tiempo pasado por parámetro, y todos los anteriores
+	 * no devueltos ya.
+	 * @param timer Tiempo pasado desde el inicio del nivel.
+	 * @return Un ArrayList de spawns de enemigos.
+	 */
 	public ArrayList<EnemySpawn> getSpawns(int timer) {
 		ArrayList<EnemySpawn> es = new ArrayList<EnemySpawn>();
 		while (spawnTimes.get(0) <= timer) {

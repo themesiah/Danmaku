@@ -72,6 +72,12 @@ public class Play extends BasicGameState {
 	public Play(int code) {
 	}
 
+	/**
+	 * Inicializa los containers de game objects del juego.
+	 * Finalmente, inicializa el container de containers de game objects, que es
+	 * la base para el ciclo del juego.
+	 * @throws SlickException
+	 */
 	private static void containerInit() throws SlickException {
 		// Inicializamos containers
 		pc = new PlayerContainer();
@@ -88,6 +94,11 @@ public class Play extends BasicGameState {
 		newGame();
 	}
 
+	/**
+	 * Se llama cada vez que se empieza un nuevo juego. Carga todos los containers y recursos
+	 * del juego.
+	 * @throws SlickException
+	 */
 	public static void newGame() throws SlickException {
 		currentLevel = null;
 		containerInit();
@@ -100,6 +111,12 @@ public class Play extends BasicGameState {
 		timer = 0;
 	}
 
+	/**
+	 * FUNCIÓN DE DEBUG
+	 * Spawnea un enemigo en un punto aleatorio X por la zona de arriba de la pantalla.
+	 * @param type Nombre del enemigo en el hashmap de enemigos.
+	 * @throws SlickException
+	 */
 	public void spawnEnemy(String type) throws SlickException {
 		if (lastEnemy >= enemyDelay) {
 			Enemy e = null;
@@ -117,6 +134,12 @@ public class Play extends BasicGameState {
 		}
 	}
 
+	/**
+	 * FUNCIÓN DE DEBUG
+	 * Spawnea un boss en el centro X por la zona de arriba de la pantalla.
+	 * @param type Nombre del boss en el hashmap de bosses.
+	 * @throws SlickException
+	 */
 	public void spawnBoss(String type) throws SlickException {
 		if (lastEnemy >= enemyDelay) {
 			Boss e = null;
@@ -136,6 +159,12 @@ public class Play extends BasicGameState {
 		}
 	}
 	
+	/**
+	 * Función que saca a los enemigos que el update ha recogido.
+	 * Esos enemigos corresponden al tiempo (timer) actual.
+	 * También contempla el caso de sacar un boss o incluso de terminar la partida.
+	 * @param es Una lista de spawns de enemigos.
+	 */
 	public void spawnEnemies(ArrayList<EnemySpawn> es) {
 		for (EnemySpawn e : es) {
 			if (e.getType().equals("enemy")) {
@@ -148,6 +177,14 @@ public class Play extends BasicGameState {
 		}
 	}
 
+	/**
+	 * Ciclo principal del juego.
+	 * Actualiza el temporizador (si no hay un boss activo).
+	 * Gestiona inputs del usuario.
+	 * Comprueba que el juego o el nivel no haya terminado.
+	 * Hace update general del juego (goc.update()).
+	 * Actualiza las señales (temporizadores globales).
+	 */
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
 		if (bssc.size() <= 0) {
@@ -250,6 +287,9 @@ public class Play extends BasicGameState {
 
 	}
 
+	/**
+	 * Muestra textos varios por pantalla.
+	 */
 	private void renderDebugs(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		// Debugs
 		Color c = new Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -269,6 +309,9 @@ public class Play extends BasicGameState {
 		g.drawString("Graze: " + Player.GRAZE, GRAZE_X, GRAZE_Y);
 	}
 
+	/**
+	 * Muestra por pantalla todos los objetos del juego y los debugs.
+	 */
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		// Todos los objetos del juego

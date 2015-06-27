@@ -10,6 +10,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Clase que contiene el estado en el que se puede cambiar de opciones.
+ * Por el momento, se puede cambiar las opciones de sonido.
+ * @author Mesiah
+ *
+ */
 public class Options extends BasicGameState {	
 	private static final float MENU_X = 100.0f;
 	private static final String MENU1 = "Return";
@@ -36,7 +42,9 @@ public class Options extends BasicGameState {
 		lastKey = 0;
     }
 	
-	
+	/**
+	 * Gestiona los inputs.
+	 */
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = gc.getInput();
     	lastKey += delta;
@@ -89,6 +97,9 @@ public class Options extends BasicGameState {
     	}
     }
  
+    /**
+     * Muestra las opciones por pantalla.
+     */
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	AudioManager am = AudioManager.get();
     	float musicVolume = am.getMusicVolume();

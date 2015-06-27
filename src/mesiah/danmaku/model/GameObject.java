@@ -1,5 +1,11 @@
 package mesiah.danmaku.model;
 
+/**
+ * Clase base para todos los objetos del juego.
+ * Tiene posición, velocidad, dirección...
+ * @author Mesiah
+ *
+ */
 public abstract class GameObject {
 	public static final int PLAYER = 0;
 	public static final int ENEMY = 1;

@@ -1,5 +1,11 @@
 package mesiah.danmaku.model;
 
+/**
+ * Clase proxy para los power ups.
+ * Contiene todos los datos necesarios para poder componer un power up de verdad.
+ * @author Mesiah
+ *
+ */
 public class CustomPowerup {
 	protected String id, animation, direction;
 	protected int type, value, qty;

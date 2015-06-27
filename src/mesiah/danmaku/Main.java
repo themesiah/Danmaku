@@ -30,6 +30,10 @@ public class Main extends StateBasedGame {
 	
 	public static final int KEYDELAY = 200;
 	
+	/** 
+	 * Constructor de Main. Aquí se especifican los estados con los que contará el juego.
+	 * @param gameName El nombre del juego.
+	 */
 	public Main(String gameName) {
 		super(gameName);
 		this.addState(new MainMenu(MAINMENU));
@@ -39,10 +43,12 @@ public class Main extends StateBasedGame {
 		this.addState(new Options(OPTIONS));
 	}
 	
-	
+	/**
+	 * Inicialización de los estados del juego y selección de estado inicial.
+	 */
 	public void initStatesList(GameContainer gc) throws SlickException {
 		this.getState(MAINMENU).init(gc, this);
-		//this.getState(PLAY).init(gc, this);
+		this.getState(PLAY).init(gc, this);
 		this.getState(MENU).init(gc, this);
 		this.getState(CONTROLS).init(gc, this);
 		this.getState(OPTIONS).init(gc, this);
@@ -50,11 +56,16 @@ public class Main extends StateBasedGame {
 	}
 	
 	@Override
+	/**
+	 * Override de la función para entrar en un estado.
+	 * Gestiona si una canción debe terminar, pausarse... dependiendo el estado.
+	 * @param id Estado en el que se va a entrar.
+	 */
 	public void enterState(int id) {
 		switch(this.getCurrentStateID()) {
 		case MAINMENU:
 			if (id == PLAY) {
-				AudioManager.get().playMusic("pay");
+				AudioManager.get().playMusic(AudioManager.get().getCurrentlyPlaying());
 			}
 			break;
 		case PLAY:
@@ -62,12 +73,12 @@ public class Main extends StateBasedGame {
 				AudioManager.get().stopMusic();
 			}
 			if (id == MENU) {
-				AudioManager.get().pauseMusic("pay");
+				AudioManager.get().pauseMusic(AudioManager.get().getCurrentlyPlaying());
 			}
 			break;
 		case MENU:
 			if (id == PLAY) {
-				AudioManager.get().resumeMusic("pay");
+				AudioManager.get().resumeMusic(AudioManager.get().getCurrentlyPlaying());
 			}
 			if (id == MAINMENU) {
 				AudioManager.get().stopMusic();
@@ -77,11 +88,16 @@ public class Main extends StateBasedGame {
 		super.enterState(id);
 	}
 	
+	/**
+	 * El inicio de todo el software.
+	 * Por el momento no contempla argumentos.
+	 * Carga las configuraciones iniciales del juego y crea el juego con Slick2D.
+	 * Además, inicializa el volumen del juego.
+	 */
     public static void main(String[] args) {
     	try {
     		XMLLoader.get().getConfigFromXML("Game.xml");
 	    	AppGameContainer appContainer = new AppGameContainer(new Main(GAMENAME));
-	    	System.out.println(Main.FULLSCREEN);
 	        appContainer.setDisplayMode(GAMEWIDTH, GAMEHEIGHT, FULLSCREEN);
 	        appContainer.setTargetFrameRate(60);
 			AudioManager.get().setMusicVolume(Options.MAX_MUSIC_VOLUME);

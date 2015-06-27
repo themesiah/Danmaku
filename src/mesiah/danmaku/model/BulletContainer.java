@@ -5,11 +5,20 @@ import java.util.List;
 
 import mesiah.danmaku.model.patterns.FirePattern;
 
+/**
+ * Clase que contiene las listas de balas amigas y enemigas.
+ * Además, gestiona que aparezcan y desaparezcan balas.
+ * @author Mesiah
+ *
+ */
 public class BulletContainer {
 	List<FirePattern> blist;
 	List<Object> toRemove;
 	List<FirePattern> toAdd;
 	
+	/**
+	 * Función que se utiliza para eliminar todas las balas enemigas de la pantalla (para bosses).
+	 */
 	public void addToRemoveEnemies() {
 		for (FirePattern fp : blist) {
 			if (fp.size() > 0) {
@@ -26,6 +35,12 @@ public class BulletContainer {
 		}
 	}
 	
+	/**
+	 * Función que añade un objeto a la lista "para remover".
+	 * No se remueven directamente porque la lista tiene un size cuando se
+	 * empieza a recorrer, y debe mantenerla hasta el final del recorrido.
+	 * @param o Objeto a remover.
+	 */
 	public void addToRemove(Object o) {
 		toRemove.add(o);
 	}
@@ -36,6 +51,12 @@ public class BulletContainer {
 		this.toAdd = new ArrayList<FirePattern>();
 	}
 	
+	/**
+	 * Función que añade un FirePattern a la lista "para añadir".
+	 * No se añaden directamente porque la lista tiene un size cuando se
+	 * empieza a recorrer, y debe mantenerla hasta el final del recorrido.
+	 * @param b Objeto a añadir.
+	 */
 	public void addToAdd(FirePattern b) {
 		toAdd.add(b);
 	}
@@ -68,6 +89,14 @@ public class BulletContainer {
 		return blist.size();
 	}
 	
+	/**
+	 * Función que actualiza los patrones contenidos en la clase.
+	 * Primero actualiza los patrones.
+	 * Luego añade para remover los patrones que ya no tengan balas.
+	 * Luego remueve los patrones que tocan.
+	 * Luego añade los patrones que tocan añadir.
+	 * @param delta
+	 */
 	public void update(int delta) {
 		for (FirePattern fp:blist) {
 			fp.update(delta);
@@ -88,6 +117,9 @@ public class BulletContainer {
 		toAdd.clear();
 	}
 	
+	/**
+	 * Dibuja todos los patrones.
+	 */
 	public void draw() {
 		for (FirePattern fp:blist) {
 			fp.draw();

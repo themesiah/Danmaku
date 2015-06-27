@@ -5,6 +5,12 @@ import java.util.List;
 
 import org.newdawn.slick.Graphics;
 
+/**
+ * Clase que contiene todos los bosses que están actualmente en juego.
+ * Normalmente será 1, pero nunca se sabe...
+ * @author Mesiah
+ *
+ */
 public class BossContainer {
 	List<Boss> elist;
 	List<Object> toRemove;
@@ -42,6 +48,10 @@ public class BossContainer {
 		return elist.size();
 	}
 	
+	/**
+	 * Hace el update de todos los bosses a la vez.
+	 * @param delta Tiempo pasado desde el último update.
+	 */
 	public void update(int delta) {
 		for (Boss e:elist) {
 			e.update(delta);
@@ -53,6 +63,11 @@ public class BossContainer {
 		toRemove.clear();
 	}
 	
+	/**
+	 * Dibuja todos los bosses.
+	 * Además, pasa como parámetro los gráficos de Slick2D para poder dibujar la interfaz del boss.
+	 * @param g
+	 */
 	public void draw(Graphics g) {
 		for (Boss e:elist) {
 			e.draw(g);

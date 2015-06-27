@@ -10,6 +10,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Clase que contiene el estado del menú de pausa.
+ * Puedes volver al menú principal, cambiar opciones, cambiar controles, volver al juego o salir.
+ * @author Mesiah
+ *
+ */
 public class Menu extends BasicGameState {
 	private static final float MENU_X = 100.0f;
 	private static final String MENU1 = "Resume";
@@ -34,6 +40,9 @@ public class Menu extends BasicGameState {
 		lastKey = 0;
     }
  
+	/**
+	 * Gestiona los inputs.
+	 */
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = gc.getInput();
     	lastKey += delta;
@@ -81,6 +90,9 @@ public class Menu extends BasicGameState {
     	}
     }
  
+    /**
+     * Muestra todas las opciones por pantalla.
+     */
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	float selectionX, selectionY = 0;
     	

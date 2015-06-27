@@ -3,6 +3,11 @@ package mesiah.danmaku.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que contiene todos los enemigos que hay actualmente vivos.
+ * @author Mesiah
+ *
+ */
 public class EnemyContainer {
 	List<Enemy> elist;
 	List<Object> toRemove;
@@ -40,6 +45,11 @@ public class EnemyContainer {
 		return elist.size();
 	}
 	
+	/**
+	 * Actualiza los enemigos y elimina los que toca.
+	 * @see BulletContainer
+	 * @param delta Tiempo que ha pasado desde el último update.
+	 */
 	public void update(int delta) {
 		for (Enemy e:elist) {
 			e.update(delta);
@@ -51,6 +61,9 @@ public class EnemyContainer {
 		toRemove.clear();
 	}
 	
+	/**
+	 * Dibuja todos los enemigos.
+	 */
 	public void draw() {
 		for (Enemy e:elist) {
 			e.draw();

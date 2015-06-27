@@ -10,6 +10,15 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Clase que contiene el estado del menú principal del juego, donde puedes:
+ * Jugar
+ * Cambiar los controles
+ * Cambiar las opciones
+ * Salir
+ * @author Mesiah
+ *
+ */
 public class MainMenu extends BasicGameState {	
 	private static final float MENU_X = 100.0f;
 	private static final String MENU1 = "Play";
@@ -34,6 +43,9 @@ public class MainMenu extends BasicGameState {
 		lastKey = 0;
     }
  
+	/**
+	 * Gestiona principalmente los inputs del estado.
+	 */
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = gc.getInput();
     	lastKey += delta;
@@ -77,6 +89,9 @@ public class MainMenu extends BasicGameState {
     	}
     }
  
+    /**
+     * Muestra todas las opciones por pantalla.
+     */
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	float selectionX, selectionY = 0;
     	

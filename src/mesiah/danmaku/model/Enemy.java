@@ -43,6 +43,12 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 	public static int SHOT = 1;
 	public static int DESTROYED = 2;
 	
+	/**
+	 * Función para copiar un enemigo entero.
+	 * Al contrario que otras clases, Enemy no usa una clase proxy de la
+	 * que componer el enemigo, así que se crea uno que no se renderiza y luego
+	 * se copia.
+	 */
 	@SuppressWarnings("unchecked")
 	public Enemy copy() {
 		Enemy e = null;
@@ -83,6 +89,9 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		init();
 	}
 	
+	/**
+	 * Inicializa todos los arrays del enemigo y algunas variables.
+	 */
 	public void init() {
 		ds = new ArrayList<Drawable>();
 		fps = new ArrayList<String>();
@@ -164,6 +173,14 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		return false;
 	}
 
+	/**
+	 * Actualiza todos los datos del enemigo. Controla lo siguiente:
+	 * Si el enemigo ha sido destruido.
+	 * Si debe moverse.
+	 * Si colisiona con el player.
+	 * Si debe estar rojo porque se le ha causado daño.
+	 * Dispara.
+	 */
 	public void update(int delta) {
 		if (state == "beingdestroyed") {
 			d = ds.get(DESTROYED);
@@ -186,6 +203,12 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		shot(delta);
 	}
 	
+	/**
+	 * Gestiona los disparos del enemigo.
+	 * Solo dispara cuando toca.
+	 * Tiene temporizadores propios para cada patrón que tenga.
+	 * Suena un disparo por cada patrón.
+	 */
 	public void shot(int delta) {
 		FirePattern fp = null;
 		if (state == "active") {
@@ -202,6 +225,9 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		}
 	}
 	
+	/**
+	 * Comprueba si aún quedan curvas de la ruta del enemigo antes de desaparecer.
+	 */
 	public boolean moreCurves() {
 		return route.size() > 0;
 	}
@@ -215,6 +241,10 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		return route.get(0).pointAt(t);
 	}
 
+	/**
+	 * Movimiento del enemigo.
+	 * Si no es destruido, desaparecerá del mapa y no volverá.
+	 */
 	public void move(int delta) {
 		if (transitionTime > transitionTimer) {
 			float movx = (finalPosX - initialPosX) * (float) ((float) transitionTimer / (float) transitionTime);
@@ -244,6 +274,10 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		}
 	}
 
+	/**
+	 * Muestra el enemigo si sigue vivo, o la animación de muerte.
+	 * @param g
+	 */
 	public void draw() {
 		if (state == "active") {
 			d.draw(posx, posy, facing);
@@ -264,6 +298,10 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		return d.getSize();
 	}
 	
+	/**
+	 * Función que se ejecuta al bajar la vida del enemigo a 0 o menos.
+	 * Reproduce un sonido y suelta los powerups que hagan falta.
+	 */
 	public void onDestroyed() {
 		state = "beingdestroyed";
 		AudioManager.get().playSound(sounds.get(DESTROYED));
@@ -276,6 +314,11 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		}
 	}
 	
+	/**
+	 * Función que se ejecuta al perder vida el enemigo.
+	 * Cambia de color al recibir daño.
+	 * Cuando su vida baja a 0, se destruye.
+	 **/
 	public void onHit(int damage) {
 		health -= damage;
 		damageTimer = damageDelay;
@@ -372,6 +415,11 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		return ds.get(code);
 	}
 
+	/**
+	 * Obtiene la hitbox o hitboxes del enemigo.
+	 * Puesto que las hitboxes tienen una posición y un tamaño,
+	 * se tiene que actualizar la posición antes de devolveras.
+	 */
 	public ArrayList<Shape> getHitBoxes() {
 		for (int i = 0; i < ss.size(); i++) {
 			Shape shape = ss.get(i);
@@ -383,12 +431,18 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 		return ss;
 	}
 	
+	/**
+	 * Añade una hitbox a la lista y su posición relativa.
+	 */
 	public void addHitbox(Shape s) {
 		float[] rel = {s.getX(), s.getY()};
 		addRelative(rel);
 		ss.add(s);
 	}
 
+	/**
+	 * Añade la hitbox básica (rectángulo de sprite).
+	 */
 	public void addHitbox() {
 		Rectangle r = new Rectangle(posx, posy, getSize()[0], getSize()[1]);
 		float[] rel = {0.0f, 0.0f};

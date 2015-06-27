@@ -4,6 +4,12 @@ import java.util.HashMap;
 
 import org.newdawn.slick.SlickException;
 
+/**
+ * Gestor de fondos y templates. Los guarda en un hashmap y los devuelve cuando se necesitan.
+ * Es un singleton.
+ * @author Mesiah
+ *
+ */
 public class BackgroundManager {
 	private static BackgroundManager bm = null;
 	private HashMap<String, Background> bgs;
@@ -21,6 +27,10 @@ public class BackgroundManager {
 		return bm;
 	}
 	
+	/**
+	 * Añade un fondo al hashmap.
+	 * @param key Nombre del fondo en el hashmap.
+	 */
 	public void addBackground(String key) {
 		Background bg;
 		try {
@@ -32,6 +42,10 @@ public class BackgroundManager {
 		
 	}
 	
+	/**
+	 * Añade un template al hashmap.
+	 * @param key Nombre del template en el hashmap.
+	 */
 	public void addTemplate(String key) {
 		Template tem;
 		try {

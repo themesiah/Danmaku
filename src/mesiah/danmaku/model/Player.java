@@ -15,7 +15,12 @@ import mesiah.danmaku.model.patterns.FirePatternManager;
 import mesiah.danmaku.util.GetDirection;
 import mesiah.danmaku.view.Drawable;
 
-public class Player extends VisibleGameObject implements BulletEmitter{
+/**
+ * Clase que contiene al jugador en sí y todos sus parámetros y variables.
+ * @author Mesiah
+ *
+ */
+public class Player extends VisibleGameObject implements BulletEmitter {
 	private ArrayList<String> fps;
 	private ArrayList<ArrayList<String>> firePatterns;
 	private ArrayList<ArrayList<Integer>> shotDelays;
@@ -70,6 +75,9 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		posy = y;
 	}
 	
+	/**
+	 * Inicializa la lista de fire patterns que tendrá el jugador dependiendo del poder.
+	 */
 	public void initFirePatterns() {
 		for (int i = 0; i < maxPower+1; i++) {
 			firePatterns.add(new ArrayList<String>());
@@ -78,6 +86,10 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 
+	/**
+	 * Inicializa todas las variables del jugador.
+	 * @throws SlickException
+	 */
 	public void initPlayer() throws SlickException {
 		firePatterns = new ArrayList<ArrayList<String>>();
 		shotDelays = new ArrayList<ArrayList<Integer>>();
@@ -116,6 +128,9 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		initFirePatterns();
 	}
 	
+	/** 
+	 * Comprueba si colisiona con un boss y resulta destruido en ese caso.
+	 */
 	public void CheckBossCollisions() {
 		if (this.collidable) {
 			List<Boss> blist = Play.bssc.getEnemies();
@@ -131,6 +146,9 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 	
+	/**
+	 * Comprueba si colisiona con un enemigo y resulta destruido en ese caso.
+	 */
 	public void CheckEnemyCollisions() {
 		if (this.collidable) {
 			List<Enemy> elist = Play.ec.getEnemies();
@@ -154,6 +172,13 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		
 	}
 	
+	/**
+	 * Obtiene los beneficios de un powerup.
+	 * Sube el poder en caso de poder, aumenta los puntos,
+	 * las vidas o las bombas en los casos correspondientes.
+	 * En caso de puntos, obtiene más si el graze es grande.
+	 * @param pu Powerup en cuestión.
+	 */ 
 	public void onPowerupWin(Powerup pu) {
 		if (pu.getType() == Powerup.TYPE_POWER) {
 			POWER += pu.getValue();
@@ -172,6 +197,10 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 
+	/**
+	 * Comprueba si está suficiente cerca de un powerup como para atraerlo o
+	 * lo suficientemente cerca como para recogerlo.
+	 */
 	public void CheckPowerupCollisions() {
 		if (this.collidable) {
 			List<Powerup> pulist = Play.puc.getPowerups();
@@ -189,16 +218,29 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 	
+	/**
+	 * Destrucción del jugador.
+	 */
 	public void onDestroyed() {
 		state = "beingdestroyed";
 		AudioManager.get().playSound(sounds.get(DESTROYED));
 		collidable = false;
 	}
 	
+	/**
+	 * En caso de recibir daño.
+	 * Actualmente, la única vida a considerar es 1.
+	 * @param damage Daño causado. Actualmente es indiferente.
+	 */
 	public void onHit(int damage) {
 		onDestroyed();
 	}
 
+	/**
+	 * Actualización del jugador.
+	 * Comprueba colisiones y destruye al player si ha sido destruido.
+	 * @param delta Tiempo pasado desde el último update.
+	 */
 	public void update(int delta) {
 		if (state == "active") {
 			CheckEnemyCollisions();
@@ -215,10 +257,14 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 	}
 
 	public void move(int delta) {
-		posx += Math.cos(direction)*speed;
-		posy += Math.sin(direction)*speed;
 	}
 	
+	/**
+	 * Mueve al jugador hacia arriba.
+	 * Contempla la posibilidad de tener focus activado y
+	 * contempla que no pueda moverse más por los límites del
+	 * escenario.
+	 */
 	public void moveUp() {
 		if (posy > Main.LIMITTOP && state == "active") {
 			if (focused && Play.CANFOCUS) {
@@ -229,6 +275,12 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 	
+	/**
+	 * Mueve al jugador hacia abajo.
+	 * Contempla la posibilidad de tener focus activado y
+	 * contempla que no pueda moverse más por los límites del
+	 * escenario.
+	 */
 	public void moveDown() {
 		if (posy < Main.LIMITBOTTOM - d.getSize()[1] && state == "active") {
 			if (focused && Play.CANFOCUS) {
@@ -239,6 +291,12 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 	
+	/**
+	 * Mueve al jugador hacia la izquierda.
+	 * Contempla la posibilidad de tener focus activado y
+	 * contempla que no pueda moverse más por los límites del
+	 * escenario.
+	 */
 	public void moveLeft() {
 		if (posx > Main.LIMITLEFT && state == "active") {
 			if (focused && Play.CANFOCUS) {
@@ -249,6 +307,12 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 	
+	/**
+	 * Mueve al jugador hacia la derecha.
+	 * Contempla la posibilidad de tener focus activado y
+	 * contempla que no pueda moverse más por los límites del
+	 * escenario.
+	 */
 	public void moveRight() {
 		if (posx < Main.LIMITRIGHT - d.getSize()[0] && state == "active") {
 			if (focused && Play.CANFOCUS) {
@@ -259,6 +323,9 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 
+	/**
+	 * Dibuja al jugador o su destrucción, si es el caso.
+	 */
 	public void draw() {
 		if (state == "active") {
 			d.draw(posx, posy);
@@ -279,6 +346,13 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		return false;
 	}
 	
+	/**
+	 * Disparo del jugador. Puede tener varios patrones a la vez.
+	 * Dispara un patrón u otro dependiendo de su poder.
+	 * Solo resulta activado al pulsar la tecla
+	 * correspondiente.
+	 * @param delta Tiempo desde el último update.
+	 */
 	public void shot(int delta) {
 		FirePattern fp = null;
 		ArrayList<String> tempfps = firePatterns.get(Player.POWER);
@@ -303,6 +377,12 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		return d.getSize();
 	}
 	
+	/**
+	 * Activa o desactiva el focus.
+	 * Esto implica no solamente cambiar el estado de focus,
+	 * si no cambiar la animación a focus.
+	 * @param f Focuseado o no.
+	 */
 	public void setFocused(boolean f) {
 		if (state == "active") {
 			focused = f;
@@ -379,28 +459,48 @@ public class Player extends VisibleGameObject implements BulletEmitter{
 		}
 	}
 	
-	
+	/**
+	 * Devuelve la hitbox que utilizará el jugador para determinar
+	 * el graze (balas que se acercan mucho pero no dan).
+	 * @return La forma geométrica que hará de hitbox.
+	 */
 	public Shape getGrazeHitBox() {
 		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, GRAZE_HITBOX_RADIUS);
 		return el;
 	}
 	
+	/**
+	 * Devuelve la hitbox que utilizará el jugador para determinar
+	 * si obtiene un powerup.
+	 * @return La forma geométrica que hará de hitbox.
+	 */
 	public Shape getPowerupHitBox() {
 		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, POWERUP_HITBOX_RADIUS);
 		return el;
 	}
 	
+	/**
+	 * Devuelve la hitbox que utilizará el jugador para determinar
+	 * si los powerups se acercan a él.
+	 * @return La forma geométrica que hará de hitbox.
+	 */
 	public Shape getExtraPowerupHitBox() {
 		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2 - 1, EXTRA_POWERUP_HITBOX_RADIUS);
 		return el;
 	}
 
+	/**
+	 * Añade una hitbox relativa al jugador.
+	 */
 	public void addHitbox(Shape s) {
 		float[] rel = {s.getX(), s.getY()};
 		addRelative(rel);
 		ss.add(s);
 	}
 
+	/**
+	 * Añade la hitbox básica al jugador.
+	 */
 	public void addHitbox() {
 		Circle el = new Circle(posx + getSize()[0]/2, posy + getSize()[1]/2, HITBOX_RADIUS);
 		float[] rel = {0.0f, 0.0f};

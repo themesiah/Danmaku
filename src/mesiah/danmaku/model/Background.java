@@ -12,6 +12,11 @@ import mesiah.danmaku.view.Drawable;
 public class Background extends VisibleGameObject {
 	Drawable d;
 	
+	/**
+	 * Carga un fondo a partir del nombre de la animación.
+	 * @param aniKey Nombre de la animación en el hashmap de animaciones.
+	 * @throws SlickException
+	 */
 	public Background(String aniKey) throws SlickException {
 		d = AnimationManager.get().getAnimation(aniKey);
 		posx = 0;
@@ -66,6 +71,9 @@ public class Background extends VisibleGameObject {
 		
 	}
 
+	/**
+	 * Dibuja el fondo ocupando toda la pantalla.
+	 */
 	public void draw() {
 		d.draw(Main.GAMEWIDTH/4, posy, Main.GAMEWIDTH*3/4, Main.GAMEHEIGHT, 0, 0, Main.GAMEWIDTH/2, Main.GAMEHEIGHT);
 	}

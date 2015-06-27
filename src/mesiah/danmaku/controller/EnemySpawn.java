@@ -11,6 +11,13 @@ import mesiah.danmaku.util.CustomCurve;
 
 import org.newdawn.slick.geom.Curve;
 
+/**
+ * Clase que controla un spawn singular de enemigos.
+ * Esto se reduce a: un enemigo y la posición / ruta que tendrá.
+ * Además, tiene diferentes tipos: enemigo, boss y win, donde este último indica fin de un nivel.
+ * @author Mesiah
+ *
+ */
 public class EnemySpawn {
 	private String enemy;
 	private String type;
@@ -109,6 +116,10 @@ public class EnemySpawn {
 		curveTime.add(ct);
 	}
 
+	/**
+	 * Devuelve el enemigo que contiene la clase con su ruta incluida.
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public Enemy composeEnemy() {
 		Enemy e = null;

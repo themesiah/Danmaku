@@ -13,6 +13,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+/**
+ * Clase estado para el menú en que se cambian los controles.
+ * @author Mesiah
+ *
+ */
 public class Controls extends BasicGameState {	
 	private static final float MENU_X = 100.0f;
 	private static final float MENU2_X = 250.0f;
@@ -54,6 +59,9 @@ public class Controls extends BasicGameState {
 	public Controls(int code) {
 	}
 	
+	/**
+	 * Inicializador de la clase. Carga los controles actuales.
+	 */
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		option = 0;
 		optionToChange = 0;
@@ -62,6 +70,9 @@ public class Controls extends BasicGameState {
 		loadControls();
     }
 	
+	/**
+	 * Función que carga los controles actuales del archivo keybinds.cfg.
+	 */
 	public void loadControls() {
 	    try {
 	    	BufferedReader br = new BufferedReader(new FileReader("keybinds.cfg"));
@@ -112,6 +123,10 @@ public class Controls extends BasicGameState {
 		}
 	}
 	
+	/**
+	 * Cambia el control seleccionado en el momento a partir de un input.
+	 * @param input
+	 */
 	public void changeControl(Input input) {
 		for (int i = 0; i < 256; i++) {
 			if (input.isKeyDown(i)) {
@@ -176,6 +191,9 @@ public class Controls extends BasicGameState {
 		}
 	}
  
+	/**
+	 * Update de la clase. Hace las funciones de controller.
+	 */
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     	Input input = gc.getInput();
     	lastKey += delta;
@@ -245,6 +263,9 @@ public class Controls extends BasicGameState {
     	
     }
  
+    /**
+     * Muestra todos los textos y gráficos por pantalla.
+     */
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
     	float selectionX, selectionY = 0;
     	

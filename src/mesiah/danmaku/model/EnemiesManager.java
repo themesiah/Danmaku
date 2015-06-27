@@ -2,6 +2,12 @@ package mesiah.danmaku.model;
 
 import java.util.HashMap;
 
+/**
+ * Clase que contiene un hashmap con todos los enemigos.
+ * Los devuelve cuando toca y también se pueden añadir.
+ * @author Mesiah
+ *
+ */
 public class EnemiesManager {
 	private static EnemiesManager em = null;
 	private HashMap<String, Enemy> enemies;

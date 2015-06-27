@@ -23,6 +23,10 @@ public class CurveBulletD extends BulletDecorator {
 		super.setCanMove(false);
 	}
 	
+	public String getShotSound() {
+		return super.getShotSound();
+	}
+	
 	public boolean isOnlyCurve() {
 		return onlyCurve;
 	}

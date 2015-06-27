@@ -25,6 +25,10 @@ public class TrickyBulletD extends BulletDecorator {
 		onlyOnce = true;
 	}
 	
+	public String getShotSound() {
+		return super.getShotSound();
+	}
+	
 	public String getPatternKey() {
 		return patternKey;
 	}

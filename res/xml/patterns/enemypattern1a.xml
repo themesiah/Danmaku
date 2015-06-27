@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <patterns>
-	<pattern id="test">
+	<pattern id="enemyfirepattern1a">
 		<bullet>
 			<property>divisible</property>
-			<delay>0</delay>
-			<speed>5</speed>
+			<delay>600</delay>
+			<speed>3</speed>
 			<animation>enemybullet</animation>
 			<posx>parent</posx>
 			<posy>20+parent</posy>
 			<damage>10</damage>
-			<direction>random</direction>
+			<direction>270</direction>
 			<hitbox>
 				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
 			<firePatterns>
+				<fp>enemyfirepattern1_1</fp>
 			</firePatterns>
-			<lifeTime>1</lifeTime>
-			<density>100</density>
+			<lifeTime>1000</lifeTime>
+			<density>18</density>
 			<angleOffset>0</angleOffset>
 		</bullet>
 	</pattern>

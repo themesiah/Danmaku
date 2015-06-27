@@ -2,7 +2,7 @@
 <patterns>
 	<pattern id="enemyfirepattern5">
 		<bullet>
-			<delay>0</delay>
+			<delay>1500</delay>
 			<speed>8</speed>
 			<animation>enemybullet</animation>
 			<posx>parent</posx>
@@ -15,7 +15,7 @@
 			<ally>false</ally>
 		</bullet>
 		<bullet>
-			<delay>50</delay>
+			<delay>1550</delay>
 			<speed>8</speed>
 			<animation>enemybullet</animation>
 			<posx>parent</posx>
@@ -28,7 +28,7 @@
 			<ally>false</ally>
 		</bullet>
 		<bullet>
-			<delay>100</delay>
+			<delay>1600</delay>
 			<speed>8</speed>
 			<animation>enemybullet</animation>
 			<posx>parent</posx>

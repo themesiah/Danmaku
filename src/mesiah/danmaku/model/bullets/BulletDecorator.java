@@ -11,6 +11,10 @@ public abstract class BulletDecorator extends VisibleGameObject implements Shoot
 		this.b = b;
 	}
 	
+	public String getShotSound() {
+		return this.b.getShotSound();
+	}
+	
 	public Shootable getBullet() {
 		return b;
 	}

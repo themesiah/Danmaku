@@ -13,5 +13,5 @@
 	<grazepos>10,293</grazepos>
 	<livespos>10,130</livespos>
 	<powerpos>10,160</powerpos>
-	<debug>false</debug>
+	<debug>true</debug>
 </game>

@@ -2,7 +2,6 @@
 <patterns>
 	<pattern id="enemyfirepattern1_1">
 		<bullet>
-			<property>divisible</property>
 			<delay>0</delay>
 			<speed>2</speed>
 			<animation>enemybullet</animation>
@@ -14,12 +13,6 @@
 				<circle>8,8,8</circle>
 			</hitbox>
 			<ally>false</ally>
-			<firePatterns>
-				<fp>enemyfirepattern1_2</fp>
-			</firePatterns>
-			<lifeTime>1000</lifeTime>
-			<density>5</density>
-			<angleOffset>totalRandom</angleOffset>
 		</bullet>
 	</pattern>
 </patterns>

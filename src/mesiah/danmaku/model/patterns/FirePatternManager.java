@@ -44,6 +44,7 @@ public class FirePatternManager {
 		FirePattern fp = new BasicFirePattern(parent);
 		try {
 			CustomFirePattern cfp = getFirePattern(key);
+			boolean wasRelative = false;
 			float random = (float) (Math.random()*360);
 			for (int i = 0; i < cfp.size(); i++) {
 				CustomBullet cb = cfp.getCustomBullet(i);
@@ -56,6 +57,7 @@ public class FirePatternManager {
 					for (int j = 0; j < parts.length; j++) {
 						switch(parts[j]) {
 							case "parent":
+								wasRelative = true;
 								posx += parent.getPosX() + parent.getSize()[0]/2;
 								break;
 							default:
@@ -73,6 +75,7 @@ public class FirePatternManager {
 					for (int j = 0; j < parts.length; j++) {
 						switch(parts[j]) {
 							case "parent":
+								wasRelative = true;
 								posy += parent.getPosY() + parent.getSize()[1]/2;
 								break;
 							default:
@@ -90,10 +93,33 @@ public class FirePatternManager {
 				}
 				Shootable s;
 				Bullet b = new Bullet(posx, posy, ally, anim);
+				b.setWasRelative(wasRelative);
+				b.setSound(parent.getShotSound());
+				b.setPosX(b.getPosX() + b.getSize()[0]/2);
+				b.setPosY(b.getPosY() + b.getSize()[1]/2);
 				s = b;
 				b.setDelay(Integer.valueOf(cb.getDelay()));
-				if (cb.getDirection().equals("player")) {
-					b.setDirection(GetDirection.getDirectionToPlayer(posx, posy));
+				if (cb.getDirection().contains("player")) {
+					b.setRelativeDirection("player");
+					if (cb.getDirection().contains("\\+")) {
+						String[] parts = cb.getDirection().split("\\+");
+						float xOffset = 0;
+						float yOffset = 0;
+						for (int j = 0; j < parts.length; j++) {
+							if (parts[j].contains("x")) {
+								xOffset += Float.valueOf(parts[j].split("x")[0]);
+							}
+							if (parts[j].contains("y")) {
+								yOffset += Float.valueOf(parts[j].split("y")[0]);
+							}
+						}
+						b.setDirection(GetDirection.getDirectionToPlayer(posx, posy));
+						posx += xOffset;
+						posy += yOffset;
+					} else {
+						b.setDirection(GetDirection.getDirectionToPlayer(posx, posy));
+					}
+					
 				} else if (cb.getDirection().equals("random")) {
 					float random2 = (float) (Math.random()*360);
 					b.setDirection(random2);

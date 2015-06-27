@@ -8,35 +8,111 @@
 		<music>pay</music>
 		<step time="1000">
 			<enemy>
-				<type>enemy1</type>
+				<type>enemy1-1</type>
 				<route>route1,5000</route>
 			</enemy>
 			<enemy>
-				<type>enemy1</type>
+				<type>enemy1-1</type>
 				<route>route2,5000</route>
 			</enemy>
 		</step>
 		<step time="2000">
 			<enemy>
-				<type>enemy1</type>
+				<type>enemy1-1</type>
 				<route>route1,5000</route>
 			</enemy>
 			<enemy>
-				<type>enemy1</type>
+				<type>enemy1-1</type>
 				<route>route2,5000</route>
 			</enemy>
 		</step>
 		<step time="3000">
 			<enemy>
-				<type>enemy1</type>
+				<type>enemy1-1</type>
 				<route>route1,5000</route>
 			</enemy>
 			<enemy>
-				<type>enemy1</type>
+				<type>enemy1-1p</type>
 				<route>route2,5000</route>
 			</enemy>
 		</step>
-		<step time="5000">
+		<step time="6000">
+			<enemy>
+				<type>enemy1</type>
+				<route>route3,3000</route>
+			</enemy>
+			<enemy>
+				<type>enemy1</type>
+				<route>route4,3000</route>
+			</enemy>
+		</step>
+		<step time="9000">
+			<enemy>
+				<type>enemy1</type>
+				<route>route3,3000</route>
+			</enemy>
+			<enemy>
+				<type>enemy1</type>
+				<route>route4,3000</route>
+			</enemy>
+		</step>
+		<step time="13000">
+			<enemy>
+				<type>enemy2p</type>
+				<route>route5,4000</route>
+			</enemy>
+		</step>
+		<step time="18000">
+			<enemy>
+				<type>enemy2</type>
+				<route>route6,5000</route>
+			</enemy>
+			<enemy>
+				<type>enemy2</type>
+				<route>route7,5000</route>
+			</enemy>
+			<enemy>
+				<type>enemy2</type>
+				<route>route8,5000</route>
+			</enemy>
+		</step>
+		<step time="25000">
+			<enemy>
+				<type>enemy3p</type>
+				<route>route9,2000</route>
+			</enemy>
+		</step>
+		<step time="26500">
+			<enemy>
+				<type>enemy3p</type>
+				<route>route10,2000</route>
+			</enemy>
+		</step>
+		<step time="30000">
+			<enemy>
+				<type>enemy4</type>
+				<route>route9,2000</route>
+			</enemy>
+		</step>
+		<step time="31000">
+			<enemy>
+				<type>enemy4</type>
+				<route>route9,2000</route>
+			</enemy>
+		</step>
+		<step time="32000">
+			<enemy>
+				<type>enemy4</type>
+				<route>route9,2000</route>
+			</enemy>
+		</step>
+		<step time="35000">
+			<enemy>
+				<type>enemy4</type>
+				<route>route6,3000</route>
+			</enemy>
+		</step>
+		<step time="40000">
 			<boss>
 				<type>boss1</type>
 				<pos>50%,-30%</pos>
@@ -44,7 +120,7 @@
 				<transitionTime>3000</transitionTime>
 			</boss>
 		</step>
-		<step time="10000">
+		<step time="45000">
 			<win></win>
 		</step>
 	</level>

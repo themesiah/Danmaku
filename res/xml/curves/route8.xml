@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<curves>
+	<curve id="route8">
+		<point1>75%,-5%</point1>
+		<point2>75%,50%</point2>
+		<point3>75%,50%</point3>
+		<point4>75%,-5%%</point4>
+	</curve>
+</curves>

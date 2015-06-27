@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-	<animation>template1.xml</animation>
 	<animation>spaceshiptemplate.xml</animation>
 	<animation>bg1.xml</animation>
 	<animation>playerAnimation.xml</animation>
@@ -15,6 +14,7 @@
 	<animation>enemyBullet1.xml</animation>
 	<animation>enemyBullet2.xml</animation>
 	<animation>enemyBullet3.xml</animation>
+	<animation>pentabullet.xml</animation>
 	<animation>powerup1.xml</animation>
 	<animation>points1.xml</animation>
 	<audio>bgmusic.xml</audio>
@@ -25,28 +25,40 @@
 	<curve>curve4.xml</curve>
 	<curve>route1.xml</curve>
 	<curve>route2.xml</curve>
-	<pattern>enemypattern1.xml</pattern>
+	<curve>route3.xml</curve>
+	<curve>route4.xml</curve>
+	<curve>route5.xml</curve>
+	<curve>route6.xml</curve>
+	<curve>route7.xml</curve>
+	<curve>route8.xml</curve>
+	<curve>route9.xml</curve>
+	<curve>route10.xml</curve>
+	<pattern>enemypattern1a.xml</pattern>
+	<pattern>enemypattern1b.xml</pattern>
+	<pattern>enemypattern1c.xml</pattern>
 	<pattern>enemypattern1_1.xml</pattern>
-	<pattern>enemypattern1_2.xml</pattern>
 	<pattern>enemypattern2.xml</pattern>
-	<pattern>enemypattern3.xml</pattern>
-	<pattern>enemypattern4.xml</pattern>
 	<pattern>enemypattern5.xml</pattern>
+	<pattern>enemypattern6.xml</pattern>
 	<pattern>bosspattern1.xml</pattern>
 	<pattern>bosspattern2.xml</pattern>
 	<pattern>bosspattern2_1.xml</pattern>
 	<pattern>bosspattern3.xml</pattern>
 	<pattern>bosspattern4.xml</pattern>
-	<pattern>testpattern.xml</pattern>
 	<pattern>pattern1.xml</pattern>
 	<pattern>pattern2.xml</pattern>
 	<pattern>pattern3.xml</pattern>
 	<player>Player.xml</player>
 	<powerup>power1.xml</powerup>
 	<powerup>points1.xml</powerup>
+	<powerup>points3.xml</powerup>
+	<powerup>points10.xml</powerup>
 	<enemy>enemy1.xml</enemy>
+	<enemy>enemy1-1.xml</enemy>
+	<enemy>enemy1-1p.xml</enemy>
 	<enemy>enemy2.xml</enemy>
-	<enemy>enemy3.xml</enemy>
+	<enemy>enemy2p.xml</enemy>
+	<enemy>enemy3p.xml</enemy>
 	<enemy>enemy4.xml</enemy>
 	<boss>boss1.xml</boss>
 	<level>level1.xml</level>

@@ -15,6 +15,14 @@ public class BasicFirePattern extends FirePattern {
 		gol = new ArrayList<Shootable>();
 		toRemove = new ArrayList<Shootable>();
 	}
+	
+	public float getParentPosX() {
+		return parent.getPosX() + parent.getSize()[0]/2;
+	}
+	
+	public float getParentPosY() {
+		return parent.getPosY() + parent.getSize()[0]/2;
+	}
 
 	public void addToRemove(Shootable b) {
 		toRemove.add(b);

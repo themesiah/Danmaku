@@ -27,6 +27,7 @@ public interface Shootable {
 	public float getSpeed();
 	public float getDirection();
 	public boolean isAlly();
+	public String getShotSound();
 	
 	public String getState();
 	

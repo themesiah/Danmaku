@@ -4,6 +4,9 @@ package mesiah.danmaku.model.bullets;
 import java.util.ArrayList;
 
 
+
+
+
 import mesiah.danmaku.Play;
 import mesiah.danmaku.model.BulletEmitter;
 import mesiah.danmaku.model.patterns.FirePattern;
@@ -25,6 +28,10 @@ public class DivisibleBulletD extends BulletDecorator implements BulletEmitter {
 		lifeTime = 0;
 		depth = 0;
 		angleOffset = 0;
+	}
+	
+	public String getShotSound() {
+		return super.getShotSound();
 	}
 	
 	public int getDensity() {

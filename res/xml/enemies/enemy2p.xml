@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <enemies>
-	<enemy id="enemy1">
-		<health>50</health>
+	<enemy id="enemy2p">
+		<health>100</health>
 		<speed>5</speed>
 		<facing>0</facing>
 		<direction>270</direction>
 		<animations>
-			<active>enemy1</active>
+			<active>enemy2</active>
 			<destroyed>enemydestroyed</destroyed>
 		</animations>
 		<firePatterns>
 			<pattern>
-				<fp>enemyfirepattern5</fp>
-				<shotDelay>1000</shotDelay>
+				<fp>enemyfirepattern2</fp>
+				<shotDelay>3000</shotDelay>
 			</pattern>
 		</firePatterns>
 		<sound>
@@ -22,6 +22,6 @@
 		<hitbox>
 			<rectangle>sprite</rectangle>
 		</hitbox>
-		<powerup>points1</powerup>
+		<powerup>power1</powerup>
 	</enemy>
 </enemies>

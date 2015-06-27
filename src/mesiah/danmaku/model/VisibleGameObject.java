@@ -32,6 +32,9 @@ public abstract class VisibleGameObject extends GameObject implements Collidable
 		canMove = cm;
 	}
 	
+	public String getShotSound() {
+		return null;
+	}
 	
 	public int getDelay() {
 		return delay;

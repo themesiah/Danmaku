@@ -23,6 +23,18 @@ public abstract class FirePattern extends Pattern {
 		toRemove = new ArrayList<Shootable>();
 	}
 	
+	public boolean parentActive() {
+		return parent.getState() == "active";
+	}
+	
+	public float getParentPosX() {
+		return parent.getPosX() - parent.getSize()[0]/2;
+	}
+	
+	public float getParentPosY() {
+		return parent.getPosY() - parent.getSize()[0]/2;
+	}
+	
 	public void draw() {
 		for (Shootable b:gol) {
 			b.draw();

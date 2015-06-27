@@ -13,7 +13,7 @@
 		<phases>
 			<phase id="begin">
 				<music>boss</music>
-				<health>3000</health>
+				<health>10000</health>
 				<firePatterns>
 					<pattern>
 						<fp>bosspattern1</fp>
@@ -22,7 +22,7 @@
 				</firePatterns>
 			</phase>
 			<phase id="mid">
-				<health>3000</health>
+				<health>10000</health>
 				<firePatterns>
 					<pattern>
 						<fp>bosspattern2</fp>
@@ -31,7 +31,7 @@
 				</firePatterns>
 			</phase>
 			<phase id="mid2">
-				<health>3000</health>
+				<health>10000</health>
 				<firePatterns>
 					<pattern>
 						<fp>bosspattern4</fp>
@@ -40,7 +40,7 @@
 				</firePatterns>
 			</phase>
 			<phase id="end">
-				<health>3000</health>
+				<health>10000</health>
 				<firePatterns>
 					<pattern>
 						<fp>bosspattern3</fp>
@@ -56,7 +56,6 @@
 		<hitbox>
 			<ellipse>256,256,200,200</ellipse>
 		</hitbox>
-		<powerup>power1</powerup>
-		<powerup>points1</powerup>
+		<powerup>points10</powerup>
 	</boss>
 </enemies>

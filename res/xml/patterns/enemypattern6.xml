@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<patterns>
+	<pattern id="enemyfirepattern6">
+		<bullet>
+			<delay>1000</delay>
+			<speed>5</speed>
+			<animation>pentabullet</animation>
+			<posx>parent</posx>
+			<posy>20+parent</posy>
+			<damage>10</damage>
+			<direction>270</direction>
+			<hitbox>
+				<circle>8,8,8</circle>
+				<circle>24,8,8</circle>
+				<circle>40,8,8</circle>
+				<circle>56,8,8</circle>
+				<circle>72,8,8</circle>
+				<circle>8,24,8</circle>
+				<circle>24,24,8</circle>
+				<circle>40,24,8</circle>
+				<circle>56,24,8</circle>
+				<circle>72,24,8</circle>
+			</hitbox>
+			<ally>false</ally>
+		</bullet>
+	</pattern>
+</patterns>

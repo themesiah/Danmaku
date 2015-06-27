@@ -5,12 +5,14 @@ import java.util.List;
 
 import mesiah.danmaku.Main;
 import mesiah.danmaku.Play;
+import mesiah.danmaku.audio.AudioManager;
 import mesiah.danmaku.model.Boss;
 import mesiah.danmaku.model.Enemy;
 import mesiah.danmaku.model.GameObject;
 import mesiah.danmaku.model.Player;
 import mesiah.danmaku.model.VisibleGameObject;
 import mesiah.danmaku.model.patterns.FirePattern;
+import mesiah.danmaku.util.GetDirection;
 import mesiah.danmaku.view.AnimationManager;
 import mesiah.danmaku.view.Drawable;
 
@@ -28,8 +30,24 @@ public class Bullet extends VisibleGameObject implements Shootable {
 	protected float acceleration;
 	protected float maxSpeed;
 	protected float minSpeed;
+	protected boolean wasRelative;
+	protected String sound;
+	protected String relativeDirection;
 	
+	public String getSound() {
+		return sound;
+	}
+
+	public void setSound(String sound) {
+		this.sound = sound;
+	}
 	
+	public String getShotSound() {
+		return sound;
+	}
+
+
+
 	public Bullet(float x, float y, boolean ally, String key) throws SlickException {
 		initBullet(x, y, key);
 		this.ally = ally;
@@ -44,10 +62,23 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		acceleration = 0.0f;
 		maxSpeed = 1000.0f;
 		minSpeed = -1000.0f;
+		relativeDirection = "";
 	}
 	
 	
 	
+	public boolean isWasRelative() {
+		return wasRelative;
+	}
+
+
+
+	public void setWasRelative(boolean wasRelative) {
+		this.wasRelative = wasRelative;
+	}
+
+
+
 	public void setDelay(int d) {
 		delay = d;
 	}
@@ -88,6 +119,7 @@ public class Bullet extends VisibleGameObject implements Shootable {
 		direction = 90.0f;
 		speed = 10;
 		collidable = true;
+		wasRelative = false;
 	}
 	
 	public ArrayList<Shape> getHitBoxes() {
@@ -201,7 +233,17 @@ public class Bullet extends VisibleGameObject implements Shootable {
 				state = "not";
 				delay -= delta;
 				if (delay <= 0) {
-					state = "active";
+					if (parent.parentActive()) {
+						state = "active";
+						AudioManager.get().playSound(sound);
+					}
+				}
+				if (wasRelative) {
+					posx = parent.getParentPosX();
+					posy = parent.getParentPosY();
+				}
+				if (relativeDirection.equals("player")) {
+					direction = GetDirection.getDirectionToPlayer(posx+getSize()[0]/2, posy+getSize()[1]/2);
 				}
 			}
 		}
@@ -320,6 +362,14 @@ public class Bullet extends VisibleGameObject implements Shootable {
 
 	public void setMinSpeed(float minSpeed) {
 		this.minSpeed = minSpeed;
+	}
+
+	public String getRelativeDirection() {
+		return relativeDirection;
+	}
+
+	public void setRelativeDirection(String relativeDirection) {
+		this.relativeDirection = relativeDirection;
 	}
 	
 

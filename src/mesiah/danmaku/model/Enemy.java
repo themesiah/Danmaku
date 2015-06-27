@@ -217,12 +217,16 @@ public class Enemy extends VisibleGameObject implements BulletEmitter {
 					fp = FirePatternManager.get().compose(fps.get(i), this);
 					shotTimers.set(i, 0);
 					Play.bc.add(fp);
-					AudioManager.get().playSound(sounds.get(SHOT));
+					//AudioManager.get().playSound(sounds.get(SHOT));
 				} else {
 					shotTimers.set(i, shotTimers.get(i) + delta);
 				}
 			}
 		}
+	}
+	
+	public String getShotSound() {
+		return sounds.get(SHOT);
 	}
 	
 	/**

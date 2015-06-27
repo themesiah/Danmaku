@@ -5,7 +5,7 @@
 			<delay>0</delay>
 			<speed>10</speed>
 			<animation>playerbullet</animation>
-			<posx>-12+parent</posx>
+			<posx>-18+parent</posx>
 			<posy>-12+parent</posy>
 			<damage>10</damage>
 			<direction>90</direction>
@@ -18,7 +18,7 @@
 			<delay>0</delay>
 			<speed>10</speed>
 			<animation>playerbullet</animation>
-			<posx>12+parent</posx>
+			<posx>6+parent</posx>
 			<posy>-12+parent</posy>
 			<damage>10</damage>
 			<direction>90</direction>
@@ -31,7 +31,7 @@
 			<delay>0</delay>
 			<speed>10</speed>
 			<animation>playerbullet</animation>
-			<posx>parent</posx>
+			<posx>-6+parent</posx>
 			<posy>-12+parent</posy>
 			<damage>10</damage>
 			<direction>90</direction>
